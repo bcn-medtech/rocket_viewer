@@ -1,14 +1,68 @@
 import React, { Component } from 'react';
-
+//libraries
 import PDF from 'react-pdf-js';
+//actions
+import { loadPDF } from './rkt_viewer_pdf_actions.js';
+//components
+import RktAnimationLoading from './../../rkt_animation/rkt_animation_loading/rkt_animation_loading';
 
 export default class RktViewerPDF extends Component {
 
-    constructor(){
+    constructor() {
         super();
-        this.state={
-            pages:false
+
+        this.state = {
+            pages: false,
+            loaded: false
         }
+    }
+
+    initstate(){
+        
+        this.setState({
+            loaded:false,
+            pages:false
+        });
+    }
+
+    componentDidMount() {
+
+        this.initstate();
+
+        var url = this.props.url;
+        var blob = this.props.files;
+
+        var myComponent = this;
+
+        loadPDF(url, blob, function(newblob){
+
+            myComponent.setState({
+                pages:false,
+                loaded:true,
+                blob:newblob
+            });
+
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+
+        this.initstate();
+
+        var url = nextProps.url;
+        var blob = nextProps.files;
+
+        var myComponent = this;
+
+        loadPDF(url, blob, function(newblob){
+
+            myComponent.setState({
+                pages:false,
+                loaded:true,
+                blob:newblob
+            });
+
+        });
     }
 
     onDocumentComplete = (pages) => {
@@ -46,11 +100,27 @@ export default class RktViewerPDF extends Component {
         );
     }*/
 
+    renderPDFLoading(){
+
+        if(!this.state.loaded){
+            return(<RktAnimationLoading/>);
+        }
+    }
+
+    renderPDF(){
+
+        var file = this.state.blob;
+
+        if(this.state.loaded){
+            return(<PDF className="center" file={file} onDocumentComplete={this.onDocumentComplete} onPageComplete={this.onPageComplete} page={this.state.page} />);
+        }
+    }
+
     render() {
-        
-        let pagination = null;
-        var files = this.props.files;
-        var file = files[0];
+
+        //let pagination = null;
+        //var files = this.props.files;
+        //var file = files[0];
 
         /*if (this.state.pages) {
             pagination = this.renderPagination(this.state.page, this.state.pages);
@@ -58,7 +128,8 @@ export default class RktViewerPDF extends Component {
 
         return (
             <div className="grid-block rkt-viewer-pdf">
-                <PDF className="center" file={file} onDocumentComplete={this.onDocumentComplete} onPageComplete={this.onPageComplete} page={this.state.page} />
+                {this.renderPDFLoading()}
+                {this.renderPDF()}
                 {/*pagination*/}
             </div>
         )

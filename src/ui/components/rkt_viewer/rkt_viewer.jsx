@@ -152,7 +152,7 @@ export default class RktViewer extends Component {
                 return (<RktViewerPDF files={files} url={url}/>);
 
             } else {
-                alert("Viewer not found");
+                
                 return (<RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />);
             }
         } else {

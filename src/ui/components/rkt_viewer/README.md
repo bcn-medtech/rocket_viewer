@@ -15,6 +15,11 @@ https://www.dl.dropboxusercontent.com/s/22ayfa2zfnm3qjz/Short_axis_init.dcm?dl=0
 
 * Tiff image:
 * -> URL: https://www.dl.dropboxusercontent.com/s/3p20fnuzabc6xvs/Img_0001_Nuc.tif?dl=0
+
+* PDF ecg signal:
+* -> URL:
+https://www.dl.dropboxusercontent.com/s/zklpqqbvbk3lqra/003pre.pdf?dl=0
+
 * Vtk volume:
 * NRRD volume, image + surface:
 
@@ -37,4 +42,10 @@ Tif image
 
 ```
 http://localhost:3000/viewer?type=tif&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2F3p20fnuzabc6xvs%2FImg_0001_Nuc%2Etif%3Fdl%3D0
+```
+
+PDF Signal
+
+```
+http://localhost:3000/viewer/viewer?type=pdf&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2Fzklpqqbvbk3lqra%2F003pre%2Epdf%3Fdl%3D0
 ```
