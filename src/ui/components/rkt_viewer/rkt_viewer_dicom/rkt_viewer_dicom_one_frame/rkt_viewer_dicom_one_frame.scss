@@ -1,0 +1,16 @@
+@import './../../../rkt_button/rkt_button_icon_circle_text_big/rkt_button_icon_circle_text_big.scss';
+@import './../../../rkt_animation/rkt_animation_loading/rkt_animation_loading.scss';
+
+.rkt-viewer-dicom-one-frame{
+    overflow-y: hidden;
+}
+
+.rkt-viewer-dicom-one-frame-right-menu{
+    overflow: auto;
+    white-space: nowrap;
+    padding: 10px;
+    position: absolute;
+    right: right;
+    right: 0px;
+    top:0px;
+}

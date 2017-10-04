@@ -1,0 +1,20 @@
+{
+    "viewers":
+    [
+        {
+            "name":"dicom",
+            "extensions":[".dcm"],
+            "blob_types":["application/dicom"]
+        },
+        {
+            "name":"tif",
+            "extensions":["tif"],
+            "blob_types":["image/tiff"]
+        },
+        {
+            "name":"pdf",
+            "extensions":["pdf"],
+            "blob_types":["application/pdf"]
+        }
+    ]
+}

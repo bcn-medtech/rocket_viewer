@@ -1,0 +1,94 @@
+$controls_main_color:rgb(110, 83, 158);
+$controls_hover_color:rgb(127, 106, 165);
+
+.video-controls{
+    background: rgb(19, 18, 18);
+    color: #eee;
+  
+  .button{
+    margin: 0;
+  }
+  
+  .input-range-stack{
+    background: transparent;
+    padding: 5px;
+  }
+  
+  .frame-count{
+    align-self: center;
+    width: 100%;
+    text-align: -webkit-center;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    border: 0;
+    line-height: 1; 
+    border-radius: 6px;
+  }
+  input[type="range"]:focus {
+    outline: 0; 
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+      height: 1rem;
+      background: #ddd; 
+      border-radius: 6px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: $controls_main_color;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: -0.25rem;
+  }
+  input[type="range"]::-moz-range-track {
+    -moz-appearance: none;
+    height: 1rem;
+    background: #ccc; 
+    border-radius: 6px;
+  }
+  input[type="range"]::-moz-range-thumb {
+    -moz-appearance: none;
+    background: $controls_main_color;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-top: -0.25rem; 
+    border-radius: 6px;
+  }
+  input[type="range"]::-ms-track {
+    height: 1rem;
+    background: #ddd;
+    color: transparent;
+    border: 0;
+    overflow: visible;
+    border-top: 0.25rem solid #fff;
+    border-bottom: 0.25rem solid #fff; 
+    border-radius: 6px;
+  }
+  input[type="range"]::-ms-thumb {
+    background: $controls_main_color;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 0; 
+    border-radius: 6px;
+  }
+  input[type="range"]::-ms-fill-lower, input[type="range"]::-ms-fill-upper {
+    background: #ddd; 
+    border-radius: 6px;
+  }
+
+  .button{
+    background-color: $controls_main_color;
+    
+    &:hover{
+      background-color: $controls_hover_color;
+    }
+  }
+}

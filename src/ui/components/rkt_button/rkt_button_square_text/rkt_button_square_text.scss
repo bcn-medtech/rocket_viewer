@@ -1,0 +1,10 @@
+.rkt-button-square-text{
+    margin: 5px;
+    padding: 10px;
+    background-color: $rkt-green-color;
+    color:white;
+    &:hover{
+       background-color: $rkt-green-color-1; 
+       color:black;
+    }
+}

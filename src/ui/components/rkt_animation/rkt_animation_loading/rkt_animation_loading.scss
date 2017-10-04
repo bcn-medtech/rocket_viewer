@@ -1,0 +1,23 @@
+$scroll_main_color:rgb(110, 83, 158);
+
+.rkt-animation-loader{
+    height: 100px;
+    width: 20%;
+    text-align: center;
+    margin-left:-90px;
+    margin-top:10px; 
+    display: inline-block;
+    vertical-align: top;
+    z-index: 2;
+    overflow: auto;
+    position: absolute;
+}
+
+.rkt-animation-loader-circle{
+    fill:"#000";
+    opacity: 0.2;
+}
+
+.rkt-animation-loader-circle-scroll{
+    fill:$scroll_main_color;
+}

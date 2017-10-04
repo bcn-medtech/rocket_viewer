@@ -1,0 +1,13 @@
+.rkt-button-icon-circle-text-big{
+    background-color: rgb(110, 83, 158);
+    color:white;
+    padding-top: 3px;    
+    font-size:26px;
+    border-radius: 50px;
+    width:35px;
+    height:35px;
+    &:hover{
+        background-color:rgb(110, 83, 158);
+        color:white;
+    }    
+}

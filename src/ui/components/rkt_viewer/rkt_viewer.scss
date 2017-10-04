@@ -1,0 +1,13 @@
+@import './rkt_viewer_tiff/rkt_viewer_tiff.scss';
+@import './rkt_viewer_dicom/rkt_viewer_dicom.scss';
+@import './rkt_viewer_empty/rkt_viewer_empty.scss';
+@import './rkt_viewer_pdf/rkt_viewer_pdf.scss';
+
+//colors
+$rkt-viewer-background-color:#272822;
+$rkt-viewer-font-color:#75715e;
+
+.rkt-viewer{
+    background-color: $rkt-viewer-background-color;
+    color:$rkt-viewer-font-color;
+}
