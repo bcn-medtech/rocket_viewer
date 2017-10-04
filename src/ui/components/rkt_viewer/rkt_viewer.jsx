@@ -10,7 +10,7 @@ import { url_getParameterByName } from './../../modules/rkt_module_url.js';
 import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';
 import RktViewerEmpty from './rkt_viewer_empty/rkt_viewer_empty';
-//import RktViewerPDF from './rkt_viewer_pdf/rkt_viewer_pdf';
+import RktViewerPDF from './rkt_viewer_pdf/rkt_viewer_pdf';
 
 //config
 import config from './../../config/config.json';
@@ -149,7 +149,7 @@ export default class RktViewer extends Component {
 
             } else if(viewerType === "pdf"){
 
-                /*return (<RktViewerPDF files={files} url={url}/>);*/
+                return (<RktViewerPDF files={files} url={url}/>);
 
             } else {
                 alert("Viewer not found");

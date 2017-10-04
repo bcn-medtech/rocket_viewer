@@ -1,64 +1,66 @@
 import React, { Component } from 'react';
-//import { Page } from 'react-pdf';
-import { Document, Page } from 'react-pdf/build/entry.webpack';
+
+import PDF from 'react-pdf-js';
 
 export default class RktViewerPDF extends Component {
 
-    constructor() {
+    constructor(){
         super();
-
-        this.state = {
-            numPages: null,
-            pageNumber: 1,
+        this.state={
+            pages:false
         }
     }
 
-    onDocumentLoad({ numPages }) {
-        this.setState({ numPages });
+    onDocumentComplete = (pages) => {
+        this.setState({ page: 1, pages });
     }
 
+    onPageComplete = (page) => {
+        this.setState({ page });
+    }
+
+    handlePrevious = () => {
+        this.setState({ page: this.state.page - 1 });
+    }
+
+    handleNext = () => {
+        this.setState({ page: this.state.page + 1 });
+    }
+
+    /*renderPagination = (page, pages) => {
+        let previousButton = <li className="previous" onClick={this.handlePrevious}><a href="#"><i className="fa fa-arrow-left"></i> Previous</a></li>;
+        if (page === 1) {
+            previousButton = <li className="previous disabled"><a href="#"><i className="fa fa-arrow-left"></i> Previous</a></li>;
+        }
+        let nextButton = <li className="next" onClick={this.handleNext}><a href="#">Next <i className="fa fa-arrow-right"></i></a></li>;
+        if (page === pages) {
+            nextButton = <li className="next disabled"><a href="#">Next <i className="fa fa-arrow-right"></i></a></li>;
+        }
+        return (
+            <nav>
+                <ul className="pager">
+                    {previousButton}
+                    {nextButton}
+                </ul>
+            </nav>
+        );
+    }*/
+
     render() {
-
+        
+        let pagination = null;
         var files = this.props.files;
-        var url = this.props.url;
-
-        const { pageNumber, numPages } = this.state;
         var file = files[0];
 
+        /*if (this.state.pages) {
+            pagination = this.renderPagination(this.state.page, this.state.pages);
+        }*/
+
         return (
-            <div>
-                {/*<Document
-                    file={file}
-                    onLoadSuccess={this.onDocumentLoad.bind(this)}>
-                    <Page pageNumber={pageNumber}/>
-                </Document>
-                <p>Page {pageNumber} of {numPages}</p>*/}
-                <div className="Example">
-                    <div className="Example__container">
-                        <div className="Example__container__document rkt-pdf-viewer-page">
-                            <Document
-                                file={file}
-                                onLoadSuccess={this.onDocumentLoadSuccess}
-                            >
-                                {
-                                    Array.from(
-                                        new Array(numPages),
-                                        (el, index) => (
-                                            <Page
-                                                className=""
-                                                key={`page_${index + 1}`}
-                                                pageNumber={index + 1}
-                                                onRenderSuccess={this.onPageRenderSuccess}
-                                                width={Math.min(900, document.body.clientWidth)}
-                                            />
-                                        ),
-                                    )
-                                }
-                            </Document>
-                        </div>
-                    </div>
-                </div>
+            <div className="grid-block rkt-viewer-pdf">
+                <PDF className="center" file={file} onDocumentComplete={this.onDocumentComplete} onPageComplete={this.onPageComplete} page={this.state.page} />
+                {/*pagination*/}
             </div>
-        );
+        )
     }
 }

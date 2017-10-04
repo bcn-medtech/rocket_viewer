@@ -1,4 +1,13 @@
-.rkt-pdf-viewer-page{
-    display: table;
+.rkt-viewer-pdf{
+    text-align:center;
+    background-color: black;
+    padding-top: 50px;
+}
+
+.center {
+    display:inline-block;
+    height:250px;
+    width:15%;
     margin: 0 auto;
-}   
+    border: 1px solid black;
+}
