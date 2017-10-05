@@ -95,7 +95,7 @@ export default class RktViewerTiff extends Component {
     renderToolbox() {
 
         if (this.state.loaded) {
-            
+
             var icon;
             var style;
 
@@ -130,7 +130,7 @@ export default class RktViewerTiff extends Component {
 
     renderLoading() {
 
-        if (this.state.loaded == false) {
+        if (this.state.loaded === false) {
             return (<RktAnimationLoading />);
         }
     }

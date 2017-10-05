@@ -156,7 +156,7 @@ export default class RktViewerDicomOneFrame extends Component {
 
     renderLoading() {
 
-        if(this.state.loaded==false){
+        if(this.state.loaded===false){
             return(<RktAnimationLoading/>);
         }   
         

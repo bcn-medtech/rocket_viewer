@@ -18,7 +18,7 @@ export default class RktViewerDicomMultiFrame extends Component {
                     </a>
                 </div>
                 <div className="medium-9 grid-block">
-                    <input type="range" id={"slice-range-"+elementId} className="input-range-stack" onInput={this.props.onChangeTime} value={this.props.currentValue} max={this.props.totalFrames} enabled/>
+                    <input type="range" id={"slice-range-"+elementId} className="input-range-stack" onInput={this.props.onChangeTime} value={this.props.currentValue} max={this.props.totalFrames} />
                 </div>
                 <div className="medium-2 grid-block">
                     <span className="frame-count">{this.props.currentValue+1}/{this.props.totalFrames}</span>
