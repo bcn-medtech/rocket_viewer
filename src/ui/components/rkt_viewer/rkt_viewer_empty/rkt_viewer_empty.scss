@@ -1,3 +1,5 @@
+@import './../../rkt_card/rkt_card_viewer/rkt_card_viewer.scss';
+
 $rkt-main-color:#00B04C;
 $rkt-main-color-hover:#33EA82;
 $rkt-second-color:rgb(218, 215, 215);
@@ -44,6 +46,7 @@ $form-elements-background-color-hover:rgba(128, 128, 128, 0.64);
 }
 
 .rkt-viewer-empty-url-information{
+    
     h3{
         color:$rkt-main-color;  
     }
@@ -62,7 +65,7 @@ $form-elements-background-color-hover:rgba(128, 128, 128, 0.64);
 
     i{
         color:$rkt-main-color;
-        font-size: 26pt;
+        font-size: 20pt;
         padding: 4px;
         padding-right: 10px;
         &:hover{

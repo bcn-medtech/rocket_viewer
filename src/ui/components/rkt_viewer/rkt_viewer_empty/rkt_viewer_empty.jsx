@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 //modules
-import {createURL} from './rkt_viewer_empty_actions.js';
+import { createURL } from './rkt_viewer_empty_actions.js';
+//config viewers
+import configViewers from './../../../config/config_viewers.json';
+//components
+import RktCardViewer from './../../rkt_card/rkt_card_viewer/rkt_card_viewer';
 
 export default class RktComponentTemplate extends Component {
 
@@ -9,18 +13,35 @@ export default class RktComponentTemplate extends Component {
         this.state = {};
     }
 
-    inputHandleChange(e){
+    inputHandleChange(e) {
         this.setState({ input: e.target.value });
     }
 
-    setURL(){
-        
+    setURL() {
+
         var config = this.props.config;
         var host = config.host;
         var port = config.port;
-        var urlapp = host+":"+port;
-        var newURL=createURL(this.state.input,urlapp);
+        var urlapp = host + ":" + port;
+        var newURL = createURL(this.state.input, urlapp);
         this.props.seturl(newURL);
+    }
+
+    setURLFromCard(url){
+        this.props.seturl(url);
+    }
+
+    renderCards() {
+
+        var viewers = configViewers.viewers;
+
+        return (
+            viewers.map((item) => {
+                return (
+                    <RktCardViewer viewer={item} seturl={this.setURLFromCard.bind(this)}/>
+                )
+            })
+        );
     }
 
     render() {
@@ -75,11 +96,14 @@ export default class RktComponentTemplate extends Component {
                         
         </div>*/}
                 </div>
+                <div className="grid-block small-up-3">
+                    {this.renderCards()}
+                </div>
                 <div className="rkt-viewer-empty-url-form">
                     <div className="grid-block">
                         <div className="grid-block shrink"><i className="fi-link rkt-viewer-empty-url-form-icon"></i></div>
                         <div className="grid-block">
-                            <input type="text" className="rkt-viewer-empty-url-form-input" placeholder="Type the url of the resource here !!!" onChange={ this.inputHandleChange.bind(this) }/>
+                            <input type="text" className="rkt-viewer-empty-url-form-input" placeholder="Type the url of the resource here !!!" onChange={this.inputHandleChange.bind(this)} />
                         </div>
                         <div className="grid-block shrink"><a className="rkt-viewer-empty-url-button" onClick={this.setURL.bind(this)}><i className="fi-magnifying-glass "></i></a></div>
                     </div>

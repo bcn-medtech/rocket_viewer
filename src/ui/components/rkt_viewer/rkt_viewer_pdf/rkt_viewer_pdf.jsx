@@ -110,6 +110,7 @@ export default class RktViewerPDF extends Component {
     renderPDF(){
 
         var file = this.state.blob;
+        console.log("RenderPdf");
 
         if(this.state.loaded){
             return(<PDF className="center" file={file} onDocumentComplete={this.onDocumentComplete} onPageComplete={this.onPageComplete} page={this.state.page} />);

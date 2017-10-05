@@ -1,0 +1,42 @@
+.rkt-card-viewer{
+    //padding: 10px;
+    display: inline;
+    h2{
+        color:#33EA82;
+    }
+    word-wrap: break-word;
+}
+
+.rkt-card-viewer-content{
+    padding: 10px;
+    
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.09);
+    }
+}
+
+.rkt-card-viewer-links{
+    padding-top: 7px;
+}
+
+.rkt-card-viewer-link{
+    padding-top:5px;
+    a{
+        color:rgba(255, 255, 255, 0.64);
+        &:hover{
+            color:#33EA82;
+        }
+    }
+    overflow: hidden;
+}
+
+.rkt-card-viewer-tags{
+    overflow: hidden;
+}
+.rkt-card-viewer-tag{
+    padding-top: 10px;
+    padding-right: 5px;
+    font-size: 11pt;
+    //overflow: hidden;
+    color:#33EA82;
+}
