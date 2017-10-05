@@ -11,6 +11,8 @@ DICOM: One frame (2D visualization), multi frame (2D visualization + t)
 * Biological images: Tiff images
 * Signals: PDF
 
+### Try the viewer [here] http://wicked-watch.surge.sh/
+
 ### Working on ...
 
 * Surfaces: VTK (3D Visualization), PLY (3D Visualization)
