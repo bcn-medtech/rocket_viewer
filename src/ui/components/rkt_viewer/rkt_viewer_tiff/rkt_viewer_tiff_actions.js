@@ -1,4 +1,4 @@
-import { isObjectEmpty } from './../../../modules/rkt_module_object';
+import { isObjectEmpty } from './../../../../modules/rkt_module_object';
 //import { blob_getNumberOfFiles } from './../../../modules/rkt_module_blob';
 
 //Using global variables

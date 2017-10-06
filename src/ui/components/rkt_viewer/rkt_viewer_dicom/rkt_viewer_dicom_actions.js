@@ -1,4 +1,4 @@
-import { isObjectEmpty } from './../../../modules/rkt_module_object';
+import { isObjectEmpty } from './../../../../modules/rkt_module_object';
 //Using global variables
 const dicomParser = window.dicomParser;
 

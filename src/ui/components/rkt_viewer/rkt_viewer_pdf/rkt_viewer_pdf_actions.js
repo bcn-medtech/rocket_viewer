@@ -1,5 +1,5 @@
 //modules
-import {isObjectEmpty} from './../../../modules/rkt_module_object';
+import {isObjectEmpty} from './../../../../modules/rkt_module_object';
 
 export function loadLocalPDF(blob, callback) {
 

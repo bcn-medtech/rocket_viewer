@@ -1,5 +1,5 @@
 import configviewers from './../config/config_viewers.json';
-import {isObjectEmpty} from './../modules/rkt_module_object';
+import {isObjectEmpty} from './rkt_module_object';
 
 function getFileType(file) {
 

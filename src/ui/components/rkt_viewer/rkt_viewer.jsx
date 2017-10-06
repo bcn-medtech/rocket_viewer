@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 
 //viewer actions
-import { blob_getResourceType, blob_getNumberOfFiles } from './../../modules/rkt_module_blob.js';
+import { blob_getResourceType, blob_getNumberOfFiles } from './../../../modules/rkt_module_blob.js';
 //modules
-import { isObjectEmpty } from './../../modules/rkt_module_object.js';
-import { url_getParameterByName } from './../../modules/rkt_module_url.js';
+import { isObjectEmpty } from './../../../modules/rkt_module_object.js';
+import { url_getParameterByName } from './../../../modules/rkt_module_url.js';
 //components
 import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';

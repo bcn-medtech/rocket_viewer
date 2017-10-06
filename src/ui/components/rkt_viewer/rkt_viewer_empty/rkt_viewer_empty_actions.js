@@ -1,4 +1,4 @@
-import {url_getResourceType,url_EncodeQueryData} from './../../../modules/rkt_module_url';
+import {url_getResourceType,url_EncodeQueryData} from './../../../../modules/rkt_module_url';
 
 
 export function createURL(url){
