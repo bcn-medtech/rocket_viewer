@@ -43,6 +43,45 @@
                 }
             ],
             "tags":["signals","documents","images"]
+        },
+        {
+            "name":"nrrd",
+            "extensions":["nrrd"],
+            "blob_types":["application/nrrd"],
+            "description":"Visualize NRRD volumes, Images 3D. Click on the links have a quick demo.",
+            "examples":[
+                {
+                    "name":"Image 3D",
+                    "link":"/viewer?type=nrrd&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2Frut48j5yjz54lml%2F1000%2Enrrd%3Fdl%3D0"
+                }
+            ],
+            "tags":["images","3D","volumes"]
+        },
+        {
+            "name":"ply",
+            "extensions":["ply"],
+            "blob_types":["application/ply"],
+            "description":"Visualize Surfaces 3D. Click on the links have a quick demo.",
+            "examples":[
+                {
+                    "name":"Surface 3D",
+                    "link":"/viewer?type=ply&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2Fon5ar1hlkx29dko%2F411%2Eply%3Fdl%3D0"
+                }
+            ],
+            "tags":["volumes","3D","surfaces"]
+        },
+        {
+            "name":"vtk",
+            "extensions":["vtk"],
+            "blob_types":["application/vtk"],
+            "description":"Visualize VTK volumes with scalar information. Click on the links have a quick demo.",
+            "examples":[
+                {
+                    "name":"Vtk volume with field data (Scalars)",
+                    "link":"/viewer?type=vtk&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2Fpzezo8vfivsuypj%2F423_SURFACE%2Evtk%3Fdl%3D0"
+                }
+            ],
+            "tags":["volumes","3D","surfaces","scalars"]
         }
     ]
 }

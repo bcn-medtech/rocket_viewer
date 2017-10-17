@@ -66,8 +66,6 @@ export default class RktViewerDicom extends Component {
 
             }
         }
-
-
     }
 
     render() {

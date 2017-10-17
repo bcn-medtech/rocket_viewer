@@ -1,0 +1,15 @@
+@import './rkt_toolbox_list_item/rkt_toolbox_list_item.scss';
+
+.rkt-toolbox-list-title{
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    border-left: 1px solid rgba(0, 0, 0, 0.07);
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
+
+    color:$rkt-green-color-1;
+    background-color: rgba(76, 222, 82, 0.2);
+
+    a{
+        color:$rkt-green-color-1;
+    }
+}

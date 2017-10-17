@@ -1,5 +1,5 @@
 import configviewers from './../config/config_viewers.json';
-import {isObjectEmpty} from './rkt_module_object';
+import { isObjectEmpty } from './rkt_module_object';
 
 function getFileType(file) {
 
@@ -19,20 +19,46 @@ export function blob_getResourceType(blob) {
         if (files.length === 1) {
 
             var fileType = getFileType(files[0]);
+            var viewer;
+            var i;
+            var j;
 
-            for (var i = 0; i < viewers.length; i++) {
+            if (!isObjectEmpty(fileType)) {
 
-                var viewer = viewers[i];
-                var blob_types = viewer.blob_types;
+                for (i = 0; i < viewers.length; i++) {
 
-                for (var j = 0; j < blob_types.length; j++) {
+                    viewer = viewers[i];
+                    var blob_types = viewer.blob_types;
 
-                    var blob_type = blob_types[j];
+                    for (j = 0; j < blob_types.length; j++) {
 
-                    if (fileType.indexOf(blob_type) > -1) {
-                        
-                        type = viewer.name;
-                        break;
+                        var blob_type = blob_types[j];
+
+                        if (fileType.indexOf(blob_type) > -1) {
+
+                            type = viewer.name;
+                            break;
+                        }
+                    }
+                }
+            } else {
+
+                var fileName = files[0].name;
+
+                for (i = 0; i < viewers.length; i++) {
+
+                    viewer = viewers[i];
+                    var extensions = viewer.extensions;
+
+                    for (j = 0; j < extensions.length; j++) {
+
+                        var extension = extensions[j];
+
+                        if (fileName.indexOf(extension) > -1) {
+
+                            type = viewer.name;
+                            break;
+                        }
                     }
                 }
             }
@@ -43,14 +69,14 @@ export function blob_getResourceType(blob) {
 
 }
 
-export function blob_getNumberOfFiles(blob){
+export function blob_getNumberOfFiles(blob) {
 
     var files = blob.dataTransfer.files;
-    var number_of_files=0;
+    var number_of_files = 0;
 
     if (!isObjectEmpty(files)) {
 
-       number_of_files= files.length;
+        number_of_files = files.length;
 
     }
 

@@ -66,6 +66,9 @@ export default class RktViewerDicomOneFrame extends Component {
             var viewport = cornerstone.getDefaultViewportForImage(element, image);
             cornerstone.displayImage(element, image, viewport);
 
+            console.log(image);
+            console.log(image.getPixelData());
+
             this.setState({
                 loaded: true,
                 image: image,

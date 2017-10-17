@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 //viewer actions
 import { blob_getResourceType, blob_getNumberOfFiles } from './../../../modules/rkt_module_blob.js';
 //modules
@@ -11,9 +10,12 @@ import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';
 import RktViewerEmpty from './rkt_viewer_empty/rkt_viewer_empty';
 import RktViewerPDF from './rkt_viewer_pdf/rkt_viewer_pdf';
+import RktViewerNRRD from './rkt_viewer_nrrd/rkt_viewer_nrrd';
+import RktViewerPLY from './rkt_viewer_ply/rkt_viewer_ply';
+import RktViewerVTK from './rkt_viewer_vtk/rkt_viewer_vtk';
 
 //config
-import config from './../../config/config.json';
+import config from './../../../config/config.json';
 
 export default class RktViewer extends Component {
 
@@ -106,7 +108,7 @@ export default class RktViewer extends Component {
                     blob: blob,
                 });
 
-            }else{
+            } else {
 
                 alert("Uncompatible format");
             }
@@ -133,7 +135,7 @@ export default class RktViewer extends Component {
         var url;
 
         //Load blobs from localhost 
-        if (isObjectEmpty(files)&& isObjectEmpty(blob)) {
+        if (isObjectEmpty(files) && isObjectEmpty(blob)) {
             url = this.state.url;
         }
 
@@ -147,12 +149,25 @@ export default class RktViewer extends Component {
 
                 return (<RktViewerDicom files={files} url={url} />);
 
-            } else if(viewerType === "pdf"){
+            } else if (viewerType === "pdf") {
 
-                return (<RktViewerPDF files={files} url={url}/>);
+                return (<RktViewerPDF files={files} url={url} />);
+
+            } else if (viewerType === "nrrd") {
+
+                return (<RktViewerNRRD files={files} url={url} />);
+
+            } else if (viewerType === "ply") {
+
+                return (<RktViewerPLY files={files} url={url} />);
+
+            }
+            else if (viewerType === "vtk") {
+
+                return (<RktViewerVTK files={files} url={url} />);
 
             } else {
-                
+
                 return (<RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />);
             }
         } else {

@@ -1,0 +1,44 @@
+@import './../../rkt_animation/rkt_animation_loading/rkt_animation_loading.scss';
+
+.container-viewer {
+	margin-top:0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    background-color: black;
+}
+
+.container-axes {
+    position: absolute;
+    width: 300px;
+    height: 150px;
+    border: none;
+    margin: 0;
+    padding: 0px;
+    left: 20px;
+    bottom: 20px;
+    z-index: 2;
+    background-color: transparent;
+}
+
+.container-gui-menu{
+    position: absolute;
+    top: 0px;
+    z-index: 2;
+    right: 0px;
+    width:200px;
+    background-color: transparent;
+    input[type=text]{
+        font-size: 10pt;
+        padding-top: 2px;
+        margin-bottom: 4px;
+        padding-right: 2px;
+        padding-bottom: 2px;
+        padding-left: 2px;
+        height: 17px;
+    }
+}
+
+.close-button{
+    visibility: hidden;
+}

@@ -2,6 +2,9 @@
 @import './rkt_viewer_dicom/rkt_viewer_dicom.scss';
 @import './rkt_viewer_empty/rkt_viewer_empty.scss';
 @import './rkt_viewer_pdf/rkt_viewer_pdf.scss';
+@import './rkt_viewer_nrrd/rkt_viewer_nrrd.scss';
+@import './rkt_viewer_ply/rkt_viewer_ply.scss';
+@import './rkt_viewer_vtk/rkt_viewer_vtk.scss';
 
 //colors
 $rkt-viewer-background-color:#272822;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //modules
 import { createURL } from './rkt_viewer_empty_actions.js';
 //config viewers
-import configViewers from './../../../config/config_viewers.json';
+import configViewers from './../../../../config/config_viewers.json';
 //components
 import RktCardViewer from './../../rkt_card/rkt_card_viewer/rkt_card_viewer';
 
