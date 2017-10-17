@@ -22,9 +22,6 @@ export function loadWADOPDF(url, callback) {
 }
 
 export function loadPDF(url, blob,callback) {
-
-    console.log(url);
-    console.log(blob);
     
     if(!isObjectEmpty(url)){
 

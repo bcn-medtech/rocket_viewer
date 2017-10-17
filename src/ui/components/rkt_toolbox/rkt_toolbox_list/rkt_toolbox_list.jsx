@@ -73,8 +73,8 @@ export default class RktToolboxList extends Component {
         // IT DOES NOT WORK FOR THE MOMENT
         if (this.state.currentItemID !== undefined) {
 
-            console.log("Previous item");
-            console.log(document.getElementById(this.state.currentItemID));
+            // console.log("Previous item");
+            // console.log(document.getElementById(this.state.currentItemID));
             document.getElementById(this.state.currentItemID).style.backgroundColor = "";
 
             this.changeBackgroundColorSelectedItem(toolboxListItem)
