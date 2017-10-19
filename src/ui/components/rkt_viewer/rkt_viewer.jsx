@@ -32,6 +32,7 @@ export default class RktViewer extends Component {
 
     componentDidMount() {
 
+        //console.log(url);
         var location = window.location;
 
         if ("href" in location) {

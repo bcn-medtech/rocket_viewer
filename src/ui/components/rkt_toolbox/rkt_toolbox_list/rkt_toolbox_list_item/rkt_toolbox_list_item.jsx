@@ -21,8 +21,9 @@ export default class RktToolboxListItem extends Component {
     }
 
     render() {
+
         var toolboxListItem = this.props.toolboxlistitem;
-    
+
         return (
             <div className="grid-block vertical shrink">
                 {this.renderToolboxListItem(toolboxListItem)}
