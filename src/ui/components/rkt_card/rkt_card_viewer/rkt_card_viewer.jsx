@@ -51,7 +51,7 @@ export default class RktCard extends Component {
             <div className="grid-block shrink rkt-card-viewer">
                 <div className="grid-block shrink vertical rkt-card-viewer-content">
                     <div className="grid-block"><h2>{tittle}</h2></div>
-                    <div className="grid-block">{description}</div>
+                    <div className="grid-block" style={{ overflow: "hidden" }}>{description}</div>
                     <div className="grid-block vertical rkt-card-viewer-links">
                         {this.renderLinks(examples)}
                     </div>

@@ -1,0 +1,32 @@
+@import './rkt_toolbox_table_inputs_item/rkt_toolbox_table_inputs_item.scss';
+
+.rkt-toolbox-list-content {
+    width: inherit;
+}
+.rkt-toolbox-table-inputs-title{
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    border-left: 1px solid rgba(0, 0, 0, 0.07);
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
+
+    background-color: rgba(76, 222, 82, 0.2);
+
+    label{
+        color:$rkt-green-color-1;
+        text-align:center;
+        font-size: inherit;
+        margin: 0px;
+    }
+}
+
+.rkt-toolbox-table-inputs-submit-button {
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background-color: #04401e;
+    overflow: hidden;
+    text-align: center;
+    padding: 8px;
+
+    a {
+        color:$rkt-green-color;
+    }
+}
