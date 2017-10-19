@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 //Components
 import RktViewerDicomOneFrame from './rkt_viewer_dicom_one_frame/rkt_viewer_dicom_one_frame.jsx';
-import RktViewerDicomMultiframe from './rkt_viewer_dicom_multi_frame/rkt_dicom_viewer_multi_frame';
+//import RktViewerDicomMultiframe from './rkt_viewer_dicom_multi_frame/rkt_dicom_viewer_multi_frame';
 //actions
 import { isViewerLoadingAURLSource } from './rkt_viewer_dicom_actions.js';
 
@@ -39,20 +39,20 @@ export default class RktViewerDicom extends Component {
 
     renderViewer() {
 
-        var files = this.props.files;
+        //var files = this.props.files;
         var url = this.props.url;
         var cine_mode = this.state.cine_mode;
-        var image = this.state.image;
+        //var image = this.state.image;
 
         if (cine_mode) {
 
-            if (isViewerLoadingAURLSource(url)) {
+            // if (isViewerLoadingAURLSource(url)) {
 
-                return (<RktViewerDicomMultiframe image={image} img_source="wado"/>);
+            //     return (<RktViewerDicomMultiframe image={image} img_source="wado"/>);
 
-            }else{
-                return (<RktViewerDicomMultiframe image={image} img_source="filesystem"/>);
-            }
+            // }else{
+            //     return (<RktViewerDicomMultiframe image={image} img_source="filesystem"/>);
+            // }
 
         } else {
 
@@ -62,7 +62,7 @@ export default class RktViewerDicom extends Component {
 
             } else {
 
-                return (<RktViewerDicomOneFrame img_url={files} img_source="filesystem" open_cine_viewer={this.setCineMode.bind(this)} />);
+                // return (<RktViewerDicomOneFrame img_url={files} img_source="filesystem" open_cine_viewer={this.setCineMode.bind(this)} />);
 
             }
         }
