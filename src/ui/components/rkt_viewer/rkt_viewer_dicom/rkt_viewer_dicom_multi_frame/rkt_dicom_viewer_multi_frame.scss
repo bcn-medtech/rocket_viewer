@@ -1,1 +1,11 @@
 @import './rkt_viewer_dicom_multi_frame_controls/rkt_viewer_dicom_multi_frame_controls.scss';
+
+.rkt-viewer-dicom-multi-frame-right-menu{
+    overflow: auto;
+    white-space: nowrap;
+    padding: 10px;
+    position: absolute;
+    right: right;
+    right: 0px;
+    top:0px;
+}

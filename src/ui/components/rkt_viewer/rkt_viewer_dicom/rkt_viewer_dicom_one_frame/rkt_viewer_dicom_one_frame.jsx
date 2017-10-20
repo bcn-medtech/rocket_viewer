@@ -66,9 +66,6 @@ export default class RktViewerDicomOneFrame extends Component {
             var viewport = cornerstone.getDefaultViewportForImage(element, image);
             cornerstone.displayImage(element, image, viewport);
 
-            console.log(image);
-            console.log(image.getPixelData());
-
             this.setState({
                 loaded: true,
                 image: image,
@@ -80,7 +77,6 @@ export default class RktViewerDicomOneFrame extends Component {
                 cornerstoneTools.mouseInput.enable(element);
                 cornerstoneTools.mouseWheelInput.enable(element);
                 cornerstoneTools.wwwc.activate(element, 1); // ww/wc is the default tool for left mouse button
-                //cornerstoneTools.pan.activate(element, 2); // pan is the default tool for middle mouse button
                 cornerstoneTools.zoom.activate(element, 4); // zoom is the default tool for right mouse button
                 cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
             }
@@ -89,29 +85,72 @@ export default class RktViewerDicomOneFrame extends Component {
 
     }
 
-    onClickViewerMode() {
+    removeAnnotations() {
 
+        var element = this.imageDiv;
+        var toolStateManager = cornerstoneTools.getElementToolStateManager(element);
+        toolStateManager.clear(element)
+        cornerstone.updateImage(element);
+
+    }
+
+    deactivateControls() {
+
+        var element = this.imageDiv;
+        cornerstoneTools.pan.deactivate(element, 2);
+        cornerstoneTools.wwwc.deactivate(element, 1);
+        cornerstoneTools.length.deactivate(element, 1);
+        cornerstoneTools.rectangleRoi.deactivate(element, 1);
+        cornerstoneTools.highlight.deactivate(element, 1);
+        this.removeAnnotations();
+
+    }
+
+    onClickViewerMode(viewermode) {
 
         var element = this.imageDiv;
 
-        if (this.state.viewer_mode === "window_level") {
+        this.deactivateControls();
 
-            cornerstoneTools.wwwc.deactivate(element, 1);
-            cornerstoneTools.pan.activate(element, 3);
+        if (viewermode === "window_level") {
 
-            this.setState({
-                viewer_mode: "pan"
-            });
-
-        } else if (this.state.viewer_mode === "pan") {
-
-            cornerstoneTools.pan.deactivate(element, 2);
             cornerstoneTools.wwwc.activate(element, 1);
 
             this.setState({
                 viewer_mode: "window_level"
             });
 
+        } else if (viewermode === "pan") {
+
+
+            cornerstoneTools.pan.activate(element, 3);
+
+            this.setState({
+                viewer_mode: "pan"
+            });
+
+        } else if (viewermode === "annotation_length") {
+
+            cornerstoneTools.length.activate(element, 1);
+
+            this.setState({
+                viewer_mode: "annotation_length"
+            });
+
+        } else if (viewermode === "annotation_rectangle") {
+
+            cornerstoneTools.rectangleRoi.activate(element, 1);
+
+            this.setState({
+                viewer_mode: "annotation_rectangle"
+            });
+        } else if (viewermode === "magnifying_glass") {
+
+            cornerstoneTools.highlight.activate(element, 1);
+
+            this.setState({
+                viewer_mode: "magnifying_glass"
+            });
         }
     }
 
@@ -122,34 +161,95 @@ export default class RktViewerDicomOneFrame extends Component {
 
         if (imageLoaded) {
 
-            var icon;
-            var style;
+            //Button length;
+            var styleIconLength;
+            var iconLength;
+            var buttonLength;
+
+            //Button window level
+            var styleWindowLevel;
+            var iconWindowLevel;
+            var buttonWindowLevel;
+
+            //Button pan
+            var stylePan;
+            var iconPan;
+            var buttonPan;
+
+            //Button annotation rectangle
+            var styleAnnotationRectangle;
+            var iconAnnotationRectangle;
+            var buttonAnnotationRectangle;
+
+            //button magnifying glass
+            var styleMagnifyingGlass;
+            var iconMagnifyingGlass;
+            var buttonMagnifyingGlass;
+
+            styleIconLength =
+                {
+                    fontSize: "13pt",
+                    marginTop: "6px"
+                }
+            iconLength = <i className="fi-pencil" style={styleIconLength}></i>;
+
+            styleWindowLevel =
+                {
+                    fontSize: "12pt",
+                    marginTop: "6px"
+                }
+            iconWindowLevel = <i className="fi-paint-bucket" style={styleWindowLevel}></i>;
+
+            stylePan =
+                {
+                    fontSize: "10pt",
+                    marginTop: "9px"
+                }
+
+            iconPan = <i className="fi-arrows-out" style={stylePan}></i>;
+
+            styleAnnotationRectangle =
+                {
+                    fontSize: "12pt",
+                    marginTop: "7px"
+                }
+
+            iconAnnotationRectangle = <i className="fi-annotate" style={styleAnnotationRectangle}></i>;
+
+            styleMagnifyingGlass =
+                {
+                    fontSize: "12pt",
+                    marginTop: "6px"
+                }
+
+            iconMagnifyingGlass = <i className="fi-magnifying-glass" style={styleMagnifyingGlass}></i>
+
+
+            buttonLength = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "annotation_length")} icon={iconLength} />;
+            buttonWindowLevel = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "window_level")} icon={iconWindowLevel} />;
+            buttonPan = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "pan")} icon={iconPan} />;
+            buttonAnnotationRectangle = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "annotation_rectangle")} icon={iconAnnotationRectangle} />;
+            buttonMagnifyingGlass = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "magnifying_glass")} icon={iconMagnifyingGlass} />;
 
             if (this.state.viewer_mode === "pan") {
-
-                style =
-                    {
-                        fontSize: "15pt",
-                        marginTop: "4px"
-                    }
-
-                icon = <i className="fi-paint-bucket" style={style}></i>;
-
+                buttonPan = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "pan")} icon={iconPan} selected="true" />;
             } else if (this.state.viewer_mode === "window_level") {
-
-                style =
-                    {
-                        fontSize: "13pt",
-                        marginTop: "6px"
-                    }
-
-                icon = <i className="fi-arrows-out" style={style}></i>;
+                buttonWindowLevel = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "window_level")} icon={iconWindowLevel} selected="true" />;
+            } else if (this.state.viewer_mode === "annotation_length") {
+                buttonLength = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "annotation_length")} icon={iconLength} selected="true" />;
+            } else if (this.state.viewer_mode === "annotation_rectangle") {
+                buttonAnnotationRectangle = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "annotation_rectangle")} icon={iconAnnotationRectangle} selected="true" />;
+            } else if (this.state.viewer_mode === "magnifying_glass") {
+                buttonMagnifyingGlass = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "magnifying_glass")} icon={iconMagnifyingGlass} selected="true" />;
             }
-
 
             return (
                 <div className="rkt-viewer-dicom-one-frame-right-menu">
-                    <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this)} icon={icon} />
+                    {buttonWindowLevel}
+                    {buttonPan}
+                    {buttonLength}
+                    {buttonAnnotationRectangle}
+                    {buttonMagnifyingGlass}
                 </div>
             );
         }
@@ -159,10 +259,10 @@ export default class RktViewerDicomOneFrame extends Component {
 
     renderLoading() {
 
-        if(this.state.loaded===false){
-            return(<RktAnimationLoading/>);
-        }   
-        
+        if (this.state.loaded === false) {
+            return (<RktAnimationLoading />);
+        }
+
     }
 
     render() {

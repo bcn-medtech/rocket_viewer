@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //components
 import RktViewerDicomMultiFrameControls from './rkt_viewer_dicom_multi_frame_controls/rkt_viewer_dicom_multi_frame_controls';
+import RktButtonIconCircleTextBig from './../../../rkt_button/rkt_button_icon_circle_text_big/rkt_button_icon_circle_text_big';
 //actions
 import { prepareLoadDicom } from './rkt_dicom_viewer_multi_frame_actions.js';
 //Using global variables
@@ -33,8 +34,8 @@ export default class StackDicomPlayer extends Component {
         this.onNewImage = this.onNewImage.bind(this);
     }
 
-    componentWillUnmount(){
-        if(this.state.isPlaying){
+    componentWillUnmount() {
+        if (this.state.isPlaying) {
             cornerstoneTools.stopClip(this.imageDiv);
             //this.setState({isPlaying : false})
         }
@@ -45,14 +46,14 @@ export default class StackDicomPlayer extends Component {
 
     }
     componentDidUpdate(prevProps) {
-        
+
         if (prevProps.imageUrl !== this.props.imageUrl) {
             this.loadImage()
         }
 
     }
 
-    initializeMultiframeControls(component,imageIdsArray, ImageIdsCurrentIndex){
+    initializeMultiframeControls(component, imageIdsArray, ImageIdsCurrentIndex) {
         // Initialize range input
         var range;
         range = document.getElementById(("slice-range-" + component.props.elementId));
@@ -69,16 +70,16 @@ export default class StackDicomPlayer extends Component {
     loadImage() {
 
         if (this.state.isPlaying && this.state.loaded) {
-            
+
             cornerstoneTools.stopClip(this.imageDiv);
-            
-            this.setState({ 
-                    isPlaying: false,
-                    loaded:false
-                });
-        }else{
-            this.setState({ 
-                loaded:false
+
+            this.setState({
+                isPlaying: false,
+                loaded: false
+            });
+        } else {
+            this.setState({
+                loaded: false
             });
         }
 
@@ -98,18 +99,18 @@ export default class StackDicomPlayer extends Component {
                 stack: loadDicomPrepared.stack
             });
 
-            
+
             var stack = loadDicomPrepared.stack;
             var imageIdsArray = stack.imageIds;
             var currentImageIdIndex = stack.currentImageIdIndex;
             var url = image.sharedCacheKey;
 
-            myComponent.initializeMultiframeControls(myComponent,imageIdsArray,currentImageIdIndex);
+            myComponent.initializeMultiframeControls(myComponent, imageIdsArray, currentImageIdIndex);
 
             element.onCornerstoneNewImage = myComponent.onNewImage;
 
             cornerstone.loadAndCacheImage(imageIdsArray[0]).then(
-                
+
                 function (image) {
                     // now that we have an image frame in the cornerstone cache, we can decrement
                     // the reference count added by load() above when we loaded the metadata.  This way
@@ -176,6 +177,78 @@ export default class StackDicomPlayer extends Component {
 
     }
 
+    removeAnnotations() {
+
+        var element = this.imageDiv;
+
+        var stackToolDataSource = cornerstoneTools.getToolState(element, 'stack');
+        console.log(stackToolDataSource);
+        //var toolStateManager = cornerstoneTools.stackToolDataSource(element);
+        //toolStateManager.clear(element)
+        //cornerstone.updateImage(element);
+
+    }
+
+    deactivateControls() {
+
+        var element = this.imageDiv;
+        cornerstoneTools.pan.deactivate(element, 2);
+        cornerstoneTools.wwwc.deactivate(element, 1);
+        cornerstoneTools.length.deactivate(element, 1);
+        cornerstoneTools.rectangleRoi.deactivate(element, 1);
+        cornerstoneTools.highlight.deactivate(element, 1);
+        this.removeAnnotations();
+
+    }
+
+    onClickViewerMode(viewermode) {
+
+        var element = this.imageDiv;
+
+        this.deactivateControls();
+
+        if (viewermode === "window_level") {
+
+            cornerstoneTools.wwwc.activate(element, 1);
+
+            this.setState({
+                viewer_mode: "window_level"
+            });
+
+        } else if (viewermode === "pan") {
+
+
+            cornerstoneTools.pan.activate(element, 3);
+
+            this.setState({
+                viewer_mode: "pan"
+            });
+
+        } else if (viewermode === "annotation_length") {
+
+            cornerstoneTools.length.activate(element, 1);
+
+            this.setState({
+                viewer_mode: "annotation_length"
+            });
+
+        } else if (viewermode === "annotation_rectangle") {
+
+            cornerstoneTools.rectangleRoi.activate(element, 1);
+
+            this.setState({
+                viewer_mode: "annotation_rectangle"
+            });
+        } else if (viewermode === "magnifying_glass") {
+
+            cornerstoneTools.highlight.activate(element, 1);
+
+            this.setState({
+                viewer_mode: "magnifying_glass"
+            });
+        }
+    }
+
     selectImage(event) {
         var targetElement = this.imageDiv;
 
@@ -208,7 +281,108 @@ export default class StackDicomPlayer extends Component {
         return this.state.image.getCanvas();
     }
 
+    renderToolbox() {
+
+        var imageLoaded = this.state.loaded;
+
+        if (imageLoaded) {
+
+            //Button length;
+            var styleIconLength;
+            var iconLength;
+            var buttonLength;
+
+            //Button window level
+            var styleWindowLevel;
+            var iconWindowLevel;
+            var buttonWindowLevel;
+
+            //Button pan
+            var stylePan;
+            var iconPan;
+            var buttonPan;
+
+            //Button annotation rectangle
+            var styleAnnotationRectangle;
+            var iconAnnotationRectangle;
+            var buttonAnnotationRectangle;
+
+            //button magnifying glass
+            var styleMagnifyingGlass;
+            var iconMagnifyingGlass;
+            var buttonMagnifyingGlass;
+
+            styleIconLength =
+                {
+                    fontSize: "13pt",
+                    marginTop: "6px"
+                }
+            iconLength = <i className="fi-pencil" style={styleIconLength}></i>;
+
+            styleWindowLevel =
+                {
+                    fontSize: "12pt",
+                    marginTop: "6px"
+                }
+            iconWindowLevel = <i className="fi-paint-bucket" style={styleWindowLevel}></i>;
+
+            stylePan =
+                {
+                    fontSize: "10pt",
+                    marginTop: "9px"
+                }
+
+            iconPan = <i className="fi-arrows-out" style={stylePan}></i>;
+
+            styleAnnotationRectangle =
+                {
+                    fontSize: "12pt",
+                    marginTop: "7px"
+                }
+
+            iconAnnotationRectangle = <i className="fi-annotate" style={styleAnnotationRectangle}></i>;
+
+            styleMagnifyingGlass =
+                {
+                    fontSize: "12pt",
+                    marginTop: "6px"
+                }
+
+            iconMagnifyingGlass = <i className="fi-magnifying-glass" style={styleMagnifyingGlass}></i>
+
+
+            buttonLength = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "annotation_length")} icon={iconLength} />;
+            buttonWindowLevel = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "window_level")} icon={iconWindowLevel} />;
+            buttonPan = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "pan")} icon={iconPan} />;
+            buttonAnnotationRectangle = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "annotation_rectangle")} icon={iconAnnotationRectangle} />;
+            buttonMagnifyingGlass = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "magnifying_glass")} icon={iconMagnifyingGlass} />;
+
+            if (this.state.viewer_mode === "pan") {
+                buttonPan = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "pan")} icon={iconPan} selected="true" />;
+            } else if (this.state.viewer_mode === "window_level") {
+                buttonWindowLevel = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "window_level")} icon={iconWindowLevel} selected="true" />;
+            } else if (this.state.viewer_mode === "annotation_length") {
+                buttonLength = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "annotation_length")} icon={iconLength} selected="true" />;
+            } else if (this.state.viewer_mode === "annotation_rectangle") {
+                buttonAnnotationRectangle = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "annotation_rectangle")} icon={iconAnnotationRectangle} selected="true" />;
+            } else if (this.state.viewer_mode === "magnifying_glass") {
+                buttonMagnifyingGlass = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "magnifying_glass")} icon={iconMagnifyingGlass} selected="true" />;
+            }
+
+            return (
+                <div className="rkt-viewer-dicom-multi-frame-right-menu">
+                    {buttonWindowLevel}
+                    {buttonPan}
+                    {/*buttonLength}
+                    {buttonAnnotationRectangle}
+            {buttonMagnifyingGlass*/}
+                </div>
+            );
+        }
+    }
+
     render() {
+
         let elementId = this.props.elementId;
 
         return (
@@ -228,6 +402,7 @@ export default class StackDicomPlayer extends Component {
                         totalFrames={this.state.numFrames}
                     />
                 </div>
+                {this.renderToolbox()}
             </div>
         );
     }
