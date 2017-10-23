@@ -13,6 +13,9 @@ var selected_label;
 var selected_label_has_changed = false;
 var selected_colormap = "rainbow";
 var selected_colormap_has_changed = false;
+var submitted_min_max = {};
+var submitted_min_max_has_changed = false;
+var info_luts = {};
 
 export function initScene(callback) {
     var container = document.getElementById("container-viewer");
@@ -31,7 +34,7 @@ export function initScene(callback) {
 
     // LIGHTS
 
-    // point light that will follow the camera movement to light up uniformly the model 
+    // point light that will follow the camera movement to light up uniformly the model
     // (camera has to be a child of scene)
     var light = new THREE.PointLight(0xffffff, 1);
     camera.add(light);
@@ -89,17 +92,22 @@ export function initScene(callback) {
     var axes = new THREE.AxisHelper(100);
     sceneAxes.add(axes);
 
-    // RENDER VIEW 
+    // RENDER VIEW
 
     function renderView() {
         cameraControl.update();
 
-        // if another label has been selected from a toolbox list of VTK labels
-        if ((selected_label_has_changed) || (selected_colormap_has_changed)) {
+        // if another label has been selected from a toolbox list of VTK labels, 
+        // or new min and max values of a label have been submitted
+        if ((selected_label_has_changed) || (selected_colormap_has_changed)
+            || (submitted_min_max_has_changed)) {
+
             displaySelectedLut(selected_label, selected_colormap); // we update the label to display in the model
 
             if (selected_label_has_changed) selected_label_has_changed = false;
             if (selected_colormap_has_changed) selected_colormap_has_changed = false;
+            if (submitted_min_max_has_changed) submitted_min_max_has_changed = false;
+
         }
 
         // copy position of the camera into cameraAxes
@@ -117,26 +125,32 @@ export function initScene(callback) {
 
     callback(scene); // scene has been initialized
 
-    /* 
-        OTHER FUNCTIONS 
+    /*
+        OTHER FUNCTIONS
     */
 
-    function displaySelectedLut(selected_label, selected_) {
+    function displaySelectedLut(selected_label, selected_colormap) {
         var VTK_mesh = scene.getObjectByName("vtk_mesh");
         var VTK_material = VTK_mesh.material;
         var VTK_geometry = VTK_mesh.geometry;
 
         if ((selected_label !== undefined) && (selected_label !== "Solid Color")) {
 
-            if (((selected_label_has_changed === false) && (selected_colormap_has_changed) &&
-                (VTK_geometry.attributes.color)) || (selected_label_has_changed)) {
+            if ((selected_label_has_changed) ||
+
+                ((selected_label_has_changed === false) && (submitted_min_max_has_changed === false)
+                    && (selected_colormap_has_changed) && (VTK_geometry.attributes.color)) ||
+
+                ((selected_label_has_changed === false) && (submitted_min_max_has_changed)
+                    && (selected_colormap_has_changed === false) && (VTK_geometry.attributes.color))) {
+
                 // we display the model with the selected label by
                 // 1st: updating the material
                 VTK_material.vertexColors = THREE.VertexColors;
                 VTK_material.needsUpdate = true;
                 // 2nd: updating the geometry
-                var lut_to_display = VTK_mesh.geometry.attributes[selected_label + " " + selected_colormap].array;
-                VTK_geometry.addAttribute("color", new THREE.BufferAttribute(new Float32Array(lut_to_display), 3));
+                var lutColors_to_display = info_luts[selected_label + " " + selected_colormap].lutColors;
+                VTK_geometry.addAttribute("color", new THREE.BufferAttribute(new Float32Array(lutColors_to_display), 3));
                 VTK_geometry.attributes.color.needsUpdate = true;
             }
         }
@@ -159,7 +173,8 @@ export function loadVTK(scene, url, callback1, callback2) {
     // variables for when the VTK file has labels
     var info_toolbox_list = [];
     var num_toolbox_list = 0;
-    // info_luts;
+    var info_toolbox_table_inputs = [];
+    var min_max_values_labels = [];
 
     // LOADER
 
@@ -179,12 +194,14 @@ export function loadVTK(scene, url, callback1, callback2) {
                     createVTKLabelsToolboxList(info_toolbox_list, gui_names);
                     // we create a toolbox to select in which colormap display the model
                     createColormapsToolboxList(info_toolbox_list);
-                    // and we load the model and add these labels as attributes of the geometry
+                    // we load the model and add these labels as attributes of the geometry
                     loadModel(url, labels);
+                    // and we create a toolbox to set the min and max values of the lut to display
+                    createMinAndMaxToolboxTableInputs(info_toolbox_table_inputs, min_max_values_labels);
 
-                    if (info_toolbox_list.length > 0) {
-                        callback1(info_toolbox_list);
-                    } else callback1(false);
+                    if ((info_toolbox_list.length > 0) && (info_toolbox_table_inputs.length > 0)) {
+                        callback1(info_toolbox_list, info_toolbox_table_inputs);
+                    } else callback1(false, false);
 
                 } else { // if the VTK DOES NOT have labels
 
@@ -193,7 +210,7 @@ export function loadVTK(scene, url, callback1, callback2) {
                 }
             } else if (vtk_format === "BINARY") {
                 alert("For the moment only ASCII VTK files can be read");
-                // ??????????????????
+                //
             } else alert("Incompatible VTK format")
 
         } else { // if we cannot read/load the VTK file
@@ -206,7 +223,7 @@ export function loadVTK(scene, url, callback1, callback2) {
 
         info_toolbox_list[num_toolbox_list] = {
             "title": "VTK LABELS", "items": names_labels,
-            "onclickitem": changeSelectedLabel.bind(this)
+            "onclickitem": [changeSelectedLabel.bind(this), retrieveSelectedLabelInfo.bind(this)]
         };
         num_toolbox_list += 1;
     }
@@ -214,9 +231,21 @@ export function loadVTK(scene, url, callback1, callback2) {
     function createColormapsToolboxList(info_toolbox_list) {
         info_toolbox_list[num_toolbox_list] = {
             "title": "COLORMAPS", "items": ["rainbow", "cooltowarm", "blackbody"],
-            "onclickitem": changeSelectedColormap.bind(this)
+            "onclickitem": [changeSelectedColormap.bind(this)]
         };
         num_toolbox_list += 1;
+    }
+
+    function createMinAndMaxToolboxTableInputs(info_toolbox_table_inputs, min_max_values_labels) {
+
+        info_toolbox_table_inputs[0] = {
+            "title": "Lookup table editor",
+            "items": [
+                { "type": "text", "name": "Min value", "extra_info_name": " ", "placeholder": "" },
+                { "type": "text", "name": "Max value", "extra_info_name": " ", "placeholder": "" }
+            ],
+            "onSubmit": changeMinMaxLabels.bind(this)
+        };
     }
 
     function loadModel(url, labels) {
@@ -237,7 +266,7 @@ export function loadVTK(scene, url, callback1, callback2) {
             });
 
             // if VTK has labels, we add them to the geometry as attributes
-            if (labels) addLabelsToGeometry(labels, geometry);
+            if (labels) saveLabelsOfGeometry(labels);
 
             var mesh = new THREE.Mesh(geometry, material);
             mesh.name = "vtk_mesh";
@@ -252,12 +281,10 @@ export function loadVTK(scene, url, callback1, callback2) {
             scene.remove(selectedObject);
         }
 
-        function addLabelsToGeometry(labels, geometry) {
-
+        function saveLabelsOfGeometry(labels) {
             // Adding labels to the geometry
             //var arr_colormaps = ["rainbow"];
             var arr_colormaps = ["rainbow", "cooltowarm", "blackbody"];
-            var lutColors = [];
 
             for (var num_colormap = 0; num_colormap < arr_colormaps.length; num_colormap++) {
 
@@ -265,6 +292,7 @@ export function loadVTK(scene, url, callback1, callback2) {
 
                 for (var i = 0; i < Object.keys(labels).length; i++) {
 
+                    var lutColors = [];
                     var name = labels[i].name;
                     var values = labels[i].values;
 
@@ -274,6 +302,7 @@ export function loadVTK(scene, url, callback1, callback2) {
                     var [max, min] = obtainMaxMinValues(values);
                     lut.setMax(max);
                     lut.setMin(min);
+                    // lut.setMax(2000); // TEST! TEST! TEST! TEST!
 
                     for (var j = 0; j < values.length; j++) {
                         var colorValue = values[j];
@@ -286,21 +315,167 @@ export function loadVTK(scene, url, callback1, callback2) {
                             lutColors[3 * j + 2] = color.b;
                         }
                     }
-                    geometry.addAttribute(name + " " + colorMap, new THREE.BufferAttribute(new Float32Array(lutColors), 3));
-                    //info_luts[name+" "+colorMap] = {lut};
+                    info_luts[name + " " + colorMap] = { "label_values": values, "min_value": min, "max_value": max, "lut": lut, "lutColors": lutColors };
                 }
             }
-
         }
     }
 }
 
+export function retrieveSelectedLabelInfo(selected_label, info_toolbox_table_inputs, callback) {
+    // current_min, current_max, default_min, default_max: we show these values in the toolbox table inputs
+
+    if (selected_label !== "Solid Color") {
+        // we retrieve the info to display in the toolbox table inputs, which is related to the selected label
+        // (This is only done when selected_label is NOT Solid Color)
+
+        var info_selected_label_lut = info_luts[selected_label + " " + selected_colormap];
+
+        var current_min = info_selected_label_lut.lut["minV"];
+        var current_max = info_selected_label_lut.lut["maxV"];
+
+        var default_min = info_selected_label_lut.min_value;
+        var extra_info_name_min = "(default value: " + default_min.toString() + ")";
+
+        var default_max = info_selected_label_lut.max_value;
+        var extra_info_name_max = "(default value: " + default_max.toString() + ")";
+
+        // we update the toolbox table inputs
+        info_toolbox_table_inputs[0] = {
+            "title": "Lookup table editor",
+            "items": [
+                { "type": "text", "name": "Min value", "extra_info_name": extra_info_name_min, "placeholder": current_min },
+                { "type": "text", "name": "Max value", "extra_info_name": extra_info_name_max, "placeholder": current_max }
+            ],
+            "onSubmit": changeMinMaxLabels.bind(this)
+        };
+
+        callback(info_toolbox_table_inputs);
+
+    } else callback(false);
+}
+
 export function changeSelectedLabel(currentItem) {
+    // currentItem = string: name of the selected label
     selected_label = currentItem;
     selected_label_has_changed = true;
 }
 
 export function changeSelectedColormap(currentItem) {
+    // currentItem = string: name of the selected colormap
     selected_colormap = currentItem;
     selected_colormap_has_changed = true;
+}
+
+export function changeMinMaxLabels(submittedValues, callback) {
+    // currentItems: {["name":string of the name],["value":string of the value]};
+    // callback will inform the toolbox_table_inputs whether the submitted values are valid or not
+
+    if (submittedValues.length === 2) {
+
+        var value1 = submittedValues[0].value;
+        var value2 = submittedValues[1].value;
+
+        // 1st we have to check that TWO value have been submitted
+        if ((value1 === "") || (value2 === "")) {
+
+            // --> user has NOT submiited two numbers
+            alert("You must submit 2 values");
+            callback(false);
+
+        } else {
+
+            // THEN, we have to check that the submitted values are NUMBERS
+            if ((!isNaN(value1)) && (!isNaN(value2))) {
+
+                // --> both submitted values ARE NUMBERS ("NaN" stands for "Not-a-number" )
+
+                // we obtain the submitted values
+                for (var i = 0; i < submittedValues.length; i++) {
+                    var submittedValue = submittedValues[i];
+
+                    if (submittedValue.name === "Min value") var current_min = parseFloat(submittedValue.value);
+                    else if (submittedValue.name === "Max value") var current_max = parseFloat(submittedValue.value);
+                }
+
+                // FINALLY, we have to check that the submitted values are within a VALID RANGE
+                var info_selected_label_lut = info_luts[selected_label + " " + selected_colormap];
+                var default_min = info_selected_label_lut.min_value;
+                //var default_max = info_selected_label_lut.max_value; // MAYBE I DO NOT NEED THAT
+
+                // valid current min values are within the range [default_min, infinity],
+                // valid current max values are within the range [default_min, infinity],
+                // and the current min value must be < current max value
+
+                if ((current_min < default_min) || (current_max < default_min) ||
+                    (current_min > current_max)) {
+
+                    // --> submitted values are NOT within a valid range
+                    alert("Submitted values must be within a valid range")
+                    callback(false);
+
+                } else {
+
+                    // --> submitted values ARE within a valid range
+                    submitted_min_max["Min value"] = current_min;
+                    submitted_min_max["Max value"] = current_max;
+
+                    changeMinMaxValuesLut(submitted_min_max, selected_label, selected_colormap);
+
+                    submitted_min_max_has_changed = true;
+
+                    callback(true);
+                }
+
+            } else { // --> submitted values are NOT numbers
+
+                alert("You must submit numbers");
+                callback(false);
+
+            }
+        }
+
+    } else {
+        alert("ERROR: two inputs must be obtained from the toolbox table inputs");
+    }
+
+}
+
+export function changeMinMaxValuesLut(submitted_min_max, selected_label, selected_colormap) {
+    var new_min = submitted_min_max["Min value"];
+    var new_max = submitted_min_max["Max value"];
+
+    // we change the min and max values of the luts, 
+    // and for the three possible colormaps to do all calculations once
+
+    var arr_colormaps = ["rainbow", "cooltowarm", "blackbody"];
+
+    for (var num_colormap = 0; num_colormap < arr_colormaps.length; num_colormap++) {
+
+        var colorMap = arr_colormaps[num_colormap];
+        var lut_to_change = info_luts[selected_label + " " + colorMap].lut;
+
+        lut_to_change.setMax(new_max);
+        lut_to_change.setMin(new_min);
+
+        var lutColors_to_change = [];
+        var values_selected_label = info_luts[selected_label + " " + colorMap].label_values;
+
+        for (var i = 0; i < values_selected_label.length; i++) {
+
+            var colorValue = values_selected_label[i];
+            var color = lut_to_change.getColor(colorValue);
+            if (color === undefined) {
+                console.log("ERROR: " + colorValue);
+            } else {
+                lutColors_to_change[3 * i] = color.r;
+                lutColors_to_change[3 * i + 1] = color.g;
+                lutColors_to_change[3 * i + 2] = color.b;
+            }
+        }
+
+        // we update "info_luts" with the changed "lut" and "lutColors"
+        info_luts[selected_label + " " + colorMap].lut = lut_to_change;
+        info_luts[selected_label + " " + colorMap].lutColors = lutColors_to_change;
+    }
 }

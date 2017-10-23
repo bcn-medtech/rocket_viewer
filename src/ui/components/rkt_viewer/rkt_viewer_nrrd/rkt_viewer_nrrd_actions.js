@@ -144,8 +144,6 @@ export function loadNRRD(scene, url, callback) {
         sliceX.mesh.name = "sliceX";
         scene.add(sliceX.mesh);
 
-        console.log(scene);
-
         // gui to control the visualization of the different slices
         createGUI(volume, sliceX, sliceY, sliceZ);
 
