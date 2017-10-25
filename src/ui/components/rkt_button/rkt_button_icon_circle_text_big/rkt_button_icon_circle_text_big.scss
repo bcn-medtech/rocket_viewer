@@ -7,7 +7,17 @@
     width:35px;
     height:35px;
     &:hover{
-        background-color:rgb(110, 83, 158);
-        color:white;
+        background-color:white;
+        color:rgb(110, 83, 158);
     }    
+}
+
+.rkt-button-icon-circle-text-big-selected{
+    background-color: white;
+    color:rgb(110, 83, 158);
+    padding-top: 3px;    
+    font-size:26px;
+    border-radius: 50px;
+    width:35px;
+    height:35px;
 }

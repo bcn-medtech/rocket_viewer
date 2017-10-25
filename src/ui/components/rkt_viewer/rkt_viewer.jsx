@@ -8,6 +8,7 @@ import { url_getParameterByName } from './../../../modules/rkt_module_url.js';
 //components
 import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';
+// RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
 import RktViewerEmpty from './rkt_viewer_empty/rkt_viewer_empty';
 import RktViewerPDF from './rkt_viewer_pdf/rkt_viewer_pdf';
 import RktViewerNRRD from './rkt_viewer_nrrd/rkt_viewer_nrrd';

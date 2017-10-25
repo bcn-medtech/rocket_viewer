@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import RktButtonIconCircleTextBig from './../../../rkt_button/rkt_button_icon_circle_text_big/rkt_button_icon_circle_text_big';
 import RktAnimationLoading from './../../../rkt_animation/rkt_animation_loading/rkt_animation_loading';
 //actions
-import { loadDicom, getImageMetadata, cropImageFromCanvas } from './rkt_viewer_dicom_one_frame_actions.js';
+import { loadDicom, getImageMetadata, cropImageFromCanvas } from './rkt_viewer_image_processing_dicom_one_frame_actions.js';
 //Using global variables
 const cornerstone = window.cornerstone;
 const cornerstoneTools = window.cornerstoneTools;

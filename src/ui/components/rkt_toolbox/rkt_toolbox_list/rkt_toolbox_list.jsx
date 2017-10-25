@@ -123,19 +123,18 @@ export default class RktToolboxList extends Component {
             // if the toolbox list has an extra toolbox, two functions will be applied when
             // clicking an item:
             // 1st: a function that changes info in the main component
-            // 2nd: another function retrieves the item an displays its info in the extra toolbox
+            // 2nd: another function that retrieves the ToolboxListItem an displays its info in the extra toolbox
 
             // 1st:
             main_component_function = myComponent.props.onclickitem[0];
             main_component_function(toolboxListItem);
 
             // 2nd:
-            var retrieve_info_extra_tool_function = myComponent.props.onclickitem[1];
+            var retrieve_info_extra_toolbox_function = myComponent.props.onclickitem[1];
             var extra_toolbox_info = myComponent.props.extratoolboxinfo;
 
-            retrieve_info_extra_tool_function(toolboxListItem, extra_toolbox_info, function (updated_info) {
+            retrieve_info_extra_toolbox_function(toolboxListItem, extra_toolbox_info, function (updated_info) {
 
-                //myComponent.props.extratoolboxinfo = updated_info;
                 if (updated_info) {
                     myComponent.setState({
                         updated_extra_info: updated_info,
@@ -157,7 +156,6 @@ export default class RktToolboxList extends Component {
 
             if (this.props.onclickitem.length === 1) {
                 main_component_function = myComponent.props.onclickitem[0];
-                console.log(main_component_function);
                 main_component_function(toolboxListItem);
             }
         }

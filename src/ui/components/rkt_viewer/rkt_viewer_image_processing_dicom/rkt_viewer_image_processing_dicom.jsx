@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 //Components
-import RktViewerDicomOneFrame from './rkt_viewer_dicom_one_frame/rkt_viewer_dicom_one_frame.jsx';
+import RktViewerImageProcessingDicomOneFrame from './rkt_viewer_image_processing_dicom_one_frame/rkt_viewer_image_processing_dicom_one_frame.jsx';
 //import RktViewerDicomMultiframe from './rkt_viewer_dicom_multi_frame/rkt_dicom_viewer_multi_frame';
 //actions
-import { isViewerLoadingAURLSource } from './rkt_viewer_dicom_actions.js';
+import { isViewerLoadingAURLSource } from './rkt_viewer_image_processing_dicom_actions.js';
 
-export default class RktViewerDicom extends Component {
+export default class RktViewerImageProcessingDicom extends Component {
 
     constructor() {
         super();
@@ -58,7 +58,7 @@ export default class RktViewerDicom extends Component {
 
             if (isViewerLoadingAURLSource(url)) {
 
-                return (<RktViewerDicomOneFrame img_url={url} img_source="wado" open_cine_viewer={this.setCineMode.bind(this)} />);
+                return (<RktViewerImageProcessingDicomOneFrame img_url={url} img_source="wado" open_cine_viewer={this.setCineMode.bind(this)} />);
 
             } else {
 

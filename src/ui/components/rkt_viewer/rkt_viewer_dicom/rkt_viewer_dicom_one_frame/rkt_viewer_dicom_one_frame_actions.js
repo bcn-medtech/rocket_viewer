@@ -46,8 +46,16 @@ export function getImageMetadata(image) {
 
     var imageMetadata = {};
 
+    console.log(image);
+
+    console.log(image.getImageData());
+    console.log(image.data);
+
     var numFrames = image.data.intString('x00280008');
     var manufacturer = image.data.string('x00080070');
+    var pixelSpacing = image.data.intString('x00280030');
+    // pixelSpacing = rowPixelSpacing/columnPixelSpacing (both are values obtained by 
+    // cornerstoneWADOImageLoader and saved in cornerstone image ["image" in this code]) 
 
     if (numFrames !== undefined) {
 
@@ -59,6 +67,7 @@ export function getImageMetadata(image) {
     }
 
     imageMetadata["manufacturer"] = manufacturer;
+    imageMetadata["pixel_spacing"] = pixelSpacing;
 
     return imageMetadata;
 }
