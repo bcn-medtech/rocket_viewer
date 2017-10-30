@@ -109,6 +109,9 @@ export default class RktViewer extends Component {
                     blob: blob,
                 });
 
+                console.log(viewerType);
+                console.log(files);
+
             } else {
 
                 alert("Uncompatible format");
@@ -118,6 +121,13 @@ export default class RktViewer extends Component {
         } else {
 
             alert("Blob with multiple files");
+            // MAYBE LATER, along with changing url of the application -->
+            // this.setState({
+            //     viewer:"study_viewer",
+            //     files: blob.dataTransfer.files
+            // }) 
+            // BUT WE WOULD HAVE TO DO MORE THINGS, because now  
+            // rkt_viewer_file_picker_grid is divided in "empty" and "content"
 
         }
 
@@ -134,7 +144,7 @@ export default class RktViewer extends Component {
         var files = this.state.files;
         var blob = this.state.blob;
         var url;
-
+        
         //Load blobs from localhost 
         if (isObjectEmpty(files) && isObjectEmpty(blob)) {
             url = this.state.url;
@@ -166,7 +176,7 @@ export default class RktViewer extends Component {
 
                 return (<RktViewerVTK files={files} url={url} />);
 
-            } else if (viewerType === "study_viewer"){
+            } else if (viewerType === "study_viewer") {
 
                 return (<RktViewerFilePicker/>)
 

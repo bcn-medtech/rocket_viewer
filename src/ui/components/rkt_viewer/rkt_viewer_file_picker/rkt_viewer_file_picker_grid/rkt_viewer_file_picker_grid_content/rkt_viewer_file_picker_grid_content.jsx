@@ -6,70 +6,57 @@ export default class RktViewerFilePickerGridContent extends Component {
         super(props);
         this.state = {
             selectedImg: -1,
-            dicomInstances: [],
+            imgInstances: [],
         }
-
-        // // This binding is necessary to make 'this' work in the callback
-        // this.handleClick = this.handleClick.bind(this);
-        // this.handleDicomLoaded = this.handleDicomLoaded.bind(this);
-        // this.clearGrid = this.clearGrid.bind(this);
-        // this.renderGrid = this.renderGrid.bind(this);
-        // this.render = this.render.bind(this);
     }
 
-    // componentWillUpdate(nextProps) {
-    //     if (nextProps.dicomList != this.props.dicomList) {
-    //         this.clearGrid();
-    //     }
-    // }
+    componentWillUpdate(nextProps) {
+        if (nextProps.fileList !== this.props.fileList) {
+            this.clearGrid();
+        }
+    }
 
-    // clearGrid() {
-    //     //console.log("cleargrid");
-    //     this.setState({
-    //         selectedImg: -1,
-    //         dicomInstances: [],
-    //     });
-    // }
+    handleImgClicked(index) {
+        this.setState({
+            selectedImg: index
+        })
+    }
 
-    // handleClick(index) {
-    //     this.setState({
-    //         selectedImg: index
-    //     })
-    // }
+    handleImgLoaded(data) {
+        let instances = this.state.imgInstances;
+        instances.push(data);
 
-    // handleDicomLoaded(data) {
-    //     let instances = this.state.dicomInstances;
-    //     instances.push(data);
-    //     this.setState({
-    //         dicomInstances: instances
-    //     })
-    //     this.props.onChange(this.state.dicomInstances);
-    // }
+        this.setState({
+            dicomInstances: instances
+        })
 
+        this.props.onchangegridcontent(this.state.imgInstances);
+    }
 
     renderGrid() {
-        var dicomList = this.props.dicomList;
-        
-        return (
-            dicomList.map((file, key) => {
+        var fileList = this.props.fileList;
 
+        return (
+            fileList.map((file, key) => {
                 return (
-                    
-                    // <RktViewerThumbnail
-                    //     index={key}
-                    //     imgUrl={file}
-                    //     isSelected={key === this.state.selectedImg}
-                    //     onClick={this.handleClick}
-                    //     onLoaded={this.handleDicomLoaded}
-                    // />
-                    <h4>
-                        {file.name}
-                    </h4>
+
+                    <RktViewerThumbnail
+                        index={key}
+                        file={file}
+                        isSelected={key === this.state.selectedImg}
+                        onClick={this.handleImgClicked.bind(this)}
+                        onLoaded={this.handleImgLoaded.bind(this)}
+                    />
                 )
             })
         );
+    }
 
-
+    clearGrid() {
+        this.setState({
+            selectedImg: -1,
+            fileInstances: [],
+        });
     }
 
     render() {
@@ -77,9 +64,6 @@ export default class RktViewerFilePickerGridContent extends Component {
         return (
 
             <div className="grid-block vertical grid-content">
-                {/* <div ref={(dicomGrid) => { this.dicomGrid = dicomGrid }} className="grid-block medium-up-2 small-up-1 " >
-                    {this.renderGrid()}
-                </div> */}
                 {this.renderGrid()}
             </div>
         );

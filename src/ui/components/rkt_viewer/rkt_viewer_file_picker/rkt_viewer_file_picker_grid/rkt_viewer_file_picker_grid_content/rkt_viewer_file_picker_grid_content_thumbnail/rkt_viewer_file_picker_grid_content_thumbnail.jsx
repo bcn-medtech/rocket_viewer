@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 //import PubSub from 'pubsub-js'
 
+//actions
+import { isViewerLoadingAURLSource, loadDicom, getImageMetadata } from './rkt_viewer_file_picker_grid_content_thumbnail_actions';
+
 //Using global variables
 const cornerstone = window.cornerstone;
-const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
+const cornerstoneTools = window.cornerstoneTools;
+//const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
 
-export default class RktViewerThumbnail extends Component {
+export default class RktViewerFilePickerGridContentThumbnail extends Component {
 
     constructor(props) {
         super(props);
@@ -13,46 +17,53 @@ export default class RktViewerThumbnail extends Component {
         this.state = {
             imageId: null,
             loaded: false,
-            error:false,
-            elementWidth : this.props.canvasWidth,
+            error: false,
+            elementWidth: this.props.canvasWidth,
         };
-
-        // This binding is necessary to make "this" work in the callback
-        this.loadLocalImage = this.loadLocalImage.bind(this);
-        this.componentDidMount = this.componentDidMount.bind(this);
-        this.componentDidUpdate = this.componentDidUpdate.bind(this);
-        this.componentWillUnmount = this.componentWillUnmount.bind(this);
-        this.getManufacturer = this.getManufacturer.bind(this);
-        this.getFramesNumber = this.getFramesNumber.bind(this);
-        this.getFilename = this.getFilename.bind(this);
-        this.onImageLoaded = this.onImageLoaded.bind(this);
-        this.onErrorLoading = this.onErrorLoading.bind(this);
-        this.loadWADOImage = this.loadWADOImage.bind(this);
-        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
         this.setState({
-            elementWidth : this.imageDivContainer.clientWidth -20
+            elementWidth: this.imageDivContainer.clientWidth - 20,
+            loaded: false,
+            error: false
         });
-        this.loadWADOImage();
-    }
-    componentWillUpdate(nextProps){
-        if(nextProps.imgUrl !== this.props.imgUrl){
-            var element = this.imageDiv;
-            cornerstone.disable(element);
-        }
 
-    }
+        var file = this.props.file;
+        var url = file.preview;
 
-    componentDidUpdate(prevProps){
-        if(prevProps.imgUrl !== this.props.imgUrl){
-            this.loadWADOImage();
+        if (file.type === "application/dicom") {
+            this.loadAndDisplayDicom(url, file);
         }
     }
-    componentWillUnmount(){
 
-        let url = this.props.imgUrl;
+    componentWillUpdate(nextProps) {
+
+        if (nextProps.file !== this.props.file) {
+            if (nextProps.file.type === "application/dicom") {
+                var element = this.imageDiv;
+                cornerstone.disable(element);
+            }
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+
+        if (prevProps.file !== this.props.file) {
+
+            var file = this.props.file;
+            var url = file.preview;
+
+            if (file.type === "application/dicom") {
+                this.loadAndDisplayDicom(url, file);
+            }
+        }
+    }
+
+    componentWillUnmount() {
+
+        //let url = this.props.imgUrl;
+        let url = this.props.file.preview;
         // prefix the url with wadouri: so cornerstone can find the image loader
 
         var imageId = "wadouri:" + url + "?frame=0";
@@ -61,111 +72,113 @@ export default class RktViewerThumbnail extends Component {
         //cornerstone.removeImagePromise(imageId)
     }
 
-    loadLocalImage(url){
-        var imageId = cornerstoneWADOImageLoader.fileManager.add(url);
-        cornerstone.loadImage(imageId).then(
-            this.onImageLoaded,
-            function(err) {
-                alert(err);
-        });
+    loadAndDisplayDicom(url, file) {
+        var url_to_load, img_source;
 
+        if (isViewerLoadingAURLSource(url)) {
+
+            img_source = "wado";
+            url_to_load = url;
+
+        } else {
+            img_source = "filesystem";
+            url_to_load = file;
+        }
+
+        loadDicom(url_to_load, img_source, this.onDicomLoaded.bind(this), this.onErrorLoading.bind(this));
     }
 
-    loadWADOImage(){
-        this.setState({
-            loaded: false,
-            error:false
-        });
-        let url = this.props.imgUrl;
-        // prefix the url with wadouri: so cornerstone can find the image loader
-        var imageId = "wadouri:" + url + "?frame=0";
-        try {
-            var start = new Date().getTime();
-            cornerstone.loadAndCacheImage(imageId).then(this.onImageLoaded, this.onErrorLoading);
-        }
-        catch(err) {
-            this.onErrorLoading(err);
-        }
-    }
 
-    onErrorLoading(err){
+    onErrorLoading(err) {
         this.setState({
-            error:true
+            error: true
         });
         this.props.onLoaded(null);
-
     }
 
-    onImageLoaded(image){
-        //var element = $('#dicomImage').get(0);
+    onDicomLoaded(image) {
+
         var element = this.imageDiv;
         cornerstone.enable(element);
         var viewport = cornerstone.getDefaultViewportForImage(element, image);
 
-
         cornerstone.displayImage(element, image, viewport);
+
         this.setState({
-            loaded : true,
-            image : image,
-            error:false
+            loaded: true,
+            image: image,
+            error: false
         })
+
+        console.log(image.data);
         this.props.onLoaded(image.data);
     }
-    getManufacturer(){
-        var value  = "";
-        if( this.state.loaded){
-            value = this.state.image.data.string('x00080070');
-        }
-        return value;
-    }
 
-    getFramesNumber(){
-        var value  = 0;
-        if( this.state.loaded){
-            value = this.state.image.data.string('x00280008');
-        }
-        return value;
-    }
+    // getManufacturer() {
+    //     var value = "";
+    //     if (this.state.loaded) {
+    //         value = this.state.image.data.string('x00080070');
+    //     }
+    //     return value;
+    // }
 
-    getImageCanvas(){
-        return this.state.image.getCanvas();
-    }
+    // getFramesNumber() {
+    //     var value = 0;
+    //     if (this.state.loaded) {
+    //         value = this.state.image.data.string('x00280008');
+    //     }
+    //     return value;
+    // }
 
-    getImage(){
-        var image = new Image();
-        image.src = this.state.image.getCanvas().toDataURL("image/png");
-        return image;
-    }
+    // getImageCanvas() {
+    //     return this.state.image.getCanvas();
+    // }
 
-    getFilename(){
-        let url = this.props.imgUrl;
-        var filename = url.substring(url.lastIndexOf('/')+1);
-        return filename
-    }
+    // getImage() {
+    //     var image = new Image();
+    //     image.src = this.state.image.getCanvas().toDataURL("image/png");
+    //     return image;
+    // }
 
-    handleClick(){
+    // getFilename() {
+    //     // let url = this.props.imgUrl;
+    //     // console.log(url);
+    //     // var filename = url.substring(url.lastIndexOf('/') + 1);
+
+    //     var filename = this.props.file.name;
+    //     return filename
+    // }
+
+    handleClick() {
         //PubSub.publish( 'DICOM.select', { imageUrl : this.props.imgUrl, isStack: this.getFramesNumber() > 1} );
         this.props.onClick(this.props.index);
 
     }
 
     render() {
+
         return (
-            <div style={{position:"relative"} }
-                 className={this.props.isSelected? "dicomImageContainer selected" : "dicomImageContainer"}
-                 unselectable='on' onClick={this.handleClick} ref={(imgDivContainer) => this.imageDivContainer = imgDivContainer}>
-                <div className="dicomImage"  ref={(imgDiv) => this.imageDiv = imgDiv}
-                     style={{top: "0px", left:"0px", width:  this.state.elementWidth, height: this.state.elementWidth*0.75, background:"black"}}>
+
+            <div style={{ position: "relative" }}
+                className={this.props.isSelected ? "dicomImageContainer selected" : "dicomImageContainer"}
+                unselectable='on' onClick={this.handleClick} ref={(imgDivContainer) => this.imageDivContainer = imgDivContainer}>
+
+                <div className="dicomImage" ref={(imgDiv) => this.imageDiv = imgDiv}
+                    style={{ top: "0px", left: "0px", width: this.state.elementWidth, height: this.state.elementWidth * 0.75, background: "black" }}>
                     {this.state.error && <span className="error-not-image">Not a valid image</span>}
                     {(this.state.loaded === false && this.state.error === false) && <span className="loading-icon rotating">Loading</span>}
                 </div>
-                <label className="dicom-filename">{this.state.error && <i className="fi-alert"></i>}{this.getFilename()}</label>
+
+                <label className="dicom-filename">
+                    {this.state.error && <i className="fi-alert"></i>}
+                    {this.props.file.name}
+                </label>
             </div>
         );
     }
 }
 
-RktViewerThumbnail.defaultProps = {
-    imgUrl:"" ,
-    canvasWidth : 200,
+RktViewerFilePickerGridContentThumbnail.defaultProps = {
+    imgUrl: "",
+    canvasWidth: 200,
 };

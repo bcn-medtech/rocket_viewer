@@ -25,7 +25,7 @@ export default class RktViewerFilePickerGridEmpty extends Component {
         var files = acceptedFiles;
 
         if (files.length > 0) {
-            this.props.handlefileselection(files);
+            this.props.onselectedfiles(files);
         }
     }
 

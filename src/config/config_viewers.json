@@ -86,7 +86,7 @@
         {
             "name":"Study viewer",
             "extensions":["dicom"],
-            "blob_types":["application/dicom"],
+            "blob_types":["anything"],
             "description":"Visualize Dicom studies. Click on the links have a quick demo.",
             "examples":[
                 {

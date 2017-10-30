@@ -15,11 +15,30 @@ export default class RktViewerFilePickerGrid extends Component {
             loadedDicoms: 0,
             totalDicoms: 0,
         }
+    }
 
-        this.handleFileSelection = this.handleFileSelection.bind(this);
-        this.handleDicomGridChange = this.handleDicomGridChange.bind(this);
-        this.clearStage = this.clearStage.bind(this);
-        this.computeStats = this.computeStats.bind(this);
+    handleFileSelection(files) {
+
+        // we update "GridContent" and "Stats" data
+        this.clearState();
+        this.setState({
+            fileList: files,
+            totalFiles: files.length
+        });
+
+    }
+
+    clearState() {
+        this.setState({
+            fileList: [],
+            totalFiles: 0,
+            manufacturerInfo: [],
+            loadedFiles: 0
+        });
+    }
+
+    handleGridContentChange(instances) {
+        this.computeStats(instances)
     }
 
     computeStats(instances) {
@@ -35,36 +54,12 @@ export default class RktViewerFilePickerGrid extends Component {
             }
         }
         this.setState({
-            loadedDicoms: instances.length,
+            loadedFiles: instances.length,
             manufacturerInfo: manufacturerDict
         });
     }
 
-    handleFileSelection(files) {
-        this.clearStage();
-        this.setState({
-            fileList: files,
-            totalDicoms: files.length,
-        });
-
-    }
-
-    clearStage() {
-        this.setState({
-            fileList: [],
-            totalDicoms: 0,
-            manufacturerInfo: [],
-            loadedDicoms: 0
-
-        });
-    }
-
-    handleDicomGridChange(instances) {
-        this.computeStats(instances)
-    }
-
     renderStatsComponent() {
-
         return (
             <RktViewerFilePickerGridStats
                 title="Folder info"
@@ -75,30 +70,28 @@ export default class RktViewerFilePickerGrid extends Component {
     }
 
     renderGridComponent() {
-
         var fileList = this.state.fileList;
 
-        // if files have been dragged and drop
+        // if files have been dragged and drop, they are displayed in the grid (as thumbnails)
         if (fileList.length > 0) {
 
-            // they are displayed in the grid (as thumbnails)
             return (
                 <RktViewerFilePickerGridContent
-                    dicomList={fileList}
-                    onChange={this.handleDicomGridChange}
+                    ref="GridContent"
+                    fileList={fileList}
+                    onchangegridcontent={this.handleGridContentChange.bind(this)}
                 />
             );
 
-            // if files have NOT been dragged and drop yet
+        // if files have NOT been dragged and drop yet, dropzone widget
         } else {
 
-            // dropzone widget
             return (
                 <RktViewerFilePickerGridEmpty
-                    handlefileselection={this.handleFileSelection.bind(this)}
+                    ref="GridEmpty"
+                    onselectedfiles={this.handleFileSelection.bind(this)}
                 />
             );
-
         }
     }
 

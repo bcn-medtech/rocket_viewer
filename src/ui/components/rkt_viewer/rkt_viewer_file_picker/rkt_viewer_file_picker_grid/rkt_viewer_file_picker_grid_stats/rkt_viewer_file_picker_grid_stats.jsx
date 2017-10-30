@@ -12,7 +12,10 @@ export default class RktToolboxStageStats extends Component {
     renderLoadingProgressBar() {
         return (
             <div className="grid-block vertical shrink progress-bar-section" style={{ overflow: "hidden" }} >
-                <progress className="loading-progress-bar" value={this.props.loadedDicoms} max={this.props.totalDicoms}></progress>
+                <progress className="loading-progress-bar"
+                    value={this.props.loadedDicoms}
+                    max={this.props.totalDicoms}>
+                </progress>
             </div>
         )
     }
