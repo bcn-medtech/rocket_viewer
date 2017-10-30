@@ -1,0 +1,29 @@
+$slider-background: #646464;
+
+.container-stats {
+    background-color: #646464;
+    overflow: hidden;
+    //min-height: 200px;
+
+    .loading-progress-bar{
+        height: 5px;
+        overflow: hidden;
+    }
+    
+    // h4 {
+    //     padding: 10px;
+    // }
+
+    .stat-item {
+        display: inline-block;
+        padding: 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        overflow: hidden;
+    }
+    
+    .label.secondary {
+        background: #333;
+        overflow: hidden;
+    }
+}

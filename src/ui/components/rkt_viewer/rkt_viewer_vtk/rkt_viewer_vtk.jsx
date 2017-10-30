@@ -113,7 +113,7 @@ export default class RktViewerVTK extends Component {
         );
     }
 
-    createToolboxList(info_toolbox_list, info_toolbox_table_inputs, open_toolbox_list) {
+    createToolboxList(info_toolbox_list, info_toolbox_table_inputs) {
 
         if (info_toolbox_list) {
             return (
@@ -124,7 +124,6 @@ export default class RktViewerVTK extends Component {
                             <RktToolboxList key={newId()}
                                 title={toolbox_list.title}
                                 items={toolbox_list.items}
-                                //opentoolboxlist={open_toolbox_list}
                                 addextratoolboxfunction={this.createToolboxTableInputs}
                                 extratoolboxinfo={info_toolbox_table_inputs}
                                 onclickitem={toolbox_list.onclickitem} />
@@ -171,13 +170,12 @@ export default class RktViewerVTK extends Component {
     render() {
         var info_toolbox_list = this.state.info_toolbox_list;
         var info_toolbox_table_inputs = this.state.info_toolbox_table_inputs;
-        var open_toolbox_list = this.state.open_toolbox_list;
 
         return (
             <div className="vertical grid-block rkt-viewer-vtk" >
                 {this.renderVTKLoading()}
                 <div className="grid-block container-toolboxes" id="container-toolboxes" >
-                    {this.createToolboxList(info_toolbox_list, info_toolbox_table_inputs, open_toolbox_list)}
+                    {this.createToolboxList(info_toolbox_list, info_toolbox_table_inputs)}
                 </div>
                 <div className="container-axes" id="container-axes" ></div>
                 <div className="container-viewer" id="container-viewer" ></div>

@@ -55,7 +55,6 @@ export default class RktViewerDicomOneFrame extends Component {
     displayImage(image) {
 
         var imageMetadata = getImageMetadata(image);
-        console.log(imageMetadata);
 
         if (imageMetadata["number_of_frames"] > 1) {
 

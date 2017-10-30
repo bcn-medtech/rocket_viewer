@@ -27,7 +27,7 @@ export default class RktComponentTemplate extends Component {
         this.props.seturl(newURL);
     }
 
-    setURLFromCard(url){
+    setURLFromCard(url) {
         this.props.seturl(url);
     }
 
@@ -38,10 +38,16 @@ export default class RktComponentTemplate extends Component {
         return (
             viewers.map((item) => {
                 return (
-                    <RktCardViewer viewer={item} seturl={this.setURLFromCard.bind(this)}/>
+                    <RktCardViewer viewer={item} seturl={this.setURLFromCard.bind(this)} />
                 )
             })
         );
+    }
+
+    goToFilePicker() {
+        var url = "/file-picker";
+        var browserHistory = this.props.history;
+        browserHistory.push("/viewer" + url);
     }
 
     render() {
@@ -96,7 +102,7 @@ export default class RktComponentTemplate extends Component {
                         
         </div>*/}
                 </div>
-                <div className="grid-block small-up-3">
+                <div className="grid-block small-up-3"> 
                     {this.renderCards()}
                 </div>
                 <div className="rkt-viewer-empty-url-form">

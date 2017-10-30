@@ -302,7 +302,6 @@ export function loadVTK(scene, url, callback1, callback2) {
                     var [max, min] = obtainMaxMinValues(values);
                     lut.setMax(max);
                     lut.setMin(min);
-                    // lut.setMax(2000); // TEST! TEST! TEST! TEST!
 
                     for (var j = 0; j < values.length; j++) {
                         var colorValue = values[j];
