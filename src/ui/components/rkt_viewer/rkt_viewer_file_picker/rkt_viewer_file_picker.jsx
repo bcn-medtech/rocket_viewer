@@ -10,54 +10,46 @@ export default class RktViewerFilePicker extends Component {
     constructor() {
         super();
 
-        this.handleImageLoaded = this.handleImageLoaded.bind(this);
-        this.loaddicom = this.loaddicom.bind(this);
-        this.loaddicoms = this.loaddicoms.bind(this);
-
         this.state = {
-            imgUrl: "http://localhost:3000/files/Patient3/study/IM-0001-0025.dcm",
-            imgSource: "",
-            addControls: false,
-            isSelected: false
+            
         };
     }
 
     componentDidMount() {
 
-        // if (this.props.params.patient == "patient1") {
-        //     console.log("Patient1");
-        //     this.loaddicoms(config.testData);
-        // }
     }
 
-    handleImageLoaded() {
-        //console.log("Image loaded");
-    }
-
-    loaddicom(dicomURL) {
-        //console.log(dicomURL);
+    handleImgSelected(file, url) {
+        // we update the data of the image to display in the sidebar
         this.setState({
-            imgUrl: dicomURL,
+            file_to_display: file,
+            url_to_display: url
         });
     }
 
-    loaddicoms(dicomsURLs) {
-        //console.log("Loading dicoms:"+dicomsURLs.length);
-        this.dicomStage.handleFileSelection(dicomsURLs);
+    renderGrid() {
+        return (
+            <RktViewerFilePickerGrid
+                handleimgselected={this.handleImgSelected.bind(this)}
+            />
+        );
+    }
 
+    renderSidebar() {
+        return (
+            <RktViewerFilePickerSidebar
+                url={this.state.url_to_display}
+                file={this.state.file_to_display}
+            />
+        );
     }
 
     render() {
 
-        let imgUrl = this.state.imgUrl;
-        let imgSource = this.state.imgSource;
-        let addControls = this.state.addControls;
-        let isSelected = this.state.isSelected;
-
         return (
             <div className="grid-frame rkt-viewer-file-picker">
-                <RktViewerFilePickerGrid/>
-                <RktViewerFilePickerSidebar/>
+                {this.renderGrid()}
+                {this.renderSidebar()}
             </div>
         );
     }

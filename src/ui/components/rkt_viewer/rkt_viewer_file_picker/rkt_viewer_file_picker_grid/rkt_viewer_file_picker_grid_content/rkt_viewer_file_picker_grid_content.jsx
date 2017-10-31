@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import RktViewerThumbnail from './rkt_viewer_file_picker_grid_content_thumbnail/rkt_viewer_file_picker_grid_content_thumbnail';
 
 export default class RktViewerFilePickerGridContent extends Component {
@@ -16,12 +16,6 @@ export default class RktViewerFilePickerGridContent extends Component {
         }
     }
 
-    handleImgClicked(index) {
-        this.setState({
-            selectedImg: index
-        })
-    }
-
     handleImgLoaded(data) {
         let instances = this.state.imgInstances;
         instances.push(data);
@@ -33,19 +27,28 @@ export default class RktViewerFilePickerGridContent extends Component {
         this.props.onchangegridcontent(this.state.imgInstances);
     }
 
+    handleImgClicked(index, file, url) {
+        this.setState({
+            selectedImg: index
+        })
+
+        // data of the selected image is passed to the "Sidebar" component
+        this.props.handleimgselected(file, url);
+
+    }
+
     renderGrid() {
         var fileList = this.props.fileList;
 
         return (
             fileList.map((file, key) => {
                 return (
-
                     <RktViewerThumbnail
                         index={key}
                         file={file}
                         isSelected={key === this.state.selectedImg}
-                        onClick={this.handleImgClicked.bind(this)}
                         onLoaded={this.handleImgLoaded.bind(this)}
+                        onClick={this.handleImgClicked.bind(this)}
                     />
                 )
             })
@@ -60,9 +63,7 @@ export default class RktViewerFilePickerGridContent extends Component {
     }
 
     render() {
-
         return (
-
             <div className="grid-block vertical grid-content">
                 {this.renderGrid()}
             </div>

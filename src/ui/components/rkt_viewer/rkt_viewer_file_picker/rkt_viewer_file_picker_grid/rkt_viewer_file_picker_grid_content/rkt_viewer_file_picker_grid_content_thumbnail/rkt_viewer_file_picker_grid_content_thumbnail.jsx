@@ -1,13 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 //import PubSub from 'pubsub-js'
 
 //actions
-import { isViewerLoadingAURLSource, loadDicom, getImageMetadata } from './rkt_viewer_file_picker_grid_content_thumbnail_actions';
+import { isViewerLoadingAURLSource, loadDicom, /*getDicomNumFrames*/ } from './rkt_viewer_file_picker_grid_content_thumbnail_actions';
 
 //Using global variables
 const cornerstone = window.cornerstone;
-const cornerstoneTools = window.cornerstoneTools;
-//const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
 
 export default class RktViewerFilePickerGridContentThumbnail extends Component {
 
@@ -38,7 +36,6 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
     }
 
     componentWillUpdate(nextProps) {
-
         if (nextProps.file !== this.props.file) {
             if (nextProps.file.type === "application/dicom") {
                 var element = this.imageDiv;
@@ -48,7 +45,6 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
     }
 
     componentDidUpdate(prevProps) {
-
         if (prevProps.file !== this.props.file) {
 
             var file = this.props.file;
@@ -58,18 +54,6 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
                 this.loadAndDisplayDicom(url, file);
             }
         }
-    }
-
-    componentWillUnmount() {
-
-        //let url = this.props.imgUrl;
-        let url = this.props.file.preview;
-        // prefix the url with wadouri: so cornerstone can find the image loader
-
-        var imageId = "wadouri:" + url + "?frame=0";
-        //console.log("DicomPreview will unmount");
-
-        //cornerstone.removeImagePromise(imageId)
     }
 
     loadAndDisplayDicom(url, file) {
@@ -97,7 +81,6 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
     }
 
     onDicomLoaded(image) {
-
         var element = this.imageDiv;
         cornerstone.enable(element);
         var viewport = cornerstone.getDefaultViewportForImage(element, image);
@@ -110,10 +93,20 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
             error: false
         })
 
-        console.log(image.data);
+        // metadata of the dicom is passed to "Stats" component
         this.props.onLoaded(image.data);
     }
 
+    handleThumbnailClicked() {
+        var index = this.props.index;
+        var file = this.props.file;
+        var url = file.preview;
+        // UNNECESSARY
+        //var isStack =  getDicomNumFrames(this.state.image) > 1 ? true : false;
+        
+        this.props.onClick(index, file, url);
+    }
+    
     // getManufacturer() {
     //     var value = "";
     //     if (this.state.loaded) {
@@ -149,27 +142,23 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
     //     return filename
     // }
 
-    handleClick() {
-        //PubSub.publish( 'DICOM.select', { imageUrl : this.props.imgUrl, isStack: this.getFramesNumber() > 1} );
-        this.props.onClick(this.props.index);
-
-    }
+    
 
     render() {
 
         return (
 
             <div style={{ position: "relative" }}
-                className={this.props.isSelected ? "dicomImageContainer selected" : "dicomImageContainer"}
-                unselectable='on' onClick={this.handleClick} ref={(imgDivContainer) => this.imageDivContainer = imgDivContainer}>
+                className={this.props.isSelected ? "container-thumbnail selected" : "container-thumbnail"}
+                unselectable='on' onClick={this.handleThumbnailClicked.bind(this)} ref={(imgDivContainer) => this.imageDivContainer = imgDivContainer}>
 
-                <div className="dicomImage" ref={(imgDiv) => this.imageDiv = imgDiv}
+                <div className="image-thumbnail" ref={(imgDiv) => this.imageDiv = imgDiv}
                     style={{ top: "0px", left: "0px", width: this.state.elementWidth, height: this.state.elementWidth * 0.75, background: "black" }}>
                     {this.state.error && <span className="error-not-image">Not a valid image</span>}
                     {(this.state.loaded === false && this.state.error === false) && <span className="loading-icon rotating">Loading</span>}
                 </div>
 
-                <label className="dicom-filename">
+                <label className="image-filename">
                     {this.state.error && <i className="fi-alert"></i>}
                     {this.props.file.name}
                 </label>

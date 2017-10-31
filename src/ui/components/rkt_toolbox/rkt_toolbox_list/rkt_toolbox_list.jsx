@@ -69,7 +69,12 @@ export default class RktToolboxList extends Component {
                             <div className="grid-block vertical rkt-toolbox-list-items">
                                 {items.map((item) => {
                                     return (
-                                        <RktToolboxListItem toolboxlistitem={item} onclicktoolboxlistitem={this.onClickToolboxListItem.bind(this)} key={newId()} />
+                                        <RktToolboxListItem
+                                            toolboxlistitem={item}
+                                            isSelected={item === this.state.selectedImg}
+                                            onclicktoolboxlistitem={this.onClickToolboxListItem.bind(this)}
+                                            key={newId()}
+                                        />
                                     )
                                 })}
                             </div>
@@ -87,7 +92,12 @@ export default class RktToolboxList extends Component {
                             <div className="grid-block vertical rkt-toolbox-list-items">
                                 {items.map((item) => {
                                     return (
-                                        <RktToolboxListItem toolboxlistitem={item} onclicktoolboxlistitem={this.onClickToolboxListItem.bind(this)} key={newId()} />
+                                        <RktToolboxListItem
+                                            toolboxlistitem={item}
+                                            isSelected={item === this.state.selectedImg}
+                                            onclicktoolboxlistitem={this.onClickToolboxListItem.bind(this)}
+                                            key={newId()}
+                                        />
                                     )
                                 })}
                             </div>
@@ -103,7 +113,12 @@ export default class RktToolboxList extends Component {
                         <div className="grid-block vertical rkt-toolbox-list-items">
                             {items.map((item) => {
                                 return (
-                                    <RktToolboxListItem toolboxlistitem={item} onclicktoolboxlistitem={this.onClickToolboxListItem.bind(this)} key={newId()} />
+                                    <RktToolboxListItem
+                                        toolboxlistitem={item}
+                                        isSelected={item === this.state.selectedImg}
+                                        onclicktoolboxlistitem={this.onClickToolboxListItem.bind(this)}
+                                        key={newId()}
+                                    />
                                 )
                             })}
                         </div>
@@ -117,6 +132,10 @@ export default class RktToolboxList extends Component {
     onClickToolboxListItem(toolboxListItem) {
         var myComponent = this;
         var main_component_function;
+
+        this.setState({
+            selectedImg: toolboxListItem
+        });
 
         // Two cases
         if ((myComponent.props.extratoolboxinfo) && (myComponent.props.onclickitem.length > 0)) {

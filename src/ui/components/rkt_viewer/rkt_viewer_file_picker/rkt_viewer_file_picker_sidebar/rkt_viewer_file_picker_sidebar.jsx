@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import { ReactDOM } from 'react-dom';
-//import PubSub from 'pubsub-js'
+
+//modules
+import { blob_getResourceType, blob_getNumberOfFiles } from './../../../../../modules/rkt_module_blob';
 
 // components
-//import DicomViewer from './dicom_viewers/dicom_viewer.jsx'
+//components
+import RktViewerTiff from './../../rkt_viewer_tiff/rkt_viewer_tiff';
+import RktViewerDicom from './../../rkt_viewer_dicom/rkt_viewer_dicom';
+// RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
+// import RktViewerEmpty from './../../rkt_viewer_empty/rkt_viewer_empty';
+// import RktViewerFilePicker from './../../rkt_viewer_file_picker/rkt_viewer_file_picker';
+// import RktViewerPDF from './../../rkt_viewer_pdf/rkt_viewer_pdf';
+// import RktViewerNRRD from './../../rkt_viewer_nrrd/rkt_viewer_nrrd';
+// import RktViewerPLY from './../../rkt_viewer_ply/rkt_viewer_ply';
+// import RktViewerVTK from './../../rkt_viewer_vtk/rkt_viewer_vtk';
 
 export default class RktViewerFilePickerGrid extends Component {
 
@@ -12,6 +22,7 @@ export default class RktViewerFilePickerGrid extends Component {
 
         this.state = {
             imageUrl: "",
+            imageFile: [],
             isStack: false
 
         }
@@ -28,37 +39,60 @@ export default class RktViewerFilePickerGrid extends Component {
 
     }
 
-    // handleSelection(msg, data) {
-    //     //console.log("IMAGEPREVIEW: Received message:"+JSON.stringify(data));
-    //     this.setState({
-    //         imageUrl: data.imageUrl,
-    //         isStack: data.isStack
+    renderViewer() {
 
-    //     });
-    // }
+        console.log("RENDERING VIEWER OF SIDEBAR");
 
-    // renderDicom() {
+        var url = this.props.url;
+        var file = this.props.file;
 
-    //     if (this.state.imageUrl == "") {
-    //         return <p>Select an image to visualize</p>
-    //     } else {
-    //         //console.log("IMAGEPREVIEW: rendering dicom");
+        console.log(url);
+        console.log(file);
 
-    //         return <DicomViewer ref={(dicom) => this.dicom = dicom}
-    //             imageUrl={this.state.imageUrl}
-    //             isStack={this.state.isStack}
-    //             addControls={true}
-    //             canvasWidth={document.getElementById('imagePreviewSidebarContainer').clientWidth - 60}
-    //         />
-    //     }
-    // }
+        if ((url === undefined) || (file === undefined)) {
+
+            return (
+                <div className="container-instructions">
+                    <p>Select an image to visualize</p>
+                </div>
+            );
+
+        } else {
+
+            var viewerType;
+            if (file !== undefined) viewerType = file.type;
+            else viewerType = "application/dicom";
+
+            console.log(file);
+            console.log(file.type);
+            console.log(viewerType);
+
+            if (viewerType === "image/tif") {
+
+                return (<RktViewerTiff files={file} url={url} />);
+
+            } else if (viewerType === "application/dicom") {
+
+                return (<RktViewerDicom files={file} url={url} />);
+            }
+        }
+    }
+
+    renderImageMetadata() {
+
+        return (
+            <div className="container-metadata">
+
+            </div>
+        );
+
+    }
 
     render() {
         return (
-            <div className="grid-block sidebar">
-                <p style={{color:"white"}}>
-                    Sidebar
-                </p>
+            <div className="grid-block vertical sidebar">
+                {this.renderViewer()}
+                {this.renderImageMetadata()}
             </div>
         );
     }

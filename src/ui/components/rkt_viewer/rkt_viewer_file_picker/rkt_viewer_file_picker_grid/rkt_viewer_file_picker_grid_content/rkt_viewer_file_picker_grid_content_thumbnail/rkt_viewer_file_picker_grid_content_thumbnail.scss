@@ -1,5 +1,5 @@
 
-.dicom-filename{
+.image-filename{
     text-align: center;
     padding-top: 5px;
   
@@ -22,15 +22,17 @@
     margin-top: 40%;
 }
 
-.dicomImageContainer {
-    padding: 5px !important;
-
-    .dicomImage{
-        border: 2px solid black;
+.container-thumbnail {
+    
+    .image-thumbnail{
+        border: 2px solid $background-grid-content;
+        // &:hover{
+        //     border: 2px solid #00558b;
+        // }
     }
 }
 
-.dicomImageContainer.selected .dicomImage{
+.container-thumbnail.selected .image-thumbnail{
     border: 2px solid #00558b;
 }
   

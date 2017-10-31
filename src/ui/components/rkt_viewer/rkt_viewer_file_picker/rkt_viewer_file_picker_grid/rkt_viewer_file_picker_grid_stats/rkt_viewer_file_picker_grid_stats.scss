@@ -1,18 +1,21 @@
 $slider-background: #646464;
+$rkt-green-color:#00B04C;
 
 .container-stats {
-    background-color: #646464;
+    background-color: #646464;//rgba(76, 222, 82, 0.2);
     overflow: hidden;
     //min-height: 200px;
+    color:white;
 
     .loading-progress-bar{
         height: 5px;
         overflow: hidden;
     }
     
-    // h4 {
-    //     padding: 10px;
-    // }
+    h4 {
+         padding: 10px;
+         
+    }
 
     .stat-item {
         display: inline-block;

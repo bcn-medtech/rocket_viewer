@@ -15,7 +15,9 @@ export default class RktToolboxListItem extends Component {
 
     renderToolboxListItem(toolboxListItem) {
         return (
-            <div className="grid-block shrink rkt-toolbox-list-item" id={toolboxListItem} onClick={this.onClickToolboxListItem.bind(this, toolboxListItem)}>
+            <div className={this.props.isSelected ? "grid-block shrink rkt-toolbox-list-item selected" : "grid-block shrink rkt-toolbox-list-item"}
+                id={toolboxListItem}
+                onClick={this.onClickToolboxListItem.bind(this, toolboxListItem)}>
                 <a>{toolboxListItem}</a>
             </div>
         );
@@ -23,7 +25,7 @@ export default class RktToolboxListItem extends Component {
 
     render() {
         var toolboxListItem = this.props.toolboxlistitem;
-    
+
         return (
             <div className="grid-block vertical shrink">
                 {this.renderToolboxListItem(toolboxListItem)}

@@ -41,7 +41,6 @@ export default class RktViewerDicom extends Component {
 
         var files = this.props.files;
         var url = this.props.url;
-        console.log(url);
         var cine_mode = this.state.cine_mode;
         var image = this.state.image;
 

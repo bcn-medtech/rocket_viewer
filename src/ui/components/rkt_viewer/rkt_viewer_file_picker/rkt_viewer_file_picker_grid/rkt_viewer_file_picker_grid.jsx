@@ -64,8 +64,8 @@ export default class RktViewerFilePickerGrid extends Component {
             <RktViewerFilePickerGridStats
                 title="Folder info"
                 items={this.state.manufacturerInfo}
-                loadedDicoms={this.state.loadedDicoms}
-                totalDicoms={this.state.totalDicoms} />
+                loadedDicoms={this.state.loadedFiles}
+                totalDicoms={this.state.totalFiles} />
         );
     }
 
@@ -80,6 +80,7 @@ export default class RktViewerFilePickerGrid extends Component {
                     ref="GridContent"
                     fileList={fileList}
                     onchangegridcontent={this.handleGridContentChange.bind(this)}
+                    handleimgselected={this.props.handleimgselected}
                 />
             );
 

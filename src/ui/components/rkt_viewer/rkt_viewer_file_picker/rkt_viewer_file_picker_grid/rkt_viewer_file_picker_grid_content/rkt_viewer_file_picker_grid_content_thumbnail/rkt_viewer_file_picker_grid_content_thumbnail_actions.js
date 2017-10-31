@@ -18,31 +18,28 @@ export function isViewerLoadingAURLSource(url) {
     return viewerLoadingAURLResource;
 }
 
-export function loadDicom(url, img_source, display_image_function, on_error_loading_function) {
+export function loadDicom(url, img_source, on_image_loaded_function, on_error_loading_function) {
 
     if (img_source === "filesystem") {
-        loadLocalImage(url, display_image_function, on_error_loading_function);
+        loadLocalImage(url, on_image_loaded_function, on_error_loading_function);
     }
     else if (img_source === "wado") {
-        loadWADOImage(url, display_image_function, on_error_loading_function);
+        loadWADOImage(url, on_image_loaded_function, on_error_loading_function);
     }
 }
 
 function loadLocalImage(url, on_image_loaded_function, on_error_loading_function) {
 
-    console.log("HEY 1!!!!!");
     var imageId = cornerstoneWADOImageLoader.fileManager.add(url[0]);
     cornerstone.loadImage(imageId).then(
         on_image_loaded_function,
         function (err) {
-            //alert(err);
             on_error_loading_function();
         });
 }
 
 function loadWADOImage(url, on_image_loaded_function, on_error_loading_function) {
 
-    console.log("HEY 2!!!!!");
     console.log(url);
     var imageId = "wadouri:" + url + "?frame=0";
 
@@ -50,7 +47,6 @@ function loadWADOImage(url, on_image_loaded_function, on_error_loading_function)
         cornerstone.loadAndCacheImage(imageId).then(
             on_image_loaded_function,
             function (err) {
-                console.log("ERROR")
                 on_error_loading_function();
 
             });
@@ -58,6 +54,13 @@ function loadWADOImage(url, on_image_loaded_function, on_error_loading_function)
     catch (err) {
         alert(err);
     }
+}
+
+export function getDicomNumFrames(image) {
+
+    var numFrames = image.data.intString('x00280008');
+    
+    return numFrames;
 }
 
 // export function getImageMetadata(image) {
