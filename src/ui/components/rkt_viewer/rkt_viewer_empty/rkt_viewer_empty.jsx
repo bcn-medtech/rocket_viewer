@@ -44,11 +44,11 @@ export default class RktComponentTemplate extends Component {
         );
     }
 
-    goToFilePicker() {
-        var url = "/file-picker";
-        var browserHistory = this.props.history;
-        browserHistory.push("/viewer" + url);
-    }
+    // goToFilePicker() {
+    //     var url = "/file-picker";
+    //     var browserHistory = this.props.history;
+    //     browserHistory.push("/viewer" + url);
+    // }
 
     render() {
 

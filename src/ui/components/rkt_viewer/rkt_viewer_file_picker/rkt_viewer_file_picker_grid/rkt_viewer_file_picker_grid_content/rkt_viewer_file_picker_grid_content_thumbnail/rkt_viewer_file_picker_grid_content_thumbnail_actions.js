@@ -5,21 +5,41 @@ import { isObjectEmpty } from './../../../../../../../modules/rkt_module_object'
 const cornerstone = window.cornerstone;
 const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
 
-
-// DICOM
-export function isViewerLoadingAURLSource(url) {
+export function isViewerLoadingAURLSource(img_url) {
 
     var viewerLoadingAURLResource = false;
 
-    if (!isObjectEmpty(url)) {
+    if (!isObjectEmpty(img_url)) {
         viewerLoadingAURLResource = true;
     }
 
     return viewerLoadingAURLResource;
 }
 
+export function getImageName(files, url) {
+
+    var name;
+
+    if (isViewerLoadingAURLSource(url)) {
+        name = url.substring(url.lastIndexOf('/') + 1);
+
+        if (url.includes("dl.dropboxusercontent") &&
+            (name.includes("?dl=0"))) {
+            name = name.replace("?dl=0", "");
+        }
+
+    } else {
+        name = files[0].name;
+    }
+
+    return name;
+}
+
+
+// DICOM
 export function loadDicom(url, img_source, on_image_loaded_function, on_error_loading_function) {
 
+    console.log("loadDicom in actions");
     if (img_source === "filesystem") {
         loadLocalImage(url, on_image_loaded_function, on_error_loading_function);
     }
@@ -40,7 +60,6 @@ function loadLocalImage(url, on_image_loaded_function, on_error_loading_function
 
 function loadWADOImage(url, on_image_loaded_function, on_error_loading_function) {
 
-    console.log(url);
     var imageId = "wadouri:" + url + "?frame=0";
 
     try {
@@ -59,7 +78,7 @@ function loadWADOImage(url, on_image_loaded_function, on_error_loading_function)
 export function getDicomNumFrames(image) {
 
     var numFrames = image.data.intString('x00280008');
-    
+
     return numFrames;
 }
 

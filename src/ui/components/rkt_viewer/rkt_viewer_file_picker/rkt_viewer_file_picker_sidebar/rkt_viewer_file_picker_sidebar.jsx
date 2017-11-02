@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 
 //modules
-import { blob_getResourceType, blob_getNumberOfFiles } from './../../../../../modules/rkt_module_blob';
 
-// components
 //components
 import RktViewerTiff from './../../rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerDicom from './../../rkt_viewer_dicom/rkt_viewer_dicom';
@@ -41,15 +39,10 @@ export default class RktViewerFilePickerGrid extends Component {
 
     renderViewer() {
 
-        console.log("RENDERING VIEWER OF SIDEBAR");
-
+        var files = this.props.files;
         var url = this.props.url;
-        var file = this.props.file;
-
-        console.log(url);
-        console.log(file);
-
-        if ((url === undefined) || (file === undefined)) {
+        
+        if ((url === undefined) && (files === undefined)) {
 
             return (
                 <div className="container-instructions">
@@ -60,20 +53,16 @@ export default class RktViewerFilePickerGrid extends Component {
         } else {
 
             var viewerType;
-            if (file !== undefined) viewerType = file.type;
-            else viewerType = "application/dicom";
-
-            console.log(file);
-            console.log(file.type);
-            console.log(viewerType);
-
+            if (files !== undefined) viewerType = files[0].type;
+            else viewerType = "application/dicom"; // obtain type from "url"?
+            
             if (viewerType === "image/tif") {
 
-                return (<RktViewerTiff files={file} url={url} />);
+                return (<RktViewerTiff files={files} url={url} />);
 
             } else if (viewerType === "application/dicom") {
 
-                return (<RktViewerDicom files={file} url={url} />);
+                return (<RktViewerDicom files={files} url={url} />);
             }
         }
     }

@@ -1,8 +1,9 @@
 
-.grid-empty{
-    
+.file-picker-grid-empty{
     padding: 10px;
-    background-color: #828282;
+    background-color: #1d1d1d;
     overflow:hidden;  
-
+    label {
+        color: white;
+    }
 }

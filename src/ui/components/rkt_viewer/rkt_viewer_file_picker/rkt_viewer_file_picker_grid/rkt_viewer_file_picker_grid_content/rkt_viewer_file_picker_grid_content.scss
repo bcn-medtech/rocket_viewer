@@ -1,7 +1,7 @@
-$background-grid-content: #828282;
 @import './rkt_viewer_file_picker_grid_content_thumbnail/rkt_viewer_file_picker_grid_content_thumbnail.scss';
 
-.grid-content {
+.file-picker-grid-content {
     padding: 10px;
-    background-color: $background-grid-content;
+    background-color: #1d1d1d;
+    overflow-y: scroll;
 }

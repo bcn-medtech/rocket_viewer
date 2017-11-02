@@ -10,20 +10,20 @@ export default class RktViewerFilePickerGrid extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fileList: [],
+            fileList: {},
             manufacturerInfo: [],
             loadedDicoms: 0,
             totalDicoms: 0,
         }
     }
 
-    handleFileSelection(files) {
+    handleFileSelection(fileList) {
 
         // we update "GridContent" and "Stats" data
         this.clearState();
         this.setState({
-            fileList: files,
-            totalFiles: files.length
+            fileList: fileList,
+            totalFiles: fileList.length
         });
 
     }
@@ -93,13 +93,14 @@ export default class RktViewerFilePickerGrid extends Component {
                     onselectedfiles={this.handleFileSelection.bind(this)}
                 />
             );
+            
         }
     }
 
     render() {
 
         return (
-            <div className="grid-block vertical grid">
+            <div className="grid-block vertical file-picker-grid">
                 {this.renderStatsComponent()}
                 {this.renderGridComponent()}
             </div>

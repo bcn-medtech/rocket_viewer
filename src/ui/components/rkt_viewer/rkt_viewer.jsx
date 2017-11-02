@@ -94,6 +94,8 @@ export default class RktViewer extends Component {
         e.preventDefault();
 
         let blob = e;
+        //console.log(blob);
+        //console.log(blob.dataTransfer.files);
 
         if (blob_getNumberOfFiles(blob) === 1) {
 
@@ -102,6 +104,7 @@ export default class RktViewer extends Component {
             if (viewerType) {
 
                 var files = blob.dataTransfer.files;
+                //console.log(files);
 
                 this.setState({
                     viewer: viewerType,
@@ -109,8 +112,7 @@ export default class RktViewer extends Component {
                     blob: blob,
                 });
 
-                console.log(viewerType);
-                console.log(files);
+                //console.log(viewerType);
 
             } else {
 
@@ -121,14 +123,7 @@ export default class RktViewer extends Component {
         } else {
 
             alert("Blob with multiple files");
-            // MAYBE LATER, along with changing url of the application -->
-            // this.setState({
-            //     viewer:"study_viewer",
-            //     files: blob.dataTransfer.files
-            // }) 
-            // BUT WE WOULD HAVE TO DO MORE THINGS, because now  
-            // rkt_viewer_file_picker_grid is divided in "empty" and "content"
-
+        
         }
 
         return false;

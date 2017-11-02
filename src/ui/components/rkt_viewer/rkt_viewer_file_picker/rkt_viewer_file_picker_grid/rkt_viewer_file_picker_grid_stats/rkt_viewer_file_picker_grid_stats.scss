@@ -5,7 +5,6 @@ $rkt-green-color:#00B04C;
     background-color: #646464;//rgba(76, 222, 82, 0.2);
     overflow: hidden;
     //min-height: 200px;
-    color:white;
 
     .loading-progress-bar{
         height: 5px;
@@ -14,7 +13,7 @@ $rkt-green-color:#00B04C;
     
     h4 {
          padding: 10px;
-         
+         //color: white;
     }
 
     .stat-item {
@@ -23,10 +22,17 @@ $rkt-green-color:#00B04C;
         margin-bottom: 10px;
         margin-right: 10px;
         overflow: hidden;
-    }
-    
-    .label.secondary {
-        background: #333;
-        overflow: hidden;
+
+        .name-stat-item {
+            padding: 5px;
+            color: white;
+            background-color: #00558b;
+        }
+
+        .number-stat-item {
+            padding: 5px;
+            color: white;
+            background-color: #333;;
+        }
     }
 }
