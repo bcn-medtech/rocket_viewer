@@ -19,11 +19,12 @@ export default class RktViewerFilePicker extends Component {
 
     }
 
-    handleImgSelected(files, url) {
+    handleImgSelected(files, url, viewerType) {
         // we update the data of the image to display in the sidebar
         this.setState({
             files_to_display: files,
-            url_to_display: url
+            url_to_display: url, 
+            viewerType: viewerType
         });
     }
 
@@ -40,6 +41,7 @@ export default class RktViewerFilePicker extends Component {
             <RktViewerFilePickerSidebar
                 url={this.state.url_to_display}
                 files={this.state.files_to_display}
+                viewerType={this.state.viewerType}
             />
         );
     }

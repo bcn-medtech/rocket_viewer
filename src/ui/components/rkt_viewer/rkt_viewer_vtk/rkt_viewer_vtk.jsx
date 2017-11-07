@@ -108,6 +108,24 @@ export default class RktViewerVTK extends Component {
                     myComponent.setState({
                         loaded: true
                     })
+
+                    // var canvasScene = document.getElementById("container-viewer").childNodes[0];
+                    // console.log(canvasScene);
+                    // var sceneURL = canvasScene.toDataURL("image/jpeg");
+                    // // jpeg if you do not want to display transparent background
+                    // // jpeg does not support transparency
+                    // //console.log(sceneURL);
+
+                    // var pngCanvas = document.getElementById("pngCanvas");
+                    // var context = pngCanvas.getContext("2d");
+                    // var image = new Image();
+                    // image.src = sceneURL;
+                    // image.onload = function () {
+                    //     context.drawImage(image, 0, 0, canvasScene.width, canvasScene.height);
+                    // }
+
+                    // document.getElementById("container-viewer").remove();
+                    // document.getElementById("container-axes").remove();
                 }
             }
         );
@@ -144,7 +162,7 @@ export default class RktViewerVTK extends Component {
     }
 
     createToolboxTableInputs(info_toolbox_table_inputs) {
-        
+
         if (info_toolbox_table_inputs) {
 
             return (
@@ -179,6 +197,12 @@ export default class RktViewerVTK extends Component {
                 </div>
                 <div className="container-axes" id="container-axes" ></div>
                 <div className="container-viewer" id="container-viewer" ></div>
+                {/* <canvas id="pngCanvas" width="1300px" height="620px"
+                    style={{
+                        color: "white", border: "1px solid #d3d3d3",
+                        width: "1300px", height: "620px"
+                    }}>
+                </canvas> */}
             </div>
         );
     }

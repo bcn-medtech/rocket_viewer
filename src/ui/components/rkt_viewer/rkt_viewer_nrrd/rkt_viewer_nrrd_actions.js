@@ -126,7 +126,6 @@ export function loadNRRD(scene, url, callback) {
         cube.name = "cube";
         cube.visible = false;
         var box = new THREE.BoxHelper(cube);
-        console.log(box);
         box.name = "box";
         scene.add(box);
         box.applyMatrix(volume.matrix);
@@ -145,7 +144,6 @@ export function loadNRRD(scene, url, callback) {
         // z plane
         var sliceZ = volume.extractSlice('z', Math.floor(volume.RASDimensions[2] / 4));
         sliceZ.mesh.name = "sliceZ";
-        console.log(sliceZ);
         scene.add(sliceZ.mesh);
 
         //y plane

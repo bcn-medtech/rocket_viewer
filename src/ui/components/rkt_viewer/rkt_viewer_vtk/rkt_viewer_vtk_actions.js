@@ -42,7 +42,7 @@ export function initScene(callback) {
 
     // RENDERER
 
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 1);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -80,7 +80,7 @@ export function initScene(callback) {
     containerAxes.width = insetWidth;
     containerAxes.height = insetHeight;
     // renderer
-    var rendererAxes = new THREE.WebGLRenderer({ alpha: true, preserveDrawingBuffer: true });
+    var rendererAxes = new THREE.WebGLRenderer({ alpha: true });
     rendererAxes.setClearColor(0x000000, 0);
     containerAxes.appendChild(rendererAxes.domElement);
     // scene
@@ -258,7 +258,7 @@ export function loadVTK(scene, url, callback1, callback2) {
         loader.load(url, function (geometry) {
             geometry.computeVertexNormals();
             geometry.normalizeNormals();
-            
+
             var material = new THREE.MeshLambertMaterial({
                 color: 0xffffff,
                 wireframe: false,
@@ -271,6 +271,7 @@ export function loadVTK(scene, url, callback1, callback2) {
 
             var mesh = new THREE.Mesh(geometry, material);
             mesh.name = "vtk_mesh";
+            scene.add(mesh);
 
             // we set the camera's position so that it is in the center 
             // of the mesh (x and y coordinates), and a certain depth (z coordinate)
@@ -282,7 +283,6 @@ export function loadVTK(scene, url, callback1, callback2) {
             var depthBox3 = sizeBox3.z;
             camera.position.set(centerBox3.x, centerBox3.y, 3*depthBox3);
 
-            scene.add(mesh);
             callback2(true); // VTK geometry is loaded
         });
 

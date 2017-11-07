@@ -84,13 +84,13 @@ export default class RktViewerFilePickerGridContent extends Component {
         this.props.onchangegridcontent(this.state.imgInstances);
     }
 
-    handleImgClicked(index, file, url) {
+    handleImgClicked(index, file, url, viewerType) {
         this.setState({
             selectedImg: index
         })
 
         // data of the selected image is passed to the "Sidebar" component
-        this.props.handleimgselected(file, url);
+        this.props.handleimgselected(file, url, viewerType);
 
     }
 

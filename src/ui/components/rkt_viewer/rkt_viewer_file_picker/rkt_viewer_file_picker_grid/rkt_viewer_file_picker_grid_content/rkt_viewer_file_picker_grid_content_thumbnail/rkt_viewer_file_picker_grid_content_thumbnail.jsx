@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import PubSub from 'pubsub-js'
 
 //actions
-import { isViewerLoadingAURLSource, loadDicom, getImageName/*getDicomNumFrames*/ } from './rkt_viewer_file_picker_grid_content_thumbnail_actions';
+import { isViewerLoadingAURLSource, getViewerType, loadImage, getImageName } from './rkt_viewer_file_picker_grid_content_thumbnail_actions';
 
 //Using global variables
 const cornerstone = window.cornerstone;
@@ -14,6 +14,7 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
 
         this.state = {
             imageId: null,
+            viewerType:undefined,
             loaded: false,
             error: false,
             elementWidth: this.props.canvasWidth,
@@ -21,7 +22,7 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
     }
 
     componentDidMount() {
-        
+
         this.setState({
             elementWidth: this.containerThumbnail.clientWidth,// - 20,
             loaded: false,
@@ -30,15 +31,17 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
 
         var files = this.props.files;
         var url = this.props.url;
-        var img_source, img_url;
+        
+        var myComponent = this;
 
-        // and what if "file" is undefined and "url" does exist?
-        if ((files !== undefined) && (files[0].type === "application/dicom")) {
-            img_source = "filesystem";
-            img_url = files;
-        }
+        getViewerType(files, url, function(viewerType) {
+            myComponent.setState({
+                viewerType: viewerType
+            })
 
-        loadDicom(img_url, img_source, this.onDicomLoaded.bind(this), this.onErrorLoading.bind(this))
+            loadImage(viewerType, files, url, myComponent.onImageLoaded.bind(myComponent), myComponent.onErrorLoading.bind(myComponent));
+        });
+
     }
 
     onErrorLoading(err) {
@@ -48,30 +51,31 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
         this.props.onLoaded(null);
     }
 
-    onDicomLoaded(image) {
+    onImageLoaded(cornerstoneImage) {
         var element = this.imageThumbnail;
         cornerstone.enable(element);
-        var viewport = cornerstone.getDefaultViewportForImage(element, image);
+        var viewport = cornerstone.getDefaultViewportForImage(element, cornerstoneImage);
 
         // image is displayed
-        cornerstone.displayImage(element, image, viewport);
+        cornerstone.displayImage(element, cornerstoneImage, viewport);
 
         this.setState({
             loaded: true,
-            image: image,
+            image: cornerstoneImage,
             error: false
         })
 
         // metadata of the dicom is passed to "Stats" component
-        this.props.onLoaded(image.data);
+        this.props.onLoaded(cornerstoneImage.data);
     }
 
     handleThumbnailClicked() {
         var index = this.props.index;
         var files = this.props.files;
         var url = this.props.url;
+        var viewerType = this.state.viewerType;
 
-        this.props.onClick(index, files, url);
+        this.props.onClick(index, files, url, viewerType);
     }
 
     render() {
@@ -80,11 +84,11 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
             <div>
                 <a style={{ position: "relative" }}
                     className="grid-block vertical container-thumbnail"
-                    unselectable='on' 
-                    onClick={this.handleThumbnailClicked.bind(this)} 
+                    unselectable='on'
+                    onClick={this.handleThumbnailClicked.bind(this)}
                     ref={(containerThumbnail) => this.containerThumbnail = containerThumbnail}>
 
-                    <div className={this.props.isSelected ? "grid-block image-thumbnail selected" : "grid-block image-thumbnail"}  
+                    <div className={this.props.isSelected ? "grid-block image-thumbnail selected" : "grid-block image-thumbnail"}
                         ref={(imageThumbnail) => this.imageThumbnail = imageThumbnail}
                         style={{ top: "0px", left: "0px", width: this.state.elementWidth, height: this.state.elementWidth * 0.75, background: "black" }}>
                         {this.state.error && <span className="error-not-image">Not a valid image</span>}
@@ -96,7 +100,7 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
                         {getImageName(this.props.files, this.props.url)}
                     </div>
                 </a>
-            </div> 
+            </div>
         );
     }
 }
