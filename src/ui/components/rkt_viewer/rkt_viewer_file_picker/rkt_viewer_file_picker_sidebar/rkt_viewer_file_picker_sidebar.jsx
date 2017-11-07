@@ -79,7 +79,7 @@ export default class RktViewerFilePickerGrid extends Component {
 
     render() {
         return (
-            <div className="grid-block vertical sidebar">
+            <div className="grid-block vertical file-picker-sidebar">
                 {this.renderViewer()}
                 {this.renderImageMetadata()}
             </div>

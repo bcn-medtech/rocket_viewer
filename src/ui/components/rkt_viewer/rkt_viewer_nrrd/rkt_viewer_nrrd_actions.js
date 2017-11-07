@@ -9,6 +9,8 @@ import VolumeSlice from "./../../../../libraries/VolumeSlice";
 var THREE = require('three');
 var TrackballControls = require('three-trackballcontrols');
 
+var camera;
+
 export function initScene(callback) {
 
     var container = document.getElementById("container-viewer");
@@ -19,9 +21,9 @@ export function initScene(callback) {
 
     // CAMERA
 
-    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10000000);
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 10000000);
     // field of view (fov) [º], aspect ratio (width/height), far clip plane, near clip plane
-    camera.position.set(0, 0, 500);
+    camera.position.set(0, 0, 0);
     camera.lookAt(scene.position);
     scene.add(camera);
 
@@ -124,14 +126,26 @@ export function loadNRRD(scene, url, callback) {
         cube.name = "cube";
         cube.visible = false;
         var box = new THREE.BoxHelper(cube);
+        console.log(box);
         box.name = "box";
         scene.add(box);
         box.applyMatrix(volume.matrix);
         scene.add(cube);
 
+        // // we set the camera's position so that it is in the center 
+        // // of the mesh (x and y coordinates), and a certain depth (z coordinate)
+        var box3 = new THREE.Box3().setFromObject(cube);
+        var centerBox3 = box3.getCenter();
+        var sizeBox3 = box3.getSize();
+        // //var widthBox3 = sizeBox3.x;
+        // //var heightBox3 = sizeBox3.y;
+        var depthBox3 = sizeBox3.z;
+        camera.position.set(centerBox3.x, centerBox3.y, 2 * depthBox3);
+
         // z plane
         var sliceZ = volume.extractSlice('z', Math.floor(volume.RASDimensions[2] / 4));
         sliceZ.mesh.name = "sliceZ";
+        console.log(sliceZ);
         scene.add(sliceZ.mesh);
 
         //y plane
@@ -166,7 +180,7 @@ function deleteGUI() {
     var container_gui_menu = document.getElementById("container-gui-menu");
 
     // If "container_gui_menu" has children (that is, a GUI menu was created before)
-    if (container_gui_menu.children.length > 0) { 
+    if (container_gui_menu.children.length > 0) {
         var children = container_gui_menu.children;
         for (var j = 0; j < container_gui_menu.children.length; j++) {
             container_gui_menu.removeChild(children[j]);

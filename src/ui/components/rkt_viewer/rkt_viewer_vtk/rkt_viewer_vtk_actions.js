@@ -16,6 +16,7 @@ var selected_colormap_has_changed = false;
 var submitted_min_max = {};
 var submitted_min_max_has_changed = false;
 var info_luts = {};
+var camera;
 
 export function initScene(callback) {
     var container = document.getElementById("container-viewer");
@@ -26,22 +27,22 @@ export function initScene(callback) {
 
     // CAMERA
 
-    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10000000);
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 10000000);
     // field of view (fov) [º], aspect ratio (width/height), far clip plane, near clip plane
-    camera.position.set(0, 0, 0.2); // TO DO: 0.2 for the example with field data, 50 for the example with scalars data
+    camera.position.set(0, 0, 0);
     camera.lookAt(scene.position);
     scene.add(camera);
 
     // LIGHTS
 
-    // point light that will follow the camera movement to light up uniformly the model
-    // (camera has to be a child of scene)
+    // point light that will follow the camera movement to light up uniformly 
+    // the model (camera has to be a child of scene)
     var light = new THREE.PointLight(0xffffff, 1);
     camera.add(light);
 
     // RENDERER
 
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 1);
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -79,7 +80,7 @@ export function initScene(callback) {
     containerAxes.width = insetWidth;
     containerAxes.height = insetHeight;
     // renderer
-    var rendererAxes = new THREE.WebGLRenderer({ alpha: true });
+    var rendererAxes = new THREE.WebGLRenderer({ alpha: true, preserveDrawingBuffer: true });
     rendererAxes.setClearColor(0x000000, 0);
     containerAxes.appendChild(rendererAxes.domElement);
     // scene
@@ -257,7 +258,7 @@ export function loadVTK(scene, url, callback1, callback2) {
         loader.load(url, function (geometry) {
             geometry.computeVertexNormals();
             geometry.normalizeNormals();
-
+            
             var material = new THREE.MeshLambertMaterial({
                 color: 0xffffff,
                 wireframe: false,
@@ -271,8 +272,17 @@ export function loadVTK(scene, url, callback1, callback2) {
             var mesh = new THREE.Mesh(geometry, material);
             mesh.name = "vtk_mesh";
 
-            scene.add(mesh);
+            // we set the camera's position so that it is in the center 
+            // of the mesh (x and y coordinates), and a certain depth (z coordinate)
+            var box3 = new THREE.Box3().setFromObject(mesh);
+            var centerBox3 = box3.getCenter();
+            var sizeBox3 = box3.getSize();
+            //var widthBox3 = sizeBox3.x;
+            //var heightBox3 = sizeBox3.y;
+            var depthBox3 = sizeBox3.z;
+            camera.position.set(centerBox3.x, centerBox3.y, 3*depthBox3);
 
+            scene.add(mesh);
             callback2(true); // VTK geometry is loaded
         });
 

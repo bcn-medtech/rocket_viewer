@@ -11,18 +11,20 @@ export function obtainBlobUrl(blob) {
     return blob_url;
 }
 
+var camera;
+
 export function initScene(callback) {
 
     var container = document.getElementById("container-viewer");
 
     // SCENE
-    
+
     var scene = new THREE.Scene();
 
     // CAMERA
-    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10000000);
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10000000);
     // field of view (fov) [º], aspect ratio (width/height), far clip plane, near clip plane
-    camera.position.set(0, 0, 100);
+    camera.position.set(0, 0, 0);
     camera.lookAt(scene.position);
     scene.add(camera);
 
@@ -125,6 +127,16 @@ export function loadPLY(scene, url, callback) {
         var mesh = new THREE.Mesh(geometry, material);
         mesh.name = "ply_mesh";
         scene.add(mesh);
+
+        // we set the camera's position so that it is in the center 
+        // of the mesh (x and y coordinates), and a certain depth (z coordinate)
+        var box3 = new THREE.Box3().setFromObject(mesh);
+        var centerBox3 = box3.getCenter();
+        var sizeBox3 = box3.getSize();
+        //var widthBox3 = sizeBox3.x;
+        //var heightBox3 = sizeBox3.y;
+        var depthBox3 = sizeBox3.z;
+        camera.position.set(centerBox3.x, centerBox3.y, 3 * depthBox3);
 
         callback(true); // mesh has been loaded
     });
