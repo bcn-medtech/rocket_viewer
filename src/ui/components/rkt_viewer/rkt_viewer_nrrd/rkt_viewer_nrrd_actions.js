@@ -15,13 +15,17 @@ export function initScene(callback) {
 
     var container = document.getElementById("container-viewer");
 
+    var viewerParent = container.parentNode.parentNode;
+    var viewerWidth = viewerParent.offsetWidth;
+    var viewerHeight = viewerParent.offsetHeight;
+
     // SCENE
 
     var scene = new THREE.Scene();
 
     // CAMERA
 
-    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 10000000);
+    camera = new THREE.PerspectiveCamera(60, viewerWidth / viewerHeight, 0.01, 10000000);
     // field of view (fov) [º], aspect ratio (width/height), far clip plane, near clip plane
     camera.position.set(0, 0, 0);
     camera.lookAt(scene.position);
@@ -37,7 +41,7 @@ export function initScene(callback) {
     // RENDERER
 
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(viewerWidth, viewerHeight);
     renderer.setClearColor(0x000000, 1);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
@@ -55,12 +59,16 @@ export function initScene(callback) {
     // RESIZE WINDOW
 
     function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        
+        viewerWidth = viewerParent.offsetWidth;
+        viewerHeight = viewerParent.offsetHeight;
+
+        camera.aspect = viewerWidth / viewerHeight;
         camera.updateProjectionMatrix();
 
         cameraControl.handleResize();
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(viewerWidth, viewerHeight);
     }
 
     window.addEventListener('resize', onWindowResize, false);

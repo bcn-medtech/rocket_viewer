@@ -124,27 +124,23 @@ export function loadImage(viewerType, files, url, on_image_loaded_function, on_e
 
             // INSTEAD, WE DISPLAY A SIMPLE PNG/JPG AS A CORNERSTONE IMAGE
 
-            //var thumbnail_image;
             var dataURL;
 
-            // switch (viewerType) {
-            //     case "nrrd":
-            //         thumnbail_image = ;
-            //         dataURL = ;
-            //         break;
-            //     case "ply":
-            //         thumnbail_image = ;
-            //         dataURL = ;
-            //         break;
-            //     case "vtk":
-            //         thumnbail_image = ;
-            //         dataURL = ;
-            //         break;
-            //     default:
-            //         break;
-            // }
+            switch (viewerType) {
+                case "nrrd":
+                    dataURL = "https://www.dl.dropboxusercontent.com/s/8rdmwwzjk4tlbjw/thumbnail_nrrd.jpg?dl=0";
+                    break;
+                case "ply":
+                    dataURL = "https://www.dl.dropboxusercontent.com/s/0raq9zb4xvs7tsg/thumbnail_ply.jpg?dl=0";
+                    break;
+                case "vtk":
+                    dataURL = "https://www.dl.dropboxusercontent.com/s/6f140qeepkbgw7a/thumbnail_vtk.jpg?dl=0";
+                    break;
+                default:
+                    break;
+            }
 
-            dataURL = "https://rawgit.com/chafey/cornerstoneWebImageLoader/master/examples/Renal_Cell_Carcinoma.jpg";
+            //dataURL = "https://rawgit.com/chafey/cornerstoneWebImageLoader/master/examples/Renal_Cell_Carcinoma.jpg";
             createCornerstoneImage(dataURL, function (cornerstoneImage) {
 
                 if (cornerstoneImage) {
