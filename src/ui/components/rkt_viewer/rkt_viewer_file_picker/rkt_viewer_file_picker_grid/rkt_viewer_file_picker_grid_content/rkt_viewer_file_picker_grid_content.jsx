@@ -28,37 +28,18 @@ export default class RktViewerFilePickerGridContent extends Component {
 
     renderGrid() {
         var fileList = this.props.fileList; // {0: File, 1: File, ... , lenght: int}
-
-        // in case "fileList" is an array of objects like [File, File, ..., File]
-        // fileList.map((fileObject, key) => {
-        //     //var files = fileList[key];
-        //     //console.log(file);
-        //     var files = array2Object([fileObject]);
-        //     console.log(files);
-        //     console.log(key);
-        //     return (
-        //         <RktViewerFilePickerGridContentThumbnail
-        //             index={key}
-        //             files={files}
-        //             url={url}
-        //             isSelected={key === this.state.selectedImg}
-        //             onLoaded={this.handleImgLoaded.bind(this)}
-        //             onClick={this.handleImgClicked.bind(this)}
-        //         />
-        //     )
-        // })
-
+        
         var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
         keys_fileList.pop(); // ["0", "1", ... , "n"]
 
-        var url; // !!!!!!!!!!!!!!
+        var url; // TO DO
 
         return (
             keys_fileList.map((key) => {
 
                 var value = fileList[key];
                 var files = array2Object([value]); // same as doing "var files = {0:fileList[key], "lenght":1};"
-
+                
                 return (
                     <RktViewerFilePickerGridContentThumbnail
                         index={key}

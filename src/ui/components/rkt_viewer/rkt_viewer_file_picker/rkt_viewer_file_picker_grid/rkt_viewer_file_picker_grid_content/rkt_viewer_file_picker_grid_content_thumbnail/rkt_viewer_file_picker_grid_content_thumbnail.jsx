@@ -75,6 +75,12 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
         var url = this.props.url;
         var viewerType = this.state.viewerType;
 
+        var selectedCanvas = document.getElementsByTagName("canvas");
+        console.log(selectedCanvas);
+        console.log(selectedCanvas[0].toDataURL());
+        console.log(selectedCanvas[1].toDataURL());
+        console.log(selectedCanvas[2].toDataURL());
+
         this.props.onClick(index, files, url, viewerType);
     }
 

@@ -67,23 +67,21 @@ export default class RktViewer extends Component {
     }
 
     _onDragEnter(e) {
-        //console.log("On drag enter");
-        //this.setState({ className: 'drop-zone-show' });
+
         e.stopPropagation();
         e.preventDefault();
         return false;
     }
 
     _onDragOver(e) {
-        //console.log("On drag over");
+
         e.preventDefault();
         e.stopPropagation();
         return false;
     }
 
     _onDragLeave(e) {
-        //console.log("On drag leave");
-        //this.setState({ className: 'drop-zone-hide' });
+
         e.stopPropagation();
         e.preventDefault();
         return false;
@@ -94,8 +92,6 @@ export default class RktViewer extends Component {
         e.preventDefault();
 
         let blob = e;
-        //console.log(blob);
-        //console.log(blob.dataTransfer.files);
 
         if (blob_getNumberOfFiles(blob) === 1) {
 
@@ -104,15 +100,12 @@ export default class RktViewer extends Component {
             if (viewerType) {
 
                 var files = blob.dataTransfer.files;
-                //console.log(files);
-
+                
                 this.setState({
                     viewer: viewerType,
                     files: files,
                     blob: blob,
                 });
-
-                //console.log(viewerType);
 
             } else {
 
