@@ -20,13 +20,7 @@ export default class RktViewerFilePickerGrid extends Component {
             imageUrl: "",
             imageFile: [],
             isStack: false
-
         }
-    }
-
-    componentDidMount() {
-        //console.log("Component Preview mounted");
-
     }
 
     renderViewer() {
@@ -62,21 +56,10 @@ export default class RktViewerFilePickerGrid extends Component {
 
     }
 
-    renderImageMetadata() {
-
-        return (
-            <div className="container-metadata">
-
-            </div>
-        );
-
-    }
-
     render() {
         return (
             <div className="grid-block vertical file-picker-sidebar">
                 {this.renderViewer()}
-                {this.renderImageMetadata()}
             </div>
         );
     }
