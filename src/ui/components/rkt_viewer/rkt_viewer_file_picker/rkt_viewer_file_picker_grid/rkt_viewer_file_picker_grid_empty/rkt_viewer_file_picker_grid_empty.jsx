@@ -12,7 +12,7 @@ export default class RktViewerFilePickerGridEmpty extends Component {
     }
 
     componentDidMount() {
-        this.refs.inputContainer.webkitdirectory = true;
+        this.refs.inputContainer.webkitdirectory = true; // IMPORTANT!
 
         var input = document.getElementById("input-choose-folder");
         input.addEventListener("change", this.onClickChooseFolderButton.bind(this))
@@ -28,7 +28,7 @@ export default class RktViewerFilePickerGridEmpty extends Component {
 
     onClickChooseFolderButton(e) {
         e.preventDefault();
-        
+
         let blob = e;
         var fileList = blob.target.files;
 
@@ -36,7 +36,7 @@ export default class RktViewerFilePickerGridEmpty extends Component {
         fileList = orderObjectContent(fileList, "name");
         this.props.onselectedfiles(fileList);
     }
-    
+
     render() {
 
         return (
@@ -45,17 +45,15 @@ export default class RktViewerFilePickerGridEmpty extends Component {
                     <label>DRAG AND DROP FILES</label>
                     <Dropzone onDrop={this.onDropApp.bind(this)}></Dropzone>
                 </div>
-
                 <div className="grid-block vertical shrink choose-folder-widget">
-                    <label for="input-choose-folder" className="choose-folder-button shrink">
+                    <label className="choose-folder-button shrink">
+                        <input
+                            id="input-choose-folder"
+                            style={{ "display": "none" }}
+                            type="file"
+                            ref="inputContainer" />
                         CHOOSE A FOLDER
                     </label>
-                    <input
-                        id="input-choose-folder"
-                        style={{ "display": "none" }}
-                        type="file"
-                        multiple webkitdirectory
-                        ref="inputContainer" />
                 </div>
             </div>
         );

@@ -35,11 +35,11 @@ export function blob_getResourceType(blob) {
                         var blob_type = blob_types[j];
 
                         if (fileType.indexOf(blob_type) > -1) {
-
                             type = viewer.name;
                             break;
                         }
                     }
+                    if (type) break;
                 }
             } else {
 
@@ -55,11 +55,11 @@ export function blob_getResourceType(blob) {
                         var extension = extensions[j];
 
                         if (fileName.indexOf(extension) > -1) {
-
                             type = viewer.name;
                             break;
                         }
                     }
+                    if (type) break;
                 }
             }
         }

@@ -44,17 +44,11 @@ export default class RktComponentTemplate extends Component {
         );
     }
 
-    // goToFilePicker() {
-    //     var url = "/file-picker";
-    //     var browserHistory = this.props.history;
-    //     browserHistory.push("/viewer" + url);
-    // }
-
     render() {
 
         return (
             <div className="grid-block vertical">
-                <div className="grid-block">
+                <div className="grid-block" /*id="dragbox"*/>
                     <svg className="grid-block" viewBox="230 -200 100 1000">
                         <g>
                             <g>

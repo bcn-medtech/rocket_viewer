@@ -5,7 +5,7 @@
             "name":"dicom",
             "extensions":[".dcm"],
             "blob_types":["application/dicom"],
-            "description":"Visualize Dicom images single frame or multiframe. Click on the links have a quick demo.",
+            "description":"Visualize Dicom images single frame or multiframe. Click on the links to have a quick demo.",
             "examples":[
                 {
                     "name":"Echo single frame (Dopple image)",
@@ -22,7 +22,7 @@
             "name":"tif",
             "extensions":["tif"],
             "blob_types":["image/tiff"],
-            "description":"Visualize Tiff images. Click on the links have a quick demo.",
+            "description":"Visualize Tiff images. Click on the links to have a quick demo.",
             "examples":[
                 {
                     "name":"Tiff image (Cell nuclius)",
@@ -48,7 +48,7 @@
             "name":"nrrd",
             "extensions":["nrrd"],
             "blob_types":["application/nrrd"],
-            "description":"Visualize NRRD volumes, Images 3D. Click on the links have a quick demo.",
+            "description":"Visualize NRRD volumes, Images 3D. Click on the links to have a quick demo.",
             "examples":[
                 {
                     "name":"Image 3D",
@@ -61,7 +61,7 @@
             "name":"ply",
             "extensions":["ply"],
             "blob_types":["application/ply"],
-            "description":"Visualize Surfaces 3D. Click on the links have a quick demo.",
+            "description":"Visualize Surfaces 3D. Click on the links to have a quick demo.",
             "examples":[
                 {
                     "name":"Surface 3D",
@@ -74,7 +74,7 @@
             "name":"vtk",
             "extensions":["vtk"],
             "blob_types":["application/vtk"],
-            "description":"Visualize VTK volumes with scalar information. Click on the links have a quick demo.",
+            "description":"Visualize VTK volumes with scalar information. Click on the links to have a quick demo.",
             "examples":[
                 {
                     "name":"Vtk volume with field data (Scalars)",
@@ -85,16 +85,29 @@
         },
         {
             "name":"Study viewer",
-            "extensions":["dicom"],
+            "extensions":["anything"],
             "blob_types":["anything"],
-            "description":"Visualize Dicom studies. Click on the links have a quick demo.",
+            "description":"Visualize multiple files. Click on the links to have a quick demo.",
             "examples":[
                 {
-                    "name":"Dicom study demo",
+                    "name":"Study viewer demo",
                     "link":"/viewer?type=study_viewer&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2Fpzezo8vfivsuypj%2F423_SURFACE%2Evtk%3Fdl%3D0"
                 }
             ],
-            "tags":["dicom","study","multiple_images"]
+            "tags":["study","multiple_images"]
+        },
+        {
+            "name":"Filter viewer",
+            "extensions":["anything"],
+            "blob_types":["anything"],
+            "description":"Visualize a dicom image and filter its ECG peaks. Click on the links to have a quick demo.",
+            "examples":[
+                {
+                    "name":"Filter viewer demo",
+                    "link":"/viewer?type=filter_viewer&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2Fpzezo8vfivsuypj%2F423_SURFACE%2Evtk%3Fdl%3D0"
+                }
+            ],
+            "tags":["dicom","filters"]
         }
 
     ]

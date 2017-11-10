@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 //modules
 
 //components
-import RktViewerDicom from './../../rkt_viewer_dicom/rkt_viewer_dicom';
-import RktViewerNRRD from './../../rkt_viewer_nrrd/rkt_viewer_nrrd';
-import RktViewerPDF from './../../rkt_viewer_pdf/rkt_viewer_pdf';
-import RktViewerPLY from './../../rkt_viewer_ply/rkt_viewer_ply';
 import RktViewerTiff from './../../rkt_viewer_tiff/rkt_viewer_tiff';
+import RktViewerDicom from './../../rkt_viewer_dicom/rkt_viewer_dicom';
+import RktViewerPDF from './../../rkt_viewer_pdf/rkt_viewer_pdf';
+import RktViewerNRRD from './../../rkt_viewer_nrrd/rkt_viewer_nrrd';
+import RktViewerPLY from './../../rkt_viewer_ply/rkt_viewer_ply';
 import RktViewerVTK from './../../rkt_viewer_vtk/rkt_viewer_vtk';
 // RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
 
@@ -58,7 +58,7 @@ export default class RktViewerFilePickerGrid extends Component {
 
     render() {
         return (
-            <div className="grid-block vertical file-picker-sidebar">
+            <div className="grid-block vertical filtered-dicom-container">
                 {this.renderViewer()}
             </div>
         );

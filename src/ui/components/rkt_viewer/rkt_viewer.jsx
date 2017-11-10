@@ -5,15 +5,17 @@ import { blob_getResourceType, blob_getNumberOfFiles } from './../../../modules/
 //modules
 import { isObjectEmpty } from './../../../modules/rkt_module_object.js';
 import { url_getParameterByName } from './../../../modules/rkt_module_url.js';
+
 //components
-import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';
-// RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
 import RktViewerEmpty from './rkt_viewer_empty/rkt_viewer_empty';
 import RktViewerFilePicker from './rkt_viewer_file_picker/rkt_viewer_file_picker';
-import RktViewerPDF from './rkt_viewer_pdf/rkt_viewer_pdf';
+import RktViewerFilterDicom from './rkt_viewer_filter_dicom/rkt_viewer_filter_dicom';
+// RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
 import RktViewerNRRD from './rkt_viewer_nrrd/rkt_viewer_nrrd';
+import RktViewerPDF from './rkt_viewer_pdf/rkt_viewer_pdf';
 import RktViewerPLY from './rkt_viewer_ply/rkt_viewer_ply';
+import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerVTK from './rkt_viewer_vtk/rkt_viewer_vtk';
 
 //config
@@ -93,31 +95,34 @@ export default class RktViewer extends Component {
 
         let blob = e;
 
-        if (blob_getNumberOfFiles(blob) === 1) {
+        if ((this.state.viewer !== "study_viewer") && (this.state.viewer !== "filter_viewer")) {
 
-            var viewerType = blob_getResourceType(blob);
+            if (blob_getNumberOfFiles(blob) === 1) {
 
-            if (viewerType) {
+                var viewerType = blob_getResourceType(blob);
 
-                var files = blob.dataTransfer.files;
-                
-                this.setState({
-                    viewer: viewerType,
-                    files: files,
-                    blob: blob,
-                });
+                if (viewerType) {
+
+                    var files = blob.dataTransfer.files;
+
+                    this.setState({
+                        viewer: viewerType,
+                        files: files,
+                        blob: blob,
+                    });
+
+                } else {
+
+                    alert("Uncompatible format");
+                }
+
 
             } else {
 
-                alert("Uncompatible format");
+                alert("Blob with multiple files");
+
             }
-
-
-        } else {
-
-            alert("Blob with multiple files");
-        
-        }
+        } else
 
         return false;
     }
@@ -132,7 +137,7 @@ export default class RktViewer extends Component {
         var files = this.state.files;
         var blob = this.state.blob;
         var url;
-        
+
         //Load blobs from localhost 
         if (isObjectEmpty(files) && isObjectEmpty(blob)) {
             url = this.state.url;
@@ -166,7 +171,11 @@ export default class RktViewer extends Component {
 
             } else if (viewerType === "study_viewer") {
 
-                return (<RktViewerFilePicker/>)
+                return (<RktViewerFilePicker />)
+
+            } else if (viewerType === "filter_viewer") {
+
+                return (<RktViewerFilterDicom />)
 
             } else {
 
@@ -186,7 +195,6 @@ export default class RktViewer extends Component {
     }
 
     render() {
-
         return (
             <div className="grid-block rkt-viewer" id="dragbox">
                 {this.renderViewer()}

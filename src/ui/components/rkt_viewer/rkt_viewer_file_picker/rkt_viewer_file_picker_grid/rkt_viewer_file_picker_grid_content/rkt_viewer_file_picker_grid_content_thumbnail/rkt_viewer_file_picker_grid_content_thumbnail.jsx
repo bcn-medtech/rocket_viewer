@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import PubSub from 'pubsub-js'
 
 //actions
-import { isViewerLoadingAURLSource, getViewerType, loadImage, getImageName } from './rkt_viewer_file_picker_grid_content_thumbnail_actions';
+import { getViewerType, loadImage, getImageName } from './rkt_viewer_file_picker_grid_content_thumbnail_actions';
 
 //Using global variables
 const cornerstone = window.cornerstone;
@@ -19,6 +19,10 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
             error: false,
             elementWidth: this.props.canvasWidth,
         };
+
+        this.onImageLoaded = this.onImageLoaded.bind(this);
+        this.onErrorLoading = this.onErrorLoading.bind(this);
+        this.handleThumbnailClicked = this.handleThumbnailClicked.bind(this);
     }
 
     componentDidMount() {
@@ -39,7 +43,7 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
                 viewerType: viewerType
             })
 
-            loadImage(viewerType, files, url, myComponent.onImageLoaded.bind(myComponent), myComponent.onErrorLoading.bind(myComponent));
+            loadImage(viewerType, files, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
         });
 
     }
@@ -75,12 +79,6 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
         var url = this.props.url;
         var viewerType = this.state.viewerType;
 
-        var selectedCanvas = document.getElementsByTagName("canvas");
-        console.log(selectedCanvas);
-        console.log(selectedCanvas[0].toDataURL());
-        console.log(selectedCanvas[1].toDataURL());
-        console.log(selectedCanvas[2].toDataURL());
-
         this.props.onClick(index, files, url, viewerType);
     }
 
@@ -91,7 +89,7 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
                 <a style={{ position: "relative" }}
                     className="grid-block vertical container-thumbnail"
                     unselectable='on'
-                    onClick={this.handleThumbnailClicked.bind(this)}
+                    onClick={this.handleThumbnailClicked}
                     ref={(containerThumbnail) => this.containerThumbnail = containerThumbnail}>
 
                     <div className={this.props.isSelected ? "grid-block image-thumbnail selected" : "grid-block image-thumbnail"}
