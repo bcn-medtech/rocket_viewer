@@ -48,7 +48,7 @@ export default class RktComponentTemplate extends Component {
 
         return (
             <div className="grid-block vertical">
-                <div className="grid-block" /*id="dragbox"*/>
+                <div className="grid-block">
                     <svg className="grid-block" viewBox="230 -200 100 1000">
                         <g>
                             <g>

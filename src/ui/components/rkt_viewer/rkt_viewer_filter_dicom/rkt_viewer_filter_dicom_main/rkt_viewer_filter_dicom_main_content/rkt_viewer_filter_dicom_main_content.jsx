@@ -14,10 +14,15 @@ export default class RktViewerFilterDicomMainContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loaded: false
+            loaded: false,
+            viewer_mode: "window_level",
+            filter_mode: "disable_filtering"
         }
 
         this.displayImage = this.displayImage.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.displayFilteringAnnotations = this.displayFilteringAnnotations.bind(this);
     }
 
     componentDidMount() {
@@ -27,6 +32,7 @@ export default class RktViewerFilterDicomMainContent extends Component {
 
         var element = this.imageDiv;
         cornerstone.enable(element);
+
         var url = this.props.img_url;
         var img_source = this.props.img_source;
         loadDicom(url, img_source, this.displayImage);
@@ -51,24 +57,53 @@ export default class RktViewerFilterDicomMainContent extends Component {
         }
     }
 
-    removeAnnotations() {
-
+    //*****[Mouse events]******
+    onMouseMove(e, eventData) {
         var element = this.imageDiv;
-        var toolStateManager = cornerstoneTools.getElementToolStateManager(element);
-        toolStateManager.clear(element)
-        cornerstone.updateImage(element);
 
+        this.setState({
+            x: eventData.currentPoints.image.x,
+            y: eventData.currentPoints.image.y,
+            filtering_annotation: eventData.currentPoints.image.x
+        })
+        //console.log("x: "+this.state.x);
+        cornerstone.updateImage(element);
     }
+
+    onMouseDown(e, eventData) {
+        var element = this.imageDiv;
+
+        this.setState({
+            mouseDown: true
+        });
+
+        cornerstone.updateImage(element);
+    }
+    //*****[Mouse events]******
 
     deactivateControls() {
 
         var element = this.imageDiv;
+
         cornerstoneTools.pan.deactivate(element, 2);
         cornerstoneTools.wwwc.deactivate(element, 1);
         cornerstoneTools.length.deactivate(element, 1);
         cornerstoneTools.rectangleRoi.deactivate(element, 1);
         cornerstoneTools.highlight.deactivate(element, 1);
-        this.removeAnnotations();
+
+        element.onCornerstoneToolsMouseMove = false;
+        element.onCornerstoneToolsMouseDown = false;
+        element.onCornerstoneImageRendered = false;
+
+        this.removeControlsAnnotations();
+    }
+
+    removeControlsAnnotations() {
+
+        var element = this.imageDiv;
+        var toolStateManager = cornerstoneTools.getElementToolStateManager(element);
+        toolStateManager.clear(element)
+        cornerstone.updateImage(element);
 
     }
 
@@ -78,45 +113,29 @@ export default class RktViewerFilterDicomMainContent extends Component {
 
         this.deactivateControls();
 
-        if (viewermode === "window_level") {
+        this.setState({ viewer_mode: viewermode });
 
-            cornerstoneTools.wwwc.activate(element, 1);
+        // activation of the corresponding viewer mode control
+        if (viewermode === "window_level") cornerstoneTools.wwwc.activate(element, 1);
+        else if (viewermode === "pan") cornerstoneTools.pan.activate(element, 3);
+        else if (viewermode === "annotation_length") cornerstoneTools.length.activate(element, 1);
+        else if (viewermode === "annotation_rectangle") cornerstoneTools.rectangleRoi.activate(element, 1);
+        else if (viewermode === "magnifying_glass") cornerstoneTools.highlight.activate(element, 1);
 
-            this.setState({
-                viewer_mode: "window_level"
-            });
+    }
 
-        } else if (viewermode === "pan") {
+    onClickFilterMode(filtermode) {
+        var element = this.imageDiv;
 
-            cornerstoneTools.pan.activate(element, 3);
+        this.deactivateControls();
 
-            this.setState({
-                viewer_mode: "pan"
-            });
+        this.setState({ filter_mode: filtermode });
 
-        } else if (viewermode === "annotation_length") {
+        // linking of filter mode events to the image
+        element.onCornerstoneToolsMouseMove = this.onMouseMove;
+        element.onCornerstoneToolsMouseDown = this.onMouseDown;
+        element.onCornerstoneImageRendered = this.displayFilteringAnnotations;
 
-            cornerstoneTools.length.activate(element, 1);
-
-            this.setState({
-                viewer_mode: "annotation_length"
-            });
-
-        } else if (viewermode === "annotation_rectangle") {
-
-            cornerstoneTools.rectangleRoi.activate(element, 1);
-
-            this.setState({
-                viewer_mode: "annotation_rectangle"
-            });
-        } else if (viewermode === "magnifying_glass") {
-
-            cornerstoneTools.highlight.activate(element, 1);
-
-            this.setState({
-                viewer_mode: "magnifying_glass"
-            });
-        }
     }
 
     renderToolbox() {
@@ -125,67 +144,32 @@ export default class RktViewerFilterDicomMainContent extends Component {
 
         if (imageLoaded) {
 
-            //Button length;
-            var styleIconLength;
-            var iconLength;
-            var buttonLength;
+            // VIEWER MODE buttons
 
-            //Button window level
-            var styleWindowLevel;
-            var iconWindowLevel;
-            var buttonWindowLevel;
+            // Button length
+            var styleIconLength, iconLength, buttonLength;
+            // Button window level
+            var styleWindowLevel, iconWindowLevel, buttonWindowLevel;
+            // Button pan
+            var stylePan, iconPan, buttonPan;
+            // Button annotation rectangle
+            var styleAnnotationRectangle, iconAnnotationRectangle, buttonAnnotationRectangle;
+            // Button magnifying glass
+            var styleMagnifyingGlass, iconMagnifyingGlass, buttonMagnifyingGlass;
 
-            //Button pan
-            var stylePan;
-            var iconPan;
-            var buttonPan;
-
-            //Button annotation rectangle
-            var styleAnnotationRectangle;
-            var iconAnnotationRectangle;
-            var buttonAnnotationRectangle;
-
-            //button magnifying glass
-            var styleMagnifyingGlass;
-            var iconMagnifyingGlass;
-            var buttonMagnifyingGlass;
-
-            styleIconLength =
-                {
-                    fontSize: "13pt",
-                    marginTop: "6px"
-                }
+            styleIconLength = { fontSize: "13pt", marginTop: "6px" }
             iconLength = <i className="fi-pencil" style={styleIconLength}></i>;
 
-            styleWindowLevel =
-                {
-                    fontSize: "12pt",
-                    marginTop: "6px"
-                }
+            styleWindowLevel = { fontSize: "12pt", marginTop: "6px" }
             iconWindowLevel = <i className="fi-paint-bucket" style={styleWindowLevel}></i>;
 
-            stylePan =
-                {
-                    fontSize: "10pt",
-                    marginTop: "9px"
-                }
-
+            stylePan = { fontSize: "10pt", marginTop: "9px" }
             iconPan = <i className="fi-arrows-out" style={stylePan}></i>;
 
-            styleAnnotationRectangle =
-                {
-                    fontSize: "12pt",
-                    marginTop: "7px"
-                }
-
+            styleAnnotationRectangle = { fontSize: "12pt", marginTop: "7px" }
             iconAnnotationRectangle = <i className="fi-annotate" style={styleAnnotationRectangle}></i>;
 
-            styleMagnifyingGlass =
-                {
-                    fontSize: "12pt",
-                    marginTop: "6px"
-                }
-
+            styleMagnifyingGlass = { fontSize: "12pt", marginTop: "6px" }
             iconMagnifyingGlass = <i className="fi-magnifying-glass" style={styleMagnifyingGlass}></i>
 
 
@@ -207,18 +191,66 @@ export default class RktViewerFilterDicomMainContent extends Component {
                 buttonMagnifyingGlass = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickViewerMode.bind(this, "magnifying_glass")} icon={iconMagnifyingGlass} selected="true" />;
             }
 
+            // FILTERING MODE BUTTONS
+
+            // Button add peak;
+            var styleAddPeak, iconAddPeak, buttonAddPeak;
+
+            // Button modify peak
+            var styleModifyPeak, iconModifyPeak, buttonModifyPeak;
+
+            // Button remove peak
+            var styleRemovePeak, iconRemovePeak, buttonRemovePeak;
+
+            // Button select cardiac cycle
+            var styleSelectCardiacCycle, iconSelectCardiacCycle, buttonSelectCardiacCycle;
+
+            // Button disable filtering
+            var styleDisableFiltering, iconDisableFiltering, buttonDisableFiltering;
+
+
+            buttonAddPeak = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "add_peak")} icon={iconAddPeak} />;
+            buttonModifyPeak = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "modify_peak")} icon={iconModifyPeak} />;
+            buttonRemovePeak = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "remove_peak")} icon={iconRemovePeak} />;
+            buttonSelectCardiacCycle = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "select_cardiac_cycle")} icon={iconSelectCardiacCycle} />;
+            buttonDisableFiltering = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "disable_filtering")} icon={iconDisableFiltering} />;
+
+            if (this.state.filter_mode === "add_peak") {
+                buttonAddPeak = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "add_peak")} icon={iconAddPeak} selected="true" />;
+            } else if (this.state.filter_mode === "modify_peak") {
+                buttonModifyPeak = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "modify_peak")} icon={iconModifyPeak} selected="true" />;
+            } else if (this.state.filter_mode === "remove_peak") {
+                buttonRemovePeak = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "remove_peak")} icon={iconRemovePeak} selected="true" />;
+            } else if (this.state.filter_mode === "select_cardiac_cycle") {
+                buttonSelectCardiacCycle = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "select_cardiac_cycle")} icon={iconSelectCardiacCycle} selected="true" />;
+            } else if (this.state.filter_mode === "disable_filtering") {
+                buttonDisableFiltering = <RktButtonIconCircleTextBig text="" onclickbutton={this.onClickFilterMode.bind(this, "disable_filtering")} icon={iconDisableFiltering} selected="true" />;
+            }
+
+            // RENDERING OF THE BUTTONS
             return (
-                <div className="rkt-viewer-dicom-one-frame-right-menu">
-                    {buttonWindowLevel}
-                    {buttonPan}
-                    {buttonLength}
-                    {buttonAnnotationRectangle}
-                    {buttonMagnifyingGlass}
+                <div>
+                    <div className="main-dicom-container-content-right-menu">
+                        {buttonWindowLevel}
+                        {buttonPan}
+                        {buttonLength}
+                        {buttonAnnotationRectangle}
+                        {buttonMagnifyingGlass}
+                    </div>
+                    <div className="main-dicom-container-content-up-menu">
+                        {buttonAddPeak}
+                        {buttonModifyPeak}
+                        {buttonRemovePeak}
+                        {buttonSelectCardiacCycle}
+                        {buttonDisableFiltering}
+                        <div className="main-dicom-container-content-filter-mode">
+                            {this.state.filter_mode}
+                        </div>
+
+                    </div>
                 </div>
             );
         }
-
-
     }
 
     renderLoading() {
@@ -226,6 +258,48 @@ export default class RktViewerFilterDicomMainContent extends Component {
         if (this.state.loaded === false) {
             return (<RktAnimationLoading />);
         }
+
+    }
+
+    // TO DO
+    displayFilteringAnnotations(e, eventData) {
+
+        // // Different actions depending on the filter mode
+        // switch (this.state.filter_mode) {
+
+        //     case "add_peak":
+        //         this.displayAnnotationLine(e, eventData);
+        //         this.addPeak(e, eventData);
+        //         break;
+
+        //     case "modify_peak":
+        //         this.displayAnnotationLine(e, eventData);
+        //         this.modifyPeak(e, eventData);
+        //         break;
+
+        //     case "remove_peak":
+        //         this.displayAnnotationLine(e, eventData);
+        //         this.removePeak(e, eventData);
+        //         break;
+
+        //     case "select_cardiac_cycle":
+        //         this.displayPeaks(e, eventData);
+        //         this.fadeOutCycle(e, eventData);
+        //         this.selectCycle(e, eventData);
+        //         break;
+        // }
+
+        // // If 'peaks' is NOT empty in state:
+        // if ((myComponent.state.peaks).length) {
+        //     myComponent.displayPeaks(e, eventData); // Then, peaks are displayed
+        // }
+
+        // // If we have selected a cardiac cycle, we highlight it:
+        // if ((myComponent.state.selectedCycle) && (myComponent.props.clickedbutton == "select")) {
+        //     myComponent.highlightSelectedCycle(e, eventData);
+
+        //     // put selectedCycle false in state?
+        // }
 
     }
 

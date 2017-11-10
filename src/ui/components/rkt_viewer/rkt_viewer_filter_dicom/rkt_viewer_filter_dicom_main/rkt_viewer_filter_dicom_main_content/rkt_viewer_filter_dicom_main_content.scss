@@ -1,6 +1,50 @@
+$rkt-top-bar-background-color:#228B22;
 
 .main-dicom-container-content {
-    padding: 10px;
-    background-color: #1d1d1d;
-    //overflow-y: scroll;
+    background-color: #111111;
+
+    .main-dicom-container-content-right-menu{
+        overflow: auto;
+        white-space: nowrap;
+        padding: 10px;
+        position: absolute;
+        right: right;
+        right: 0px;
+        top:0px;
+    }
+
+    .main-dicom-container-content-up-menu{
+        overflow: auto;
+        white-space: nowrap;
+        padding: 10px;
+        position: absolute;
+        top:0px;
+        display: -webkit-inline-box;
+
+        .main-dicom-container-content-filter-mode{
+            width: fit-content;
+            height: fit-content;
+            color: white;
+            padding: inherit;
+        }
+    }
+
+    // .filter-peaks-button{
+    //     background-color: $rkt-top-bar-background-color;
+    //     padding: 10px;
+    //     border: none;
+    //     color: white;
+    //     width: 200px; // 220px;
+    //     padding: 10px; 
+    //     text-align: center;
+     
+    //     &:hover{
+    //         background-color: #4CAF50;
+    //     }
+    
+    //     &:focus{
+    //         font-weight: bold;
+    //         background-color: #006633;
+    //     }
+    // }
 }
