@@ -1,65 +1,60 @@
 import React, { Component } from 'react';
 
 //modules
+import { cropImageFromCanvas } from './rkt_viewer_filter_dicom_filtered_actions';
+//Using global variables
+const cornerstone = window.cornerstone;
 
-//components
-import RktViewerTiff from './../../rkt_viewer_tiff/rkt_viewer_tiff';
-import RktViewerDicom from './../../rkt_viewer_dicom/rkt_viewer_dicom';
-import RktViewerPDF from './../../rkt_viewer_pdf/rkt_viewer_pdf';
-import RktViewerNRRD from './../../rkt_viewer_nrrd/rkt_viewer_nrrd';
-import RktViewerPLY from './../../rkt_viewer_ply/rkt_viewer_ply';
-import RktViewerVTK from './../../rkt_viewer_vtk/rkt_viewer_vtk';
-// RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
-
-export default class RktViewerFilePickerGrid extends Component {
+export default class RktViewerFilterDicomFiltered extends Component {
 
     constructor() {
         super();
 
         this.state = {
-            imageUrl: "",
-            imageFile: [],
-            isStack: false
+            filteredImage: undefined,
+            loaded: false
+        }
+
+        this.displayFilteredImage = this.displayFilteredImage.bind(this);
+    }
+
+
+    renderFilteredImage() {
+
+        if (!this.state.loaded) {
+            var canvas = this.props.canvas_image_to_crop;
+            var inputs = this.props.inputs_cropping_function;
+
+            if ((canvas !== undefined) && (inputs !== undefined)) {
+
+                var element = this.imageFilterDiv;
+                cornerstone.enable(element);
+                var parentNode = document.getElementsByClassName("grid-block filtered-dicom-container")[0];
+
+                cropImageFromCanvas(canvas, inputs, parentNode, this.displayFilteredImage);
+            }
         }
     }
 
-    renderViewer() {
+    displayFilteredImage(filteredImage) {
 
-        var files = this.props.files;
-        var url = this.props.url;
-        var viewerType = this.props.viewerType;
+        var element = this.imageFilterDiv;
+        var viewport = cornerstone.getDefaultViewportForImage(element, filteredImage);
+        cornerstone.displayImage(element, filteredImage, viewport);
 
-        if (viewerType === "tiff") {
-
-            return (<RktViewerTiff files={files} url={url} />);
-
-        } else if (viewerType === "pdf") {
-
-            return (<RktViewerPDF files={files} url={url} />);
-
-        } else if (viewerType === "dicom") {
-
-            return (<RktViewerDicom files={files} url={url} />);
-
-        } else if (viewerType === "nrrd") {
-
-            return (<RktViewerNRRD files={files} url={url} />);
-
-        } else if (viewerType === "ply") {
-
-            return (<RktViewerPLY files={files} url={url} />);
-
-        } else if (viewerType === "vtk") {
-
-            return (<RktViewerVTK files={files} url={url} />);
-        }
-
+        this.setState({
+            filteredImage: filteredImage,
+            loaded: true
+        });
     }
 
     render() {
         return (
-            <div className="grid-block vertical filtered-dicom-container">
-                {this.renderViewer()}
+            <div className="grid-block filtered-dicom-container">
+                {this.renderFilteredImage()}                
+                <div className="croppedDicomImage" ref={(imgFilteredDiv) => this.imageFilterDiv = imgFilteredDiv}
+                    style={{ top: "0px", left: "0px", width: "100%", /*height: this.props.canvasHeight,*/ overflow: "hidden", margin: "0 auto" }}
+                />
             </div>
         );
     }

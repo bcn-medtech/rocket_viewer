@@ -35,7 +35,7 @@
             "name":"pdf",
             "extensions":["pdf"],
             "blob_types":["application/pdf"],
-            "description":"Visualize PDFs. Click on the links have a quick demo.",
+            "description":"Visualize PDFs. Click on the links to have a quick demo.",
             "examples":[
                 {
                     "name":"PDF ECG signals",
@@ -109,6 +109,5 @@
             ],
             "tags":["dicom","filters"]
         }
-
     ]
 }

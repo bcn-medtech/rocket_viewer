@@ -9,44 +9,36 @@ export default class RktViewerFilterDicom extends Component {
     constructor() {
         super();
 
-        this.state = {
-            
-        };
+        this.state = {};
+
+        this.handleCroppingMainImage = this.handleCroppingMainImage.bind(this);
     }
 
     componentDidMount() {
 
     }
 
-    handleImgSelected(files, url, viewerType) {
-        // we update the data of the image to display in the sidebar
+    handleCroppingMainImage(canvas_image_to_crop, inputs_cropping_function) {
+
         this.setState({
-            files_to_display: files,
-            url_to_display: url, 
-            viewerType: viewerType
+            canvas_image_to_crop: canvas_image_to_crop,
+            inputs_cropping_function: inputs_cropping_function
         });
     }
 
+
     renderMainDicom() {
-        return (
-            <RktViewerFilterDicomMain
-                handleimgselected={this.handleImgSelected.bind(this)}
-            />
-        );
+        return (<RktViewerFilterDicomMain cropimage={this.handleCroppingMainImage}/>);
     }
 
     renderFilteredDicom() {
-        return (
-            <RktViewerFilterDicomFiltered
-                url={this.state.url_to_display}
-                files={this.state.files_to_display}
-                viewerType={this.state.viewerType}
-            />
-        );
+        var canvas_image_to_crop = this.state.canvas_image_to_crop;
+        var inputs_cropping_function = this.state.inputs_cropping_function;
+        
+       return (<RktViewerFilterDicomFiltered canvas_image_to_crop={canvas_image_to_crop} inputs_cropping_function={inputs_cropping_function} />);
     }
 
     render() {
-
         return (
             <div className="grid-block rkt-viewer-filter-dicom">
                 {this.renderMainDicom()}

@@ -2,7 +2,6 @@
 const cornerstone = window.cornerstone;
 const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
 
-
 export function loadDicom(url, img_source, display_image_function) {
 
     if (img_source === "filesystem") {
@@ -33,7 +32,6 @@ function loadWADOImage(url, display_image_function) {
         cornerstone.loadAndCacheImage(imageId).then(
             display_image_function,
             function (err) {
-
                 alert(err);
 
             });
@@ -43,25 +41,18 @@ function loadWADOImage(url, display_image_function) {
     }
 }
 
-export function getImageMetadata(image) {
-
-    var imageMetadata = {};
-
-    var numFrames = image.data.intString('x00280008');
-    var manufacturer = image.data.string('x00080070');
-    var pixelSpacing = image.data.intString('x00280030');
+export function cloneCanvas(sourceCanvas) {
     
-    if (numFrames !== undefined) {
+    // input: "sourceCanvas" --> canvas to clone
+    // output: "clonedCanvas" --> clone, it is NOT added to the document
 
-        imageMetadata["number_of_frames"] = numFrames;
+    var clonedCanvas = document.createElement("canvas");
+    var context = clonedCanvas.getContext('2d');
 
-    } else {
+    clonedCanvas.width = sourceCanvas.width;
+    clonedCanvas.height = sourceCanvas.height;
+    context.drawImage(sourceCanvas, 0, 0);
 
-        imageMetadata["number_of_frames"] = 0;
-    }
+    return clonedCanvas;
 
-    imageMetadata["manufacturer"] = manufacturer;
-    imageMetadata["pixel_spacing"] = pixelSpacing;
-
-    return imageMetadata;
 }

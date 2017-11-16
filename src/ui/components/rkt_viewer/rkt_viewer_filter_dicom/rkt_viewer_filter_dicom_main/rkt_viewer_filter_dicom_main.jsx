@@ -29,7 +29,7 @@ export default class RktViewerFilterDicomMain extends Component {
 
         if ((!isObjectEmpty(dicom_file))) {
 
-            return (<RktViewerFilterDicomMainContent img_url={dicom_file} img_source={"filesystem"}/>);
+            return (<RktViewerFilterDicomMainContent img_url={dicom_file} img_source={"filesystem"} cropimage={this.props.cropimage}/>);
 
         } else {
 

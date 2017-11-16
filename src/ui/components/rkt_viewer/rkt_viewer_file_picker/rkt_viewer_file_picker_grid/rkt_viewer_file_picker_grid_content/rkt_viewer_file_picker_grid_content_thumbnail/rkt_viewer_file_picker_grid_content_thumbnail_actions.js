@@ -188,7 +188,7 @@ function createCornerstoneImage(dataURL, callback) {
     };
     image.onerror = function (err) {
 
-        console.log("Problems loading the image");
+        alert("Problems loading the image");
         callback(false);
     };
 }
