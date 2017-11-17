@@ -11,18 +11,24 @@ export function obtainBlobUrl(blob) {
     return blob_url;
 }
 
+var camera;
+
 export function initScene(callback) {
 
     var container = document.getElementById("container-viewer");
 
+    var viewerParent = container.parentNode.parentNode;
+    var viewerWidth = viewerParent.offsetWidth;
+    var viewerHeight = viewerParent.offsetHeight;
+ 
     // SCENE
-    
+
     var scene = new THREE.Scene();
 
     // CAMERA
-    var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10000000);
+    camera = new THREE.PerspectiveCamera(45, viewerWidth / viewerHeight, 0.01, 10000000);
     // field of view (fov) [º], aspect ratio (width/height), far clip plane, near clip plane
-    camera.position.set(0, 0, 100);
+    camera.position.set(0, 0, 0);
     camera.lookAt(scene.position);
     scene.add(camera);
 
@@ -36,7 +42,7 @@ export function initScene(callback) {
     // RENDERER
 
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(viewerWidth, viewerHeight);
     renderer.setClearColor(0x000000, 1);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
@@ -54,12 +60,16 @@ export function initScene(callback) {
     // RESIZE WINDOW
 
     function onWindowResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
+
+        viewerWidth = viewerParent.offsetWidth;
+        viewerHeight = viewerParent.offsetHeight;
+
+        camera.aspect = viewerWidth / viewerHeight;
         camera.updateProjectionMatrix();
 
         cameraControl.handleResize();
 
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(viewerWidth, viewerHeight);
     }
 
     window.addEventListener('resize', onWindowResize, false);
@@ -125,6 +135,16 @@ export function loadPLY(scene, url, callback) {
         var mesh = new THREE.Mesh(geometry, material);
         mesh.name = "ply_mesh";
         scene.add(mesh);
+
+        // we set the camera's position so that it is in the center 
+        // of the mesh (x and y coordinates), and a certain depth (z coordinate)
+        var box3 = new THREE.Box3().setFromObject(mesh);
+        var centerBox3 = box3.getCenter();
+        var sizeBox3 = box3.getSize();
+        //var widthBox3 = sizeBox3.x;
+        //var heightBox3 = sizeBox3.y;
+        var depthBox3 = sizeBox3.z;
+        camera.position.set(centerBox3.x, centerBox3.y, 3 * depthBox3);
 
         callback(true); // mesh has been loaded
     });

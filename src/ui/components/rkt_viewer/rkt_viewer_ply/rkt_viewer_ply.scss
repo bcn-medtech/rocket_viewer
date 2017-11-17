@@ -1,5 +1,9 @@
 @import './../../rkt_animation/rkt_animation_loading/rkt_animation_loading.scss';
 
+.rkt-viewer-ply {
+    overflow: hidden;    
+}
+
 .container-viewer {
 	margin-top:0px;
     margin-left: 0px;

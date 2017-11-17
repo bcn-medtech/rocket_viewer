@@ -7,6 +7,7 @@ import { isObjectEmpty } from './../../../../modules/rkt_module_object';
 import { obtainBlobUrl } from "./rkt_viewer_vtk_modules.js";
 // components
 import RktToolboxList from "./../../rkt_toolbox/rkt_toolbox_list/rkt_toolbox_list";
+import RktToolboxTableInputs from "./../../rkt_toolbox/rkt_toolbox_table_inputs/rkt_toolbox_table_inputs";
 import RktAnimationLoading from './../../rkt_animation/rkt_animation_loading/rkt_animation_loading';
 // utils
 import newId from "./../../../../utils/newid.js";
@@ -17,7 +18,9 @@ export default class RktViewerVTK extends Component {
         super()
         this.state = {
             loaded: false,
-            info_toolbox_list: false
+            info_toolbox_list: false,
+            info_toolbox_table_inputs: false,
+            open_toolbox_table_inputs: false
         }
     }
 
@@ -25,7 +28,8 @@ export default class RktViewerVTK extends Component {
 
         this.setState({
             loaded: false,
-            info_toolbox_list: false
+            info_toolbox_list: false,
+            info_toolbox_table_inputs: false
         });
     }
 
@@ -85,16 +89,21 @@ export default class RktViewerVTK extends Component {
         }
 
         loadVTK(scene, url_to_load,
-            // VTK labels obtention
-            function (info_toolbox_list) {
-                if (info_toolbox_list) {
+            // in case of VTK labels obtention
+            function (info_toolbox_list, info_toolbox_table_inputs) {
+
+                if ((info_toolbox_list) || (info_toolbox_table_inputs)) {
+
                     myComponent.setState({
-                        info_toolbox_list: info_toolbox_list
+                        info_toolbox_list: info_toolbox_list,
+                        info_toolbox_table_inputs: info_toolbox_table_inputs
                     });
                 }
+
             },
-            // geometry has been loaded
+            // when geometry has been loaded
             function (geometryLoaded) {
+
                 if (geometryLoaded) {
                     myComponent.setState({
                         loaded: true
@@ -104,18 +113,51 @@ export default class RktViewerVTK extends Component {
         );
     }
 
-    createToolboxList(info_toolbox_list) {
+    createToolboxList(info_toolbox_list, info_toolbox_table_inputs) {
+
         if (info_toolbox_list) {
             return (
                 info_toolbox_list.map((toolbox_list) => {
+                    if (toolbox_list.title === "VTK LABELS") {
+                        // the toolbox list will have an extra toolbox
+                        return (
+                            <RktToolboxList key={newId()}
+                                title={toolbox_list.title}
+                                items={toolbox_list.items}
+                                addextratoolboxfunction={this.createToolboxTableInputs}
+                                extratoolboxinfo={info_toolbox_table_inputs}
+                                onclickitem={toolbox_list.onclickitem} />
+                        )
+                    } else {
+                        // this will be a default toolbox list
+                        return (
+                            <RktToolboxList key={newId()}
+                                title={toolbox_list.title}
+                                items={toolbox_list.items}
+                                onclickitem={toolbox_list.onclickitem} />
+                        )
+                    }
+
+                })
+            );
+        }
+    }
+
+    createToolboxTableInputs(info_toolbox_table_inputs) {
+
+        if (info_toolbox_table_inputs) {
+
+            return (
+                info_toolbox_table_inputs.map((toolbox_table_inputs) => {
                     return (
-                        <RktToolboxList key={newId()}
-                            title={toolbox_list.title}
-                            items={toolbox_list.items}
-                            onclickitem={toolbox_list.onclickitem} />
+                        <RktToolboxTableInputs key={newId()}
+                            title={toolbox_table_inputs.title}
+                            items={toolbox_table_inputs.items}
+                            onsubmitinputs={toolbox_table_inputs.onSubmit} />
                     )
                 })
             );
+
         }
     }
 
@@ -127,11 +169,13 @@ export default class RktViewerVTK extends Component {
 
     render() {
         var info_toolbox_list = this.state.info_toolbox_list;
+        var info_toolbox_table_inputs = this.state.info_toolbox_table_inputs;
+
         return (
             <div className="vertical grid-block rkt-viewer-vtk" >
                 {this.renderVTKLoading()}
                 <div className="grid-block container-toolboxes" id="container-toolboxes" >
-                    {this.createToolboxList(info_toolbox_list)}
+                    {this.createToolboxList(info_toolbox_list, info_toolbox_table_inputs)}
                 </div>
                 <div className="container-axes" id="container-axes" ></div>
                 <div className="container-viewer" id="container-viewer" ></div>

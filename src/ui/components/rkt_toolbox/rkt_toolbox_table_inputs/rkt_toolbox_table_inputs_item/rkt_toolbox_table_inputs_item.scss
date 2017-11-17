@@ -1,0 +1,30 @@
+$rkt-green-color:#00B04C;
+$rkt-green-color-1:#33EA82;
+
+.rkt-toolbox-table-inputs-item{
+    border-left: 1px solid rgba(0, 0, 0, 0.07);
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
+    
+    padding: 10px;
+    background-color: rgba(236, 230, 230, 0.12);
+    //background-color: rgba(23, 21, 21, 1); // equivalent non-transparent color
+
+    label {
+        color:$rkt-green-color;
+    }
+
+    input[type=text]{
+        padding-left:5px;
+        padding-right:5px;
+        padding-top:5px;
+        padding-bottom:5px;
+
+        border: 0px;
+        margin: 0px;
+
+        height: fit-content;
+
+        background-color: rgba(236, 230, 230, 0.12);
+        color: $rkt-green-color;
+    }
+}

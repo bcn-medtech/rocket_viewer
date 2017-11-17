@@ -81,8 +81,6 @@ export default class RktViewerDicomOneFrame extends Component {
                 cornerstoneTools.zoomWheel.activate(element); // zoom is the default tool for middle mouse wheel
             }
         }
-
-
     }
 
     removeAnnotations() {

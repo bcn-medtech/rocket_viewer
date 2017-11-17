@@ -1,6 +1,5 @@
 //Using global variables
 const cornerstone = window.cornerstone;
-//const cornerstoneTools = window.cornerstoneTools;
 const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
 
 function loadLocalImage(url, display_image_function) {
@@ -48,7 +47,8 @@ export function getImageMetadata(image) {
 
     var numFrames = image.data.intString('x00280008');
     var manufacturer = image.data.string('x00080070');
-
+    var pixelSpacing = image.data.intString('x00280030');
+    
     if (numFrames !== undefined) {
 
         imageMetadata["number_of_frames"] = numFrames;
@@ -59,6 +59,7 @@ export function getImageMetadata(image) {
     }
 
     imageMetadata["manufacturer"] = manufacturer;
+    imageMetadata["pixel_spacing"] = pixelSpacing;
 
     return imageMetadata;
 }

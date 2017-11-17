@@ -6,10 +6,14 @@
     border-left: 1px solid rgba(0, 0, 0, 0.07);
     border-right: 1px solid rgba(0, 0, 0, 0.07);
 
-    color:$rkt-green-color-1;
     background-color: rgba(76, 222, 82, 0.2);
+    //background-color: rgba(7, 40, 7,1); // equivalent non-transparent color
 
     a{
         color:$rkt-green-color-1;
     }
+}
+
+.rkt-toolbox-list-items{
+    max-height: 200px;
 }

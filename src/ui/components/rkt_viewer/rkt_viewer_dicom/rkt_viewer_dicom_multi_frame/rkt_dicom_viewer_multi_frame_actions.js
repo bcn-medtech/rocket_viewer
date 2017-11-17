@@ -32,7 +32,7 @@ function prepareLoadWADOImage(url, callback) {
     cornerstoneWADOImageLoader.dataSetCacheManager.load(url, cornerstoneWADOImageLoader.internal.xhrRequest).then(function (dataSet) {
         // dataset is now loaded, get the # of frames so we can build the array of imageIds
         var numFrames = dataSet.intString('x00280008');
-        console.log("Frames:" + numFrames)
+
         if (!numFrames) {
             alert('Missing element NumberOfFrames (0028,0008)');
             return;

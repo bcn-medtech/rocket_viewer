@@ -8,7 +8,9 @@ import { url_getParameterByName } from './../../../modules/rkt_module_url.js';
 //components
 import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';
+// RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
 import RktViewerEmpty from './rkt_viewer_empty/rkt_viewer_empty';
+import RktViewerFilePicker from './rkt_viewer_file_picker/rkt_viewer_file_picker';
 import RktViewerPDF from './rkt_viewer_pdf/rkt_viewer_pdf';
 import RktViewerNRRD from './rkt_viewer_nrrd/rkt_viewer_nrrd';
 import RktViewerPLY from './rkt_viewer_ply/rkt_viewer_ply';
@@ -32,7 +34,6 @@ export default class RktViewer extends Component {
 
     componentDidMount() {
 
-        //console.log(url);
         var location = window.location;
 
         if ("href" in location) {
@@ -66,23 +67,21 @@ export default class RktViewer extends Component {
     }
 
     _onDragEnter(e) {
-        //console.log("On drag enter");
-        //this.setState({ className: 'drop-zone-show' });
+
         e.stopPropagation();
         e.preventDefault();
         return false;
     }
 
     _onDragOver(e) {
-        //console.log("On drag over");
+
         e.preventDefault();
         e.stopPropagation();
         return false;
     }
 
     _onDragLeave(e) {
-        //console.log("On drag leave");
-        //this.setState({ className: 'drop-zone-hide' });
+
         e.stopPropagation();
         e.preventDefault();
         return false;
@@ -101,7 +100,7 @@ export default class RktViewer extends Component {
             if (viewerType) {
 
                 var files = blob.dataTransfer.files;
-
+                
                 this.setState({
                     viewer: viewerType,
                     files: files,
@@ -117,7 +116,7 @@ export default class RktViewer extends Component {
         } else {
 
             alert("Blob with multiple files");
-
+        
         }
 
         return false;
@@ -133,7 +132,7 @@ export default class RktViewer extends Component {
         var files = this.state.files;
         var blob = this.state.blob;
         var url;
-
+        
         //Load blobs from localhost 
         if (isObjectEmpty(files) && isObjectEmpty(blob)) {
             url = this.state.url;
@@ -161,17 +160,28 @@ export default class RktViewer extends Component {
 
                 return (<RktViewerPLY files={files} url={url} />);
 
-            }
-            else if (viewerType === "vtk") {
+            } else if (viewerType === "vtk") {
 
                 return (<RktViewerVTK files={files} url={url} />);
 
+            } else if (viewerType === "study_viewer") {
+
+                return (<RktViewerFilePicker/>)
+
             } else {
 
-                return (<RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />);
+                return (
+                    <div>
+                        <RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />
+                    </div>
+                );
             }
         } else {
-            return (<RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />);
+            return (
+                <div>
+                    <RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />
+                </div>
+            );
         }
     }
 

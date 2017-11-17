@@ -82,6 +82,20 @@
                 }
             ],
             "tags":["volumes","3D","surfaces","scalars"]
+        },
+        {
+            "name":"Study viewer",
+            "extensions":["dicom"],
+            "blob_types":["anything"],
+            "description":"Visualize Dicom studies. Click on the links have a quick demo.",
+            "examples":[
+                {
+                    "name":"Dicom study demo",
+                    "link":"/viewer?type=study_viewer&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2Fpzezo8vfivsuypj%2F423_SURFACE%2Evtk%3Fdl%3D0"
+                }
+            ],
+            "tags":["dicom","study","multiple_images"]
         }
+
     ]
 }

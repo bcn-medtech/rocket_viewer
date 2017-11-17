@@ -27,7 +27,7 @@ export default class RktComponentTemplate extends Component {
         this.props.seturl(newURL);
     }
 
-    setURLFromCard(url){
+    setURLFromCard(url) {
         this.props.seturl(url);
     }
 
@@ -38,11 +38,17 @@ export default class RktComponentTemplate extends Component {
         return (
             viewers.map((item) => {
                 return (
-                    <RktCardViewer viewer={item} seturl={this.setURLFromCard.bind(this)}/>
+                    <RktCardViewer viewer={item} seturl={this.setURLFromCard.bind(this)} />
                 )
             })
         );
     }
+
+    // goToFilePicker() {
+    //     var url = "/file-picker";
+    //     var browserHistory = this.props.history;
+    //     browserHistory.push("/viewer" + url);
+    // }
 
     render() {
 
@@ -96,10 +102,10 @@ export default class RktComponentTemplate extends Component {
                         
         </div>*/}
                 </div>
-                <div className="grid-block small-up-3">
+                <div className="grid-block small-up-3"> 
                     {this.renderCards()}
                 </div>
-                <div className="rkt-viewer-empty-url-form">
+                {/*<div className="rkt-viewer-empty-url-form">
                     <div className="grid-block">
                         <div className="grid-block shrink"><i className="fi-link rkt-viewer-empty-url-form-icon"></i></div>
                         <div className="grid-block">
@@ -107,7 +113,7 @@ export default class RktComponentTemplate extends Component {
                         </div>
                         <div className="grid-block shrink"><a className="rkt-viewer-empty-url-button" onClick={this.setURL.bind(this)}><i className="fi-magnifying-glass "></i></a></div>
                     </div>
-                </div>
+    </div>*/}
             </div>
         );
     }

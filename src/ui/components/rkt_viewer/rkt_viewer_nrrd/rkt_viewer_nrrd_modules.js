@@ -9,8 +9,6 @@ export function obtainBlobUrl(blob) {
 
 export function createGUI(volume, sliceX, sliceY, sliceZ) {
 
-    console.log("Create GUI");
-    
     var gui = new dat.GUI({ autoPlace: false }); // autoPlace: false => to customize the placement of "gui"
 
     gui.add(sliceX, "index", 0, volume.RASDimensions[0], 1).name("indexX").onChange(function () { sliceX.repaint.call(sliceX); });

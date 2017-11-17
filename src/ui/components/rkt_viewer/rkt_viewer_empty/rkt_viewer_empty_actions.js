@@ -14,6 +14,7 @@ export function createURL(url){
 
         var queryData=url_EncodeQueryData(data);
         newUrl = "/viewer"+queryData;
+
     }
 
     return newUrl;
