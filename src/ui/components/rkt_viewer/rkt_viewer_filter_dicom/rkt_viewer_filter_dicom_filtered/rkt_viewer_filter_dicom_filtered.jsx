@@ -16,6 +16,9 @@ export default class RktViewerFilterDicomFiltered extends Component {
         }
 
         this.displayFilteredImage = this.displayFilteredImage.bind(this);
+        this.saveFilteredImage = this.saveFilteredImage.bind(this);
+
+        this.canvasURL = undefined;
     }
 
 
@@ -36,7 +39,7 @@ export default class RktViewerFilterDicomFiltered extends Component {
         }
     }
 
-    displayFilteredImage(filteredImage) {
+    displayFilteredImage(filteredImage, canvasURL) {
 
         var element = this.imageFilterDiv;
         var viewport = cornerstone.getDefaultViewportForImage(element, filteredImage);
@@ -46,12 +49,38 @@ export default class RktViewerFilterDicomFiltered extends Component {
             filteredImage: filteredImage,
             loaded: true
         });
+
+        this.canvasURL = canvasURL; // URL of the canvas of the (CROPPED) pixpipe image
+
     }
+
+    renderSaveButton() {
+
+        if (this.state.filteredImage !== undefined) {
+
+            return (<a className="grid-block save-button" id="save-button" onClick={this.saveFilteredImage}>Save image</a>);
+
+        }
+
+    }
+
+    saveFilteredImage() {
+        
+        var save_button = document.getElementById("save-button");
+
+        var name_image = this.props.name_image;
+        save_button.download = name_image + "_cardiac_cycle";
+        save_button.href = this.canvasURL;
+
+    }
+
+
 
     render() {
         return (
             <div className="grid-block filtered-dicom-container">
-                {this.renderFilteredImage()}                
+                {this.renderFilteredImage()}
+                {this.renderSaveButton()}
                 <div className="croppedDicomImage" ref={(imgFilteredDiv) => this.imageFilterDiv = imgFilteredDiv}
                     style={{ top: "0px", left: "0px", width: "100%", /*height: this.props.canvasHeight,*/ overflow: "hidden", margin: "0 auto" }}
                 />

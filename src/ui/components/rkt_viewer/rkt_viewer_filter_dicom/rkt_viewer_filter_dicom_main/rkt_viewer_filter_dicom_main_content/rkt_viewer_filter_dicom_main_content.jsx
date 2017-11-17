@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import RktButtonIconCircleTextBig from './../../../../rkt_button/rkt_button_icon_circle_text_big/rkt_button_icon_circle_text_big';
 import RktAnimationLoading from './../../../../rkt_animation/rkt_animation_loading/rkt_animation_loading';
 // actions
-import { loadDicom, cloneCanvas } from './rkt_viewer_filter_dicom_main_content_actions.js';
+import { loadDicom, getImageName, cloneCanvas } from './rkt_viewer_filter_dicom_main_content_actions.js';
 //Using global variables
 const cornerstone = window.cornerstone;
 const cornerstoneTools = window.cornerstoneTools;
@@ -27,6 +27,7 @@ export default class RktViewerFilterDicomMainContent extends Component {
         this.cropImage = this.cropImage.bind(this);
 
         this.originalImage = false;
+        this.nameOriginalIMage = undefined;
     }
 
     componentDidMount() {
@@ -48,13 +49,18 @@ export default class RktViewerFilterDicomMainContent extends Component {
         var viewport = cornerstone.getDefaultViewportForImage(element, image);
         cornerstone.displayImage(element, image, viewport);
 
+        
+        
         this.setState({
             loaded: true,
-            image: image,
+            image: image
         });
         
         var canvas = document.getElementsByTagName("canvas")[0]
         this.originalImage = cloneCanvas(canvas);
+
+        var blob = this.props.img_url;
+        this.nameOriginalImage = getImageName(blob);
 
         cornerstoneTools.mouseInput.enable(element);
         element.onCornerstoneToolsMouseMove = this.onMouseMove;
@@ -567,6 +573,8 @@ export default class RktViewerFilterDicomMainContent extends Component {
             var clientHeight = element.clientHeight;
 
             var canvas_image_to_crop = this.originalImage;
+            var name_image = this.nameOriginalImage;
+
             var inputs_cropping_function = {
                 "top_left_x": coords_peaks_cycle[0],
                 "top_left_y": 0,
@@ -574,7 +582,7 @@ export default class RktViewerFilterDicomMainContent extends Component {
                 "height": clientHeight
             };
 
-            this.props.cropimage(canvas_image_to_crop, inputs_cropping_function);
+            this.props.cropimage(canvas_image_to_crop, name_image, inputs_cropping_function);
 
         } else alert("You have to select a cardiac cycle");
 

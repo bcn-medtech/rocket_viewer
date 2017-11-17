@@ -8,9 +8,6 @@ export function loadDicom(url, img_source, display_image_function) {
 
         loadLocalImage(url, display_image_function);
     }
-    else if (img_source === "wado") {
-        loadWADOImage(url, display_image_function);
-    }
 }
 
 function loadLocalImage(url, display_image_function) {
@@ -23,22 +20,14 @@ function loadLocalImage(url, display_image_function) {
         });
 }
 
-function loadWADOImage(url, display_image_function) {
+export function getImageName(blob) {
 
-    var imageId = "wadouri:" + url + "?frame=0";
+    // input: "blob" --> blob of the image
+    // output: "nameImage" --> name of the image, without the extension of the file
 
-    try {
+    var nameImage = blob[0].name.split(".")[0];
+    return nameImage;
 
-        cornerstone.loadAndCacheImage(imageId).then(
-            display_image_function,
-            function (err) {
-                alert(err);
-
-            });
-    }
-    catch (err) {
-        alert(err);
-    }
 }
 
 export function cloneCanvas(sourceCanvas) {

@@ -18,10 +18,11 @@ export default class RktViewerFilterDicom extends Component {
 
     }
 
-    handleCroppingMainImage(canvas_image_to_crop, inputs_cropping_function) {
+    handleCroppingMainImage(canvas_image_to_crop, name_image, inputs_cropping_function) {
 
         this.setState({
             canvas_image_to_crop: canvas_image_to_crop,
+            name_image: name_image,
             inputs_cropping_function: inputs_cropping_function
         });
     }
@@ -33,9 +34,10 @@ export default class RktViewerFilterDicom extends Component {
 
     renderFilteredDicom() {
         var canvas_image_to_crop = this.state.canvas_image_to_crop;
+        var name_image = this.state.name_image;
         var inputs_cropping_function = this.state.inputs_cropping_function;
         
-       return (<RktViewerFilterDicomFiltered canvas_image_to_crop={canvas_image_to_crop} inputs_cropping_function={inputs_cropping_function} />);
+       return (<RktViewerFilterDicomFiltered canvas_image_to_crop={canvas_image_to_crop} name_image={name_image} inputs_cropping_function={inputs_cropping_function} />);
     }
 
     render() {

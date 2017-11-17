@@ -10,8 +10,8 @@ export function cropImageFromCanvas(canvas, inputs, parentNode, display_image_fu
     if (dataURL.includes("image/dicom")) {
 
         dicom2Png(dataURL, function (png_blob) {
-            loadAndCropLocalImage(png_blob, inputs, parentNode, function (croppedImage) {
-                display_image_function(croppedImage);
+            loadAndCropLocalImage(png_blob, inputs, parentNode, function (croppedImage, canvasURL) {
+                display_image_function(croppedImage, canvasURL);
             });
 
         });
@@ -19,15 +19,15 @@ export function cropImageFromCanvas(canvas, inputs, parentNode, display_image_fu
     } else { // else if (dataURL.includes("image/png"))?
 
         canvas.toBlob(function (png_blob) {
-            loadAndCropLocalImage(png_blob, inputs, parentNode, function (croppedImage) {
-                display_image_function(croppedImage);
+            loadAndCropLocalImage(png_blob, inputs, parentNode, function (croppedImage, canvasURL) {
+                display_image_function(croppedImage, canvasURL);
             });
         });
 
     }
 }
 
-function dicom2Png(dataURL, callback) {
+export function dicom2Png(dataURL, callback) {
 
     // Create an "image/png" blob from url "dataURL"
     var byteString = atob(dataURL.split(",")[1]);
@@ -82,7 +82,7 @@ function loadAndCropLocalImage(blob, coordinates, parentNode, callback) {
 
         // we create a cornerstone image with the URL of the pixpipe canvas
         createCornerstoneImage(canvasURL, function (cornerstoneImage) {
-            callback(cornerstoneImage);
+            callback(cornerstoneImage, canvasURL);
         });
 
     });

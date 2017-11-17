@@ -5,5 +5,27 @@
     background-color: #282828;
     height: 100%;
     overflow: hidden;
+    justify-content: center;
+
+    .save-button {
+        
+        overflow: hidden;
+        white-space: nowrap;
+        width: fit-content;
+        height: fit-content;
+        padding: 10px;
+        position: absolute;
+        bottom: 0px; //5%;
+        color: #ffffff;
+        background: #00558b;
+    
+        &:hover {
+            background: #004876;
+            color: #fff;
+        }
+    }
+    
 }
+
+
 
