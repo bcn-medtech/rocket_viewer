@@ -11,6 +11,9 @@ export default class RktViewerFilePickerGridContent extends Component {
             selectedImg: -1,
             imgInstances: [],
         }
+
+        this.handleImgLoaded = this.handleImgLoaded.bind(this);
+        this.handleImgClicked = this.handleImgClicked.bind(this);
     }
 
     componentWillUpdate(nextProps) {
@@ -46,8 +49,8 @@ export default class RktViewerFilePickerGridContent extends Component {
                         files={files}
                         url={url}
                         isSelected={key === this.state.selectedImg}
-                        onLoaded={this.handleImgLoaded.bind(this)}
-                        onClick={this.handleImgClicked.bind(this)}
+                        onLoaded={this.handleImgLoaded}
+                        onClick={this.handleImgClicked}
                     />
                 )
             })

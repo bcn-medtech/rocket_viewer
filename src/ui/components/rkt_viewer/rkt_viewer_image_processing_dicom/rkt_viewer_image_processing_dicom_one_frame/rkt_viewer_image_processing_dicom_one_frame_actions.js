@@ -77,7 +77,7 @@ export function getImageMetadata(image) {
 
 export function cropImageFromCanvas(element, display_image_function) {
     const canvas = document.getElementsByTagName("canvas")[0];
-
+   
     // convert canvas content to data-uri.
     var dataURL = canvas.toDataURL();
 

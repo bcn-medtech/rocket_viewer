@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
+
+// components
 import RktViewerFilePickerGrid from './rkt_viewer_file_picker_grid/rkt_viewer_file_picker_grid';
-import RktViewerFilePickerSidebar from './rkt_viewer_file_picker_sidebar/rkt_viewer_file_picker_sidebar'
+import RktViewerFilePickerSidebar from './rkt_viewer_file_picker_sidebar/rkt_viewer_file_picker_sidebar';
 
-//import config from './../config/config.json';
-
-// TO DO
 export default class RktViewerFilePicker extends Component {
 
     constructor() {
         super();
 
-        this.state = {
-            
-        };
+        this.state = {};
+
+        this.handleImgSelected = this.handleImgSelected.bind(this);
     }
 
     componentDidMount() {
@@ -29,21 +28,15 @@ export default class RktViewerFilePicker extends Component {
     }
 
     renderGrid() {
-        return (
-            <RktViewerFilePickerGrid
-                handleimgselected={this.handleImgSelected.bind(this)}
-            />
-        );
+        return (<RktViewerFilePickerGrid handleimgselected={this.handleImgSelected}/>);
     }
 
     renderSidebar() {
-        return (
-            <RktViewerFilePickerSidebar
-                url={this.state.url_to_display}
-                files={this.state.files_to_display}
-                viewerType={this.state.viewerType}
-            />
-        );
+        var url = this.state.url_to_display;
+        var files = this.state.files_to_display;
+        var viewerType = this.state.viewerType;
+
+        return (<RktViewerFilePickerSidebar url={url} files={files} viewerType={viewerType}/>);
     }
 
     render() {

@@ -2,17 +2,19 @@
 .file-picker-grid-empty{
     padding: 10px;
     background-color: #1d1d1d;
-    overflow:hidden;  
+    overflow: hidden;  
     label {
         color: white;
     }
 
     .dropzone-widget {
         padding-top: 20px;
+        overflow: hidden;
     }
 
     .choose-folder-widget {
         padding-top: 30px;
+        overflow: hidden;
 
         .choose-folder-button {
             
@@ -23,13 +25,12 @@
             background: #00558b;//#333
             color: #ffffff;
             margin: 0px;
+            overflow: hidden;
 
             &:focus, &:hover {
                 background: #004876;
                 color: #fff;
-            }
-                   
+            }         
         }
-
     }
 }

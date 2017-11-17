@@ -15,6 +15,8 @@ export default class RktViewerFilePickerGrid extends Component {
             loadedDicoms: 0,
             totalDicoms: 0,
         }
+
+        this.handleGridContentChange = this.handleGridContentChange.bind(this);
     }
 
     handleFileSelection(fileList) {
@@ -60,12 +62,16 @@ export default class RktViewerFilePickerGrid extends Component {
     }
 
     renderStatsComponent() {
+        var manufacturerInfo = this.state.manufacturerInfo;
+        var loadedFiles = this.state.loadedFiles;
+        var totalFiles = this.state.totalFiles;
+
         return (
             <RktViewerFilePickerGridStats
                 title="Folder info"
-                items={this.state.manufacturerInfo}
-                loadedDicoms={this.state.loadedFiles}
-                totalDicoms={this.state.totalFiles} />
+                items={manufacturerInfo}
+                loadedDicoms={loadedFiles}
+                totalDicoms={totalFiles} />
         );
     }
 
@@ -77,9 +83,8 @@ export default class RktViewerFilePickerGrid extends Component {
 
             return (
                 <RktViewerFilePickerGridContent
-                    ref="GridContent"
                     fileList={fileList}
-                    onchangegridcontent={this.handleGridContentChange.bind(this)}
+                    onchangegridcontent={this.handleGridContentChange}
                     handleimgselected={this.props.handleimgselected}
                 />
             );
@@ -87,12 +92,7 @@ export default class RktViewerFilePickerGrid extends Component {
         // if files have NOT been dragged and drop yet, dropzone widget
         } else {
 
-            return (
-                <RktViewerFilePickerGridEmpty
-                    ref="GridEmpty"
-                    onselectedfiles={this.handleFileSelection.bind(this)}
-                />
-            );
+            return (<RktViewerFilePickerGridEmpty onselectedfiles={this.handleFileSelection.bind(this)}/>);
             
         }
     }

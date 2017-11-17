@@ -1,0 +1,32 @@
+$rkt-top-bar-background-color:#228B22;
+
+.main-dicom-container-content {
+    background-color: #111111;
+    justify-content: center;
+
+    .main-dicom-container-content-right-menu{
+        overflow: auto;
+        white-space: nowrap;
+        padding: 10px;
+        position: absolute;
+        top:0px;
+        right: 0px;
+    }
+
+    .crop-button {
+        overflow: hidden;
+        white-space: nowrap;
+        width: fit-content;
+        height: fit-content;
+        padding: 10px;
+        position: absolute;
+        bottom: 0px; //5%;
+        color: #ffffff;
+        background: #00558b;
+
+        &:hover {
+            background: #004876;
+            color: #fff;
+        }
+    }
+}
