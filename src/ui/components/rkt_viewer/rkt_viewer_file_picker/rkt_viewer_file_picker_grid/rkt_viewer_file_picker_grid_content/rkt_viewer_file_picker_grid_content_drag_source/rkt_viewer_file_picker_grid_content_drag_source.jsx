@@ -74,8 +74,8 @@ class RktViewerFilePickerSidebarDragSource extends Component {
 
     renderLabel() {
         if (this.state.assigned_label)
-            return (<div className="label-selection">
-                <span>{this.state.assigned_label}</span>
+            return (<div className="assigned-label">
+                <span className="assigned-label-name">{this.state.assigned_label}</span>
                 <RktButtonDeleteIcon onClick={this.handleClickCancel} />
             </div>);
         return "";

@@ -2,6 +2,7 @@
 
 .file-picker-sidebar {
     background-color: #282828;
-    overflow-y: auto; // IT DOES NOT SEEM TO WORK
+    overflow-x: hidden;
+    overflow-y: auto; // IT WORKS... BUT THE SCROLL BAR IS ONLY SEEN WHEN I SCROLL
 }
 

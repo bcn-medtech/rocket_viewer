@@ -1,18 +1,29 @@
 @import './rkt_viewer_file_picker_grid_content_drag_source_thumbnail/rkt_viewer_file_picker_grid_content_drag_source_thumbnail.scss';
 
-// $purpleMain : #443363;
+$purpleMain: #443363; //rgb(110, 83, 158);
 
 .drag-source {
     
-    .label-selection {
+    .assigned-label {
+
+        display:inline-block;
         position: absolute;
         top: 5px;
         left: 5px;
-        background-color: #00558b;//$purpleMain;
+        background-color: $purpleMain; //#00558b;
         border-radius: 5px;
         color: whitesmoke;
-        font-size: 0.8em;
+        //font-size: 0.8em;
         padding: 3px;
+
+        .assigned-label-name  {
+            padding: 3px;
+        }
+
+        .deleteIconButton {
+            padding: inherit
+        }
+        
     }
 
 }

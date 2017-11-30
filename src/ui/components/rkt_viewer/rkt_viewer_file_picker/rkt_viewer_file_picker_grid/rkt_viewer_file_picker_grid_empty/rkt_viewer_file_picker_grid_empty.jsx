@@ -31,7 +31,7 @@ export default class RktViewerFilePickerGridEmpty extends Component {
 
         let blob = e;
         var fileList = blob.target.files;
-
+        console.log(fileList);
         // "fileList" is unsorted: we sort it by its property "name"
         fileList = orderObjectContent(fileList, "name");
         this.props.onselectedfiles(fileList);

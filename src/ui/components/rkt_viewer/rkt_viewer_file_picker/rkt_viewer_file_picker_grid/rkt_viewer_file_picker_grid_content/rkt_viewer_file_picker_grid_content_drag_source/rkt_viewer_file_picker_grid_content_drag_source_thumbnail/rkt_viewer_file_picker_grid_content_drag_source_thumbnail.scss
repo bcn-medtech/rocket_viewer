@@ -1,3 +1,4 @@
+$purpleMain: #443363;//rgb(110, 83, 158);
 
 .container-thumbnail {
     padding: 0px;
@@ -27,7 +28,7 @@
     }
     
     .image-thumbnail.selected{
-        border: 2px solid #00558b;
+        border: 2px solid $purpleMain;//#00558b;
         display: block;
     }
     

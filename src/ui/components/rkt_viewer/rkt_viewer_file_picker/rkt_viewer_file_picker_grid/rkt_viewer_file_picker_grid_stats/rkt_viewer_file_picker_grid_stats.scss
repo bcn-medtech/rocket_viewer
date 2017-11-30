@@ -1,19 +1,20 @@
 $slider-background: #646464;
 $rkt-green-color:#00B04C;
+$purpleMain: #443363; //rgb(110, 83, 158);
 
 .container-stats {
-    background-color: #646464;//rgba(76, 222, 82, 0.2);
+    background-color: #646464; //rgba(76, 222, 82, 0.2);
     overflow: hidden;
-    //min-height: 200px;
 
     .loading-progress-bar{
         height: 5px;
         overflow: hidden;
+        //background-color: $purpleMain; // IT DOES NOT WORK
     }
     
     h4 {
-         padding: 10px;
-         //color: white;
+        padding: 10px;
+        color: black;
     }
 
     .stat-item {
@@ -26,7 +27,7 @@ $rkt-green-color:#00B04C;
         .name-stat-item {
             padding: 5px;
             color: white;
-            background-color: #00558b;
+            background-color: $purpleMain; //#00558b;
         }
 
         .number-stat-item {

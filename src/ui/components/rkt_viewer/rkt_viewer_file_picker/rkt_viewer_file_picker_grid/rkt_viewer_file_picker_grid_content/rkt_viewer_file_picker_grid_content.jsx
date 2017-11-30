@@ -46,7 +46,7 @@ export default class RktViewerFilePickerGridContent extends Component {
 
                 return (
                     <RktViewerFilePickerGridContentDragSource
-                        index={parseInt(key)}
+                        index={key}
                         files={files}
                         url={url} // for the moment, empty
                         isSelected={key === this.state.selectedImg}

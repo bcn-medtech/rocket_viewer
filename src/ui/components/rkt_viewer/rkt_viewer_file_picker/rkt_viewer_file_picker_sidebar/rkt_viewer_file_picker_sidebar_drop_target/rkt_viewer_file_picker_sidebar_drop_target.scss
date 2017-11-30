@@ -1,9 +1,9 @@
-// $purpleMain : #443363;
+$purpleMain: #443363;//rgb(110, 83, 158);
 
 .drop-target {
     color: white; //whitesmoke;
     min-height: 120px;
-    background-color: #00558b; //#646464; //#282828;//$purpleMain;
+    background-color: $purpleMain; //#00558b; //#646464; //#282828;
     margin: 15px;
     overflow: hidden;
 
@@ -15,7 +15,7 @@
         width: 90%;
         left: 5%;
         border-radius: 5px;
-        background-color: #00558b; //#646464; //#282828; //$purpleMain;
+        background-color: $purpleMain; //#00558b; //#646464; //#282828; $purpleMain;
     }
 
     canvas {

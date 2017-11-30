@@ -40,8 +40,9 @@ export default class RktViewerFilePickerSidebar extends Component {
     }
 
     render() {
+        console.log(window.outerHeight);
         return (
-            <div className="grid-block medium-2 vertical file-picker-sidebar">
+            <div className="grid-block medium-2 vertical file-picker-sidebar" style={{"max-height":window.outerHeight}}>
                 {this.renderDicomPlaceholders()}
             </div>
         );
