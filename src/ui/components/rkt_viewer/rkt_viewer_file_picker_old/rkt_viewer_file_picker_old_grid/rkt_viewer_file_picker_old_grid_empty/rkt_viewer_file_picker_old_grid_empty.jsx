@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 
 // actions
-import { array2Object, orderObjectContent } from './rkt_viewer_file_picker_grid_empty_actions.js';
+import { array2Object, orderObjectContent } from './rkt_viewer_file_picker_old_grid_empty_actions.js';
 
 export default class RktViewerFilePickerGridEmpty extends Component {
 
@@ -21,7 +21,7 @@ export default class RktViewerFilePickerGridEmpty extends Component {
     onDropApp(acceptedFiles, rejectedFiles) {
 
         if (acceptedFiles.length > 0) {
-            var fileList = array2Object(acceptedFiles); // so that "fileList" is expressed as the "fileList" (that is, blob.dataTransfer.files) obtained in the drag-box of the "rkt_viewer" component
+            var fileList = array2Object(acceptedFiles);
             this.props.onselectedfiles(fileList);
         }
     }

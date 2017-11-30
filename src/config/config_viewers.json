@@ -84,6 +84,19 @@
             "tags":["volumes","3D","surfaces","scalars"]
         },
         {
+            "name":"Old Study viewer",
+            "extensions":["anything"],
+            "blob_types":["anything"],
+            "description":"Visualize multiple files. Click on the links to have a quick demo.",
+            "examples":[
+                {
+                    "name":"Old Study viewer demo",
+                    "link":"/viewer?type=study_viewer_old&url=https%3A%2F%2Fwww%2Edl%2Edropboxusercontent%2Ecom%2Fs%2Fpzezo8vfivsuypj%2F423_SURFACE%2Evtk%3Fdl%3D0"
+                }
+            ],
+            "tags":["study","multiple_images"]
+        },
+        {
             "name":"Study viewer",
             "extensions":["anything"],
             "blob_types":["anything"],

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-//import PubSub from 'pubsub-js'
 
 //actions
-import { getViewerType, loadImage, getImageName } from './rkt_viewer_file_picker_grid_content_thumbnail_actions';
+import { getViewerType, loadImage, getImageName } from './rkt_viewer_file_picker_old_grid_content_thumbnail_actions';
 
 //Using global variables
 const cornerstone = window.cornerstone;

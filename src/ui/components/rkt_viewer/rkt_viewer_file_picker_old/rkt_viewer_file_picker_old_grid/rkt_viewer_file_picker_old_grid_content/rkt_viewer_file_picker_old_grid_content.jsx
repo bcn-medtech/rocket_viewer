@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-//import RktViewerFilePickerGridContentThumbnail from './rkt_viewer_file_picker_grid_content_thumbnail/rkt_viewer_file_picker_grid_content_thumbnail';
-import RktViewerFilePickerGridContentDragSource from './rkt_viewer_file_picker_grid_content_drag_source/rkt_viewer_file_picker_grid_content_drag_source';
+import RktViewerFilePickerGridContentThumbnail from './rkt_viewer_file_picker_old_grid_content_thumbnail/rkt_viewer_file_picker_old_grid_content_thumbnail';
 
 // actions
-import { array2Object } from './rkt_viewer_file_picker_grid_content_actions.js';
+import { array2Object } from './rkt_viewer_file_picker_old_grid_content_actions.js';
 
 export default class RktViewerFilePickerGridContent extends Component {
     constructor(props) {
@@ -32,27 +31,26 @@ export default class RktViewerFilePickerGridContent extends Component {
 
     renderGrid() {
         var fileList = this.props.fileList; // {0: File, 1: File, ... , lenght: int}
-
+        
         var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
         keys_fileList.pop(); // ["0", "1", ... , "n"]
 
-        var url; // TO DO?
+        var url; // TO DO
 
         return (
             keys_fileList.map((key) => {
 
                 var value = fileList[key];
                 var files = array2Object([value]); // same as doing "var files = {0:fileList[key], "lenght":1};"
-
+                
                 return (
-                    <RktViewerFilePickerGridContentDragSource
-                        index={parseInt(key)}
+                    <RktViewerFilePickerGridContentThumbnail
+                        index={key}
                         files={files}
-                        url={url} // for the moment, empty
+                        url={url}
                         isSelected={key === this.state.selectedImg}
                         onLoaded={this.handleImgLoaded}
                         onClick={this.handleImgClicked}
-                        onAssignment={this.props.handleimgassigned}
                     />
                 )
             })

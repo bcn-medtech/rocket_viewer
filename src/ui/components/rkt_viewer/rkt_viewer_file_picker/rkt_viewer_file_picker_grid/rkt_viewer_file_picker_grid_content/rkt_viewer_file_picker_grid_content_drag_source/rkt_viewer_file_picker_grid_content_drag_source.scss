@@ -1,0 +1,19 @@
+@import './rkt_viewer_file_picker_grid_content_drag_source_thumbnail/rkt_viewer_file_picker_grid_content_drag_source_thumbnail.scss';
+
+// $purpleMain : #443363;
+
+.drag-source {
+    
+    .label-selection {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        background-color: #00558b;//$purpleMain;
+        border-radius: 5px;
+        color: whitesmoke;
+        font-size: 0.8em;
+        padding: 3px;
+    }
+
+}
+

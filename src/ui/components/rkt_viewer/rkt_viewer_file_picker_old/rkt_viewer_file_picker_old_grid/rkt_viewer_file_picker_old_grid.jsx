@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 
 // components
-import RktViewerFilePickerGridStats from './rkt_viewer_file_picker_grid_stats/rkt_viewer_file_picker_grid_stats';
-import RktViewerFilePickerGridEmpty from './rkt_viewer_file_picker_grid_empty/rkt_viewer_file_picker_grid_empty';
-import RktViewerFilePickerGridContent from './rkt_viewer_file_picker_grid_content/rkt_viewer_file_picker_grid_content';
-
-//actions
-import {computeStats} from "./rkt_viewer_file_picker_grid_actions";
+import RktViewerFilePickerGridStats from './rkt_viewer_file_picker_old_grid_stats/rkt_viewer_file_picker_old_grid_stats';
+import RktViewerFilePickerGridEmpty from './rkt_viewer_file_picker_old_grid_empty/rkt_viewer_file_picker_old_grid_empty';
+import RktViewerFilePickerGridContent from './rkt_viewer_file_picker_old_grid_content/rkt_viewer_file_picker_old_grid_content';
 
 export default class RktViewerFilePickerGrid extends Component {
 
@@ -20,7 +17,6 @@ export default class RktViewerFilePickerGrid extends Component {
         }
 
         this.handleGridContentChange = this.handleGridContentChange.bind(this);
-        this.handleFileSelection = this.handleFileSelection.bind(this);
     }
 
     handleFileSelection(fileList) {
@@ -40,6 +36,28 @@ export default class RktViewerFilePickerGrid extends Component {
             totalFiles: 0,
             manufacturerInfo: [],
             loadedFiles: 0
+        });
+    }
+
+    handleGridContentChange(instances) {
+        this.computeStats(instances)
+    }
+
+    computeStats(instances) {
+        var manufacturerDict = []
+        for (var i in instances) {
+            if (instances[i] != null) {
+                var man = instances[i].string('x00080070');
+                if (manufacturerDict[man]) {
+                    manufacturerDict[man] = manufacturerDict[man] + 1;
+                } else {
+                    manufacturerDict[man] = 1;
+                }
+            }
+        }
+        this.setState({
+            loadedFiles: instances.length,
+            manufacturerInfo: manufacturerDict
         });
     }
 
@@ -68,33 +86,21 @@ export default class RktViewerFilePickerGrid extends Component {
                     fileList={fileList}
                     onchangegridcontent={this.handleGridContentChange}
                     handleimgselected={this.props.handleimgselected}
-                    handleimgassigned={this.props.handleimgassigned}
                 />
             );
 
         // if files have NOT been dragged and drop yet, dropzone widget
         } else {
 
-            return (<RktViewerFilePickerGridEmpty onselectedfiles={this.handleFileSelection}/>);
+            return (<RktViewerFilePickerGridEmpty onselectedfiles={this.handleFileSelection.bind(this)}/>);
             
         }
-    }
-
-    handleGridContentChange(instances) {
-        var myComponent = this;
-
-        computeStats(instances, function(manufacturerDict) {
-            myComponent.setState({
-                loadedFiles: instances.length,
-                manufacturerInfo: manufacturerDict
-            });
-        })
     }
 
     render() {
 
         return (
-            <div className="grid-block medium-5 vertical file-picker-grid">
+            <div className="grid-block vertical file-picker-grid">
                 {this.renderStatsComponent()}
                 {this.renderGridComponent()}
             </div>
