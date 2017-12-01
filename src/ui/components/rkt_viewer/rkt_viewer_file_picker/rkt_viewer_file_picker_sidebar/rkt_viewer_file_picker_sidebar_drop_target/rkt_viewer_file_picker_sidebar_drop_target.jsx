@@ -8,13 +8,10 @@ const dropDicomTarget = {
 
     drop(props, monitor, component) {
 
-        var item = monitor.getItem() // item = {files, imgCanvas} (what 'dragSouce' returns)
+        var item = monitor.getItem() // item = {files, imgCanvas, index_grid} (what 'dragSouce' returns)
         //console.log("Dropped item:" + JSON.stringify(item));
-        component.setImage(item);
+        component.setItem(item);
 
-        return {
-            img_label: props.img_label
-        }
     }
 };
 
@@ -34,18 +31,19 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
             selectedImgCanvas: null
         }
 
-        this.setImage = this.setImage.bind(this);
+        this.setItem = this.setItem.bind(this);
     }
 
     componentDidUpdate() {}
 
-    setImage(image) {
+    setItem(item) {
+        //item = {files, imgCanvas, index_grid} (what 'dragSouce' returns)
         this.setState({
-            selectedImgCanvas: image.imgCanvas,
+            selectedImgCanvas: item.imgCanvas,
         })
 
-        // we confirm that this drop-target has been assigned with a dicom of the grid
-        this.props.handleassignment(this.props.img_label, true); // "true" because we are dpoing an assignment
+        // we confirm that an image has been dropped in the drop target
+        this.props.onimgdragdrop(this.props.img_label, true, item.index_grid); // "true" because we are doing an assignment
     }
 
     updateCanvas() {

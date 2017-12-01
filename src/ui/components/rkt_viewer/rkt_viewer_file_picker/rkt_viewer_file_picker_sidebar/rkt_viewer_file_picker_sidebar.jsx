@@ -23,12 +23,13 @@ export default class RktViewerFilePickerSidebar extends Component {
             
             return (
                 image_types.map((item, id) => {
+                    //console.log(id);
                     return (
                         <RktViewerFilePickerSidebarDropTarget
                             index={id}
                             img_label={item.label}
-                            handleassignment={this.props.handleimgassigned}
-                            isAssigned={this.props.assigned_targets[item.label]}
+                            onimgdragdrop={this.props.onimgdragdrop}
+                            isAssigned={this.props.assigned_sidebar_targets[item.label]}
                         />                
                     )
                 })
@@ -40,9 +41,8 @@ export default class RktViewerFilePickerSidebar extends Component {
     }
 
     render() {
-        console.log(window.outerHeight);
         return (
-            <div className="grid-block medium-2 vertical file-picker-sidebar" style={{"max-height":window.outerHeight}}>
+            <div className="grid-block medium-2 vertical file-picker-sidebar" >
                 {this.renderDicomPlaceholders()}
             </div>
         );

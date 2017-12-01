@@ -15,19 +15,9 @@ const dicomSource = {
 
         return {
             files: props.files,
-            imgCanvas: imgCanvas
+            imgCanvas: imgCanvas,
+            index_grid: props.index
         };
-    },
-    endDrag(props, monitor, component) {
-
-        if (monitor.didDrop()) {
-            var res = monitor.getDropResult();
-
-            component.setState({
-                assigned_label: res.img_label,
-            });
-        }
-
     }
 };
 
@@ -69,26 +59,24 @@ class RktViewerFilePickerSidebarDragSource extends Component {
                 isSelected={isSelected}
                 onLoaded={this.props.onLoaded}
                 onClick={this.props.onClick}
-            />);
+            />
+        );
     }
 
     renderLabel() {
-        if (this.state.assigned_label)
+        // if (this.state.assigned_label)
+        if (this.props.assigned_label)
             return (<div className="assigned-label">
-                <span className="assigned-label-name">{this.state.assigned_label}</span>
+                {/* <span className="assigned-label-name">{this.state.assigned_label}</span> */}
+                <span className="assigned-label-name">{this.props.assigned_label}</span>
                 <RktButtonDeleteIcon onClick={this.handleClickCancel} />
             </div>);
         return "";
     }
 
     handleClickCancel() {
-        // the corresponding dicom in the sidebar is removed
-        this.props.onAssignment(this.state.assigned_label, false); // "false" because assignment is cancelled
-
-        // and the label of the drag-source is removed
-        this.setState({
-            assigned_label: undefined
-        });
+        // the corresponding dicom in the SIDEBAR is removed
+        this.props.onimgdragdrop(this.props.assigned_label, false, this.props.index); // "false" because label assignment is cancelled
     }
 
     render() {

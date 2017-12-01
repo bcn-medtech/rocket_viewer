@@ -22,7 +22,7 @@ export default class RktViewerFilePickerGridEmpty extends Component {
 
         if (acceptedFiles.length > 0) {
             var fileList = array2Object(acceptedFiles); // so that "fileList" is expressed as the "fileList" (that is, blob.dataTransfer.files) obtained in the drag-box of the "rkt_viewer" component
-            this.props.onselectedfiles(fileList);
+            this.props.onfileselection(fileList);
         }
     }
 
@@ -31,10 +31,10 @@ export default class RktViewerFilePickerGridEmpty extends Component {
 
         let blob = e;
         var fileList = blob.target.files;
-        console.log(fileList);
+
         // "fileList" is unsorted: we sort it by its property "name"
         fileList = orderObjectContent(fileList, "name");
-        this.props.onselectedfiles(fileList);
+        this.props.onfileselection(fileList);
     }
 
     render() {

@@ -30,8 +30,10 @@ export default class RktViewerFilePickerGridContent extends Component {
         });
     }
 
-    renderGrid() {
+    /* GRID CONTENT component */
+    renderGridContent() {
         var fileList = this.props.fileList; // {0: File, 1: File, ... , lenght: int}
+        var assigned_grid_labels = this.props.assigned_grid_labels; // {0: "name_label_0"/ false, ..., n: "name_label_n"/false}
 
         var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
         keys_fileList.pop(); // ["0", "1", ... , "n"]
@@ -40,19 +42,22 @@ export default class RktViewerFilePickerGridContent extends Component {
 
         return (
             keys_fileList.map((key) => {
-
+                //console.log(key);
                 var value = fileList[key];
                 var files = array2Object([value]); // same as doing "var files = {0:fileList[key], "lenght":1};"
+
+                var assigned_label = assigned_grid_labels[key];
 
                 return (
                     <RktViewerFilePickerGridContentDragSource
                         index={key}
                         files={files}
                         url={url} // for the moment, empty
+                        assigned_label={assigned_label}
                         isSelected={key === this.state.selectedImg}
                         onLoaded={this.handleImgLoaded}
                         onClick={this.handleImgClicked}
-                        onAssignment={this.props.handleimgassigned}
+                        onimgdragdrop={this.props.onimgdragdrop}
                     />
                 )
             })
@@ -76,7 +81,7 @@ export default class RktViewerFilePickerGridContent extends Component {
         })
 
         // data of the selected image is passed to the "Sidebar" component
-        this.props.handleimgselected(file, url, viewerType);
+        this.props.onimgselection(file, url, viewerType);
 
     }
 
@@ -84,7 +89,7 @@ export default class RktViewerFilePickerGridContent extends Component {
         return (
             <div className="grid-block file-picker-grid-content">
                 <div className="grid-block small-up-3 align-spaced">
-                    {this.renderGrid()}
+                    {this.renderGridContent()}
                 </div>
             </div>
 

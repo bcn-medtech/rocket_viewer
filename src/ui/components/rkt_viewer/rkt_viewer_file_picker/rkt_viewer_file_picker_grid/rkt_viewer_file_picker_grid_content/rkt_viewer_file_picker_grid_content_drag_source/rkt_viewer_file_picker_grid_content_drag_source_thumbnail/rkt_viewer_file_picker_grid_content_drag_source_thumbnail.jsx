@@ -7,7 +7,7 @@ import { getViewerType, loadImage, getImageName } from './rkt_viewer_file_picker
 //Using global variables
 const cornerstone = window.cornerstone;
 
-export default class RktViewerFilePickerGridContentThumbnail extends Component {
+export default class RktViewerFilePickerGridContentDragSourceThumbnail extends Component {
 
     constructor(props) {
         super(props);
@@ -115,7 +115,7 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
     }
 }
 
-RktViewerFilePickerGridContentThumbnail.defaultProps = {
+RktViewerFilePickerGridContentDragSourceThumbnail.defaultProps = {
     imgUrl: "",
     canvasWidth: 200,
 };
