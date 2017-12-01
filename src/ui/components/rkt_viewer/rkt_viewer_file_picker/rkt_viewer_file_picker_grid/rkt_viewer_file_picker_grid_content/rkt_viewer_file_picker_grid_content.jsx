@@ -33,7 +33,7 @@ export default class RktViewerFilePickerGridContent extends Component {
     /* GRID CONTENT component */
     renderGridContent() {
         var fileList = this.props.fileList; // {0: File, 1: File, ... , lenght: int}
-        var assigned_grid_labels = this.props.assigned_grid_labels; // {0: "name_label_0"/ false, ..., n: "name_label_n"/false}
+        var grid_sources_info = this.props.grid_sources_info;
 
         var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
         keys_fileList.pop(); // ["0", "1", ... , "n"]
@@ -42,18 +42,19 @@ export default class RktViewerFilePickerGridContent extends Component {
 
         return (
             keys_fileList.map((key) => {
-                //console.log(key);
+
                 var value = fileList[key];
                 var files = array2Object([value]); // same as doing "var files = {0:fileList[key], "lenght":1};"
 
-                var assigned_label = assigned_grid_labels[key];
+                var grid_sources_item_info = grid_sources_info[key];
 
                 return (
                     <RktViewerFilePickerGridContentDragSource
                         index={key}
                         files={files}
                         url={url} // for the moment, empty
-                        assigned_label={assigned_label}
+                        // assigned_label={assigned_label}
+                        grid_sources_item_info={grid_sources_item_info}
                         isSelected={key === this.state.selectedImg}
                         onLoaded={this.handleImgLoaded}
                         onClick={this.handleImgClicked}

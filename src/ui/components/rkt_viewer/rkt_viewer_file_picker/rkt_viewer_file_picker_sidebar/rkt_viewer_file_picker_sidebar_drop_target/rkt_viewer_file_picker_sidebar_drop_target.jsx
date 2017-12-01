@@ -37,25 +37,39 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
     componentDidUpdate() {}
 
     setItem(item) {
+        console.log("SET ITEM OF DROP TARGET:");
+        console.log(item);
         //item = {files, imgCanvas, index_grid} (what 'dragSouce' returns)
         this.setState({
             selectedImgCanvas: item.imgCanvas,
         })
 
         // we confirm that an image has been dropped in the drop target
-        this.props.onimgdragdrop(this.props.img_label, true, item.index_grid); // "true" because we are doing an assignment
+        var sidebar_targets_item_info = this.props.sidebar_targets_item_info;
+        // sidebar_targets_item_info = {"index":key, "label": ?, "isAssigned":true/false, "index_source_img":?};
+        
+        // inmutable, informative variables
+        var index_sidebar = sidebar_targets_item_info.index;
+        var label_sidebar = sidebar_targets_item_info.label;
+        console.log(label_sidebar);
+
+        // variables to update
+        var toAssignDropTarget = true; // "true" because we are doing an assignment
+        var index_grid = item.index_grid;//sidebar_targets_info.index_source_img; // I DON'T THINK SO
+
+        this.props.onimgdragdrop(index_sidebar, label_sidebar, toAssignDropTarget, index_grid);
     }
 
     updateCanvas() {
         var canvas = this.refs.dropTargetCanvas;
-
+        
         if (canvas) {
             var image_to_display = this.state.selectedImgCanvas;
 
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            if (this.props.isAssigned) {
+            if (this.props.sidebar_targets_item_info.isAssigned) {
                 ctx.drawImage(image_to_display, 0, 0, canvas.width, canvas.height);
             }
         }
@@ -66,7 +80,7 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
         
         return connectDropTarget(
             <div className="grid-block drop-target" style={{ opacity: isOver ? 1 : 0.8 }}>
-                <p>{this.props.img_label}</p>
+                <p>{this.props.sidebar_targets_item_info.label}</p>
                 <canvas ref="dropTargetCanvas" />
                 {this.updateCanvas()}
             </div>

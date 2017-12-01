@@ -19,29 +19,26 @@ class RktViewerFilePicker extends Component {
 
             var image_types = config.image_types;
 
-            // "assigned_sidebar_targets": targets of the sidebar that have been assigned with an image -->
-            // Object: {"name_target_1": true/false, ..., "name_target_n": true/false}, for a SIDEBAR component with "n" targets
-            var assigned_sidebar_targets = {};
+            // "grid_sources_info": info of the drag sources (GRID CONTENT elements) of the file picker -->
+            var grid_sources_info = {};
 
-            // "assigned_grid_labels": grid content thumbnails that have a (sidebar) label assigend -->
-            // Object: {0: "name_assigned_label_0"/false, ..., m: "name_assigned_label_0"/false}, for a GRID CONTENT component with "m" thumbnails
-            var assigned_grid_labels = {};
+            // "sidebar_targets_info": info of the drop targets (SIDEBAR elements) of the file picker -->
+            var sidebar_targets_info = {};
 
+            // for the moment we can initialize "sidebar_targets_info":
             for (var i = 0; i < image_types.length; i++) {
 
-                // assigned_sidebar_targets
+                // DROP TARGET
                 var dicom_type = image_types[i];
                 var label = dicom_type.label;
 
-                assigned_sidebar_targets[label] = false;
+                sidebar_targets_info[i] = {"index":i, "label": label, "isAssigned":false, "index_source_img":undefined};
 
-                // assigned_grid_labels
-                assigned_grid_labels[i] = false;
             }
 
             this.state = {
-                assigned_sidebar_targets: assigned_sidebar_targets,
-                assigned_grid_labels: assigned_grid_labels
+                sidebar_targets_info: sidebar_targets_info,
+                grid_sources_info: grid_sources_info
             }
         }
 
@@ -52,63 +49,68 @@ class RktViewerFilePicker extends Component {
     componentDidMount() { }
 
     /* SIDEBAR component */
-    onImgDragAndDrop(name_sidebar_target, state_sidebar_target, index_grid) { // an image is dragged from the GRID and dropped in the SIDEBAR
-        // name_sidebar_target: img_label (name of the dicom type) of the assigned/unassigned target
-        // state_sidebar_target (of the sidebar target): true (is assigned)/false (is not assigned)
-        // index_grid: index of the thumbnail of the grid in which we have to assign a label
-
-        console.log("---> ON IMG DRAG AND DROP (name_sidebar_target, state_sidebar_target, index_grid)");
-        console.log(name_sidebar_target);
-        console.log(state_sidebar_target);
+    onImgDragAndDrop(index_sidebar, label_sidebar, toAssignDropTarget, index_grid) {
+        
+        console.log("ON IMG DRAG AND DROP (index_sidebar, label_sidebar, toAssignDropTarget, index_grid)");
+        console.log(index_sidebar);
+        console.log(label_sidebar);
+        console.log(toAssignDropTarget);
         console.log(index_grid);
 
-        // assigned_sidebar_targets
-        var assigned_sidebar_targets = this.state.assigned_sidebar_targets;
-        assigned_sidebar_targets[name_sidebar_target] = state_sidebar_target;
-
-        // assigned_grid_labels
-        var assigned_grid_labels = this.state.assigned_grid_labels;
-
-        if (state_sidebar_target) { // in a new grid label assignment ("state_sidebar_target = true")
+        var grid_sources_info = this.state.grid_sources_info; // drag source
+        var sidebar_targets_info = this.state.sidebar_targets_info; // drop target
         
-            // we check whether the sidebar label is already assigned to a grid thumbnail
-            var image_types = config.image_types;
+        var grid_source_to_update = grid_sources_info[index_grid];
+        var sidebar_target_to_update = sidebar_targets_info[index_sidebar];
+        console.log("GRID SOURCES, SIDEBAR TARGETS TO UPDATE")
+        console.log(grid_source_to_update);
+        console.log(sidebar_target_to_update);
+        
+        if (!toAssignDropTarget) { // case of clicking a deleteIcon in a GRID thumbnail
 
-            for (var i = 0; i < Object.keys(assigned_grid_labels).length; i++) {
-                var grid_label_to_check = i;
-                for (var j = 0; j < image_types.length; j++) {
-                    var name_label_to_check = image_types[j].label;
-                    
-                    if (assigned_grid_labels[grid_label_to_check] === name_label_to_check) {
-                        // this grid thumbnail cannot have the assigned sidebar label any more
-                        assigned_grid_labels[grid_label_to_check] = false;
-                    }
-                }
-            }
+            // DRAG SOURCE update: the current label of the GRID thumbnail is updated to FALSE:
+            grid_source_to_update.hasAssignedLabel = false;
+            grid_source_to_update.assigned_label = false;
+            // and it does NOT have any target associated:
+            grid_source_to_update.index_target_element = false;
 
-            // and we assign the current sidebar label to the current grid thumbnail
-            assigned_grid_labels[index_grid] = name_sidebar_target;
+            // DROP TARGET update: the current SIDEBAR element has NOT any GRID thumbnail assigned
+            sidebar_target_to_update.isAssigned = false;
 
-        } else { // in a cancel grid label assignment ("state_sidebar_target = false")
+        } else { // case of dragging a GRID thumnail into a SIDEBAR element
 
-            assigned_grid_labels[index_grid] = false;
+            // DRAG SOURCE update: the current label of the GRID thumbnail is updated:
+            grid_source_to_update.hasAssignedLabel = true;
+            //console.log(label_sidebar);
+            grid_source_to_update.assigned_label = label_sidebar;
+            // and it DOES have a target associated
+            grid_source_to_update.index_target_element = index_sidebar;
+
+            // DROP TARGET update: the current SIDEBAR element HAS a thumbnail assigned
+            sidebar_target_to_update.isAssigned = true;
+            sidebar_target_to_update.index_source_img = index_grid;
+            //console.log(index_grid);
 
         }
 
-        console.log("ASSIGNED SIDEBAR TARGETS");
-        console.log(assigned_sidebar_targets);
-        console.log("ASSIGNED GRID LABELS");
-        console.log(assigned_grid_labels);
+        // final update
+        grid_sources_info[index_grid] = grid_source_to_update;
+        sidebar_targets_info[index_sidebar] = sidebar_target_to_update;
+
+        console.log("GRID SOURCES, SIDEBAR TARGETS")
+        console.log(grid_sources_info);
+        console.log(sidebar_targets_info);
 
         this.setState({
-            assigned_sidebar_targets: assigned_sidebar_targets,
-            assigned_grid_labels: assigned_grid_labels
-        })
+            grid_sources_info: grid_sources_info,
+            sidebar_targets_info: sidebar_targets_info
+        });
+        
     }
 
     renderSidebar() {
-        var assigned_sidebar_targets = this.state.assigned_sidebar_targets;
-        return (<RktViewerFilePickerSidebar assigned_sidebar_targets={assigned_sidebar_targets} onimgdragdrop={this.onImgDragAndDrop} />);
+        var sidebar_targets_info = this.state.sidebar_targets_info;
+        return (<RktViewerFilePickerSidebar sidebar_targets_info={sidebar_targets_info} onimgdragdrop={this.onImgDragAndDrop} />);
     }
 
     /* GRID component */
@@ -122,9 +124,9 @@ class RktViewerFilePicker extends Component {
     }
 
     renderGrid() {
-        var assigned_grid_labels = this.state.assigned_grid_labels;
+        var grid_sources_info = this.state.grid_sources_info;
         return (
-            <RktViewerFilePickerGrid assigned_grid_labels={assigned_grid_labels} onimgselection={this.onImgSelection} onimgdragdrop={this.onImgDragAndDrop} />
+            <RktViewerFilePickerGrid grid_sources_info={grid_sources_info} onimgselection={this.onImgSelection} onimgdragdrop={this.onImgDragAndDrop} />
         );
     }
 

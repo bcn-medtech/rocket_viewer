@@ -49,7 +49,8 @@ export default class RktViewerFilePickerGrid extends Component {
             return (
                 <RktViewerFilePickerGridContent
                     fileList={fileList}
-                    assigned_grid_labels={this.props.assigned_grid_labels}
+                    // assigned_grid_labels={this.props.assigned_grid_labels}
+                    grid_sources_info={this.props.grid_sources_info}
                     onchangegridcontent={this.onGridContentChange}
                     onimgselection={this.props.onimgselection}
                     onimgdragdrop={this.props.onimgdragdrop}
@@ -64,8 +65,21 @@ export default class RktViewerFilePickerGrid extends Component {
         }
     }
 
-    onFileSelection(fileList) {
-        // we update "GridContent" and "Stats" data
+    onFileSelection(fileList) { // fileList {0: File, 1: File, ... , lenght: int}
+        
+        // we initialize the props "grid_sources_info" (DRAG SOURCE of the file picker)
+        var grid_sources_info = this.props.grid_sources_info;
+
+        var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
+        keys_fileList.pop(); // ["0", "1", ... , "n"]
+
+        for (var i = 0; i < keys_fileList.length; i++) {
+
+            grid_sources_info[i] = {"index":i, "imgCanvas": undefined, "hasLabelAssigned":false, "assigned_label":undefined, "index_target_element":undefined};
+
+        }
+
+        // And we update "GridContent" and "Stats" data
         this.clearState();
         this.setState({
             fileList: fileList,

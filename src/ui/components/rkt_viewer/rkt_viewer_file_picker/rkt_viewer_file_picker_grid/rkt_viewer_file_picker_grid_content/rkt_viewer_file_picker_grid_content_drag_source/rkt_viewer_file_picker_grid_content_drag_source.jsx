@@ -16,7 +16,7 @@ const dicomSource = {
         return {
             files: props.files,
             imgCanvas: imgCanvas,
-            index_grid: props.index
+            index_grid: props.grid_sources_item_info.index
         };
     }
 };
@@ -64,11 +64,12 @@ class RktViewerFilePickerSidebarDragSource extends Component {
     }
 
     renderLabel() {
-        // if (this.state.assigned_label)
-        if (this.props.assigned_label)
+
+        var assigned_label = this.props.grid_sources_item_info.assigned_label;
+        //console.log(assigned_label);
+        if (assigned_label)
             return (<div className="assigned-label">
-                {/* <span className="assigned-label-name">{this.state.assigned_label}</span> */}
-                <span className="assigned-label-name">{this.props.assigned_label}</span>
+                <span className="assigned-label-name">{assigned_label}</span>
                 <RktButtonDeleteIcon onClick={this.handleClickCancel} />
             </div>);
         return "";
@@ -76,12 +77,26 @@ class RktViewerFilePickerSidebarDragSource extends Component {
 
     handleClickCancel() {
         // the corresponding dicom in the SIDEBAR is removed
-        this.props.onimgdragdrop(this.props.assigned_label, false, this.props.index); // "false" because label assignment is cancelled
+        
+        var grid_sources_item_info = this.props.grid_sources_item_info;
+        // grid_sources_item_info = {"index":id, "imgCanvas": ?, "hasLabelAssigned":true/false, "assigned_label":?, "index_target_element":?};
+        
+        // inmutable, informative variables
+        var index_grid = grid_sources_item_info.index;
+
+        // variables to update
+        var index_sidebar = grid_sources_item_info.index_target_element;
+        console.log(index_sidebar);
+        var label_sidebar = grid_sources_item_info.assigned_label;
+        console.log(label_sidebar);
+        var toAssignDropTarget = false; // "false" because label assignment is cancelled
+
+        this.props.onimgdragdrop(index_sidebar, label_sidebar, toAssignDropTarget, index_grid);
     }
 
     render() {
         const { connectDragSource, isDragging } = this.props;
-
+        //console.log(this.props.grid_sources_item_info);
         return connectDragSource((
             <div className="grid-block drag-source" onClick={this.handleClick} >
                 <div ref={(dicomContainer) => { this.dicomContainer = dicomContainer; }}>

@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 //components
 import RktViewerFilePickerSidebarDropTarget from "./rkt_viewer_file_picker_sidebar_drop_target/rkt_viewer_file_picker_sidebar_drop_target";
 
-//config
-import config from "./../../../../../config/config_dicom_types.json";
-
 export default class RktViewerFilePickerSidebar extends Component {
 
     constructor() {
@@ -17,19 +14,26 @@ export default class RktViewerFilePickerSidebar extends Component {
     }
 
     renderDicomPlaceholders() {
-        if (config!==undefined) {
+        var sidebar_targets_info = this.props.sidebar_targets_info;
+
+        if (sidebar_targets_info) {
             
-            let image_types = config.image_types;
+            var keys_sidebar_targets_info = Object.keys(sidebar_targets_info); // ["0", "1", ... , "n"]
             
             return (
-                image_types.map((item, id) => {
-                    //console.log(id);
+                keys_sidebar_targets_info.map((key) => {
+
+                    var sidebar_targets_item_info = this.props.sidebar_targets_info[key];
+                    // sidebar_targets_item_info = {"index":key, "label": ?, "isAssigned":true/false, "index_source_img":?};
+                    
                     return (
                         <RktViewerFilePickerSidebarDropTarget
-                            index={id}
-                            img_label={item.label}
+                            // index={sidebar_targets_item_info.index}
+                            // img_label={sidebar_targets_item_info.label}
+                            // isAssigned={sidebar_targets_item_info.isAssigned}
+                            // index_source_img={sidebar_targets_item_info.index_source_img}
+                            sidebar_targets_item_info={sidebar_targets_item_info}
                             onimgdragdrop={this.props.onimgdragdrop}
-                            isAssigned={this.props.assigned_sidebar_targets[item.label]}
                         />                
                     )
                 })
