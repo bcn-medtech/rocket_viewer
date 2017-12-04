@@ -32,7 +32,7 @@ class RktViewerFilePicker extends Component {
                 var dicom_type = image_types[i];
                 var label = dicom_type.label;
 
-                sidebar_targets_info[i] = {"index":i, "label": label, "isAssigned":false, "index_source_img":undefined};
+                sidebar_targets_info[i] = { "index": i, "label": label, "isAssigned": false, "index_source": undefined };
 
             }
 
@@ -50,46 +50,64 @@ class RktViewerFilePicker extends Component {
 
     /* SIDEBAR component */
     onImgDragAndDrop(index_sidebar, label_sidebar, toAssignDropTarget, index_grid) {
-        
-        console.log("ON IMG DRAG AND DROP (index_sidebar, label_sidebar, toAssignDropTarget, index_grid)");
-        console.log(index_sidebar);
-        console.log(label_sidebar);
-        console.log(toAssignDropTarget);
-        console.log(index_grid);
 
         var grid_sources_info = this.state.grid_sources_info; // drag source
         var sidebar_targets_info = this.state.sidebar_targets_info; // drop target
-        
+
         var grid_source_to_update = grid_sources_info[index_grid];
         var sidebar_target_to_update = sidebar_targets_info[index_sidebar];
-        console.log("GRID SOURCES, SIDEBAR TARGETS TO UPDATE")
-        console.log(grid_source_to_update);
-        console.log(sidebar_target_to_update);
         
         if (!toAssignDropTarget) { // case of clicking a deleteIcon in a GRID thumbnail
 
-            // DRAG SOURCE update: the current label of the GRID thumbnail is updated to FALSE:
+            // DRAG SOURCE update: 
+            // the current label of the GRID thumbnail is updated to FALSE,
             grid_source_to_update.hasAssignedLabel = false;
             grid_source_to_update.assigned_label = false;
             // and it does NOT have any target associated:
-            grid_source_to_update.index_target_element = false;
+            grid_source_to_update.index_target = false;
 
-            // DROP TARGET update: the current SIDEBAR element has NOT any GRID thumbnail assigned
+            // DROP TARGET update: 
+            // the current SIDEBAR element has NOT any GRID thumbnail assigned,
             sidebar_target_to_update.isAssigned = false;
+            // and it does NOT have any source associated
+            sidebar_target_to_update.index_source = false;
 
         } else { // case of dragging a GRID thumnail into a SIDEBAR element
 
-            // DRAG SOURCE update: the current label of the GRID thumbnail is updated:
+            for (var i = 0; i < Object.keys(sidebar_targets_info).length; i++) {
+
+                if (sidebar_targets_info[i].index_source === index_grid) {
+                    // this sidebar cannot have the current source associated
+                    sidebar_targets_info[i].index_source = false;
+                    sidebar_targets_info[i].isAssigned = false;
+                }
+            }
+
+            // 2) a target (sidebar element) can only have ONE source (grid thumbnail) associated -->
+            // we check whether any of the grid thumbnails has assigned the current "sidebar_label"
+
+            for (var i = 0; i < Object.keys(grid_sources_info).length; i++) {
+
+                if (grid_sources_info[i].assigned_label === label_sidebar) {
+                    // this grid thumbnail cannot have the current sidebar label any more
+                    grid_sources_info[i].assigned_label = false;
+                    grid_sources_info[i].hasAssignedLabel = false;
+                    grid_sources_info[i].index_target = false;
+                }
+            }
+
+            // DRAG SOURCE update: 
+            // the current label of the GRID thumbnail is updated,
             grid_source_to_update.hasAssignedLabel = true;
-            //console.log(label_sidebar);
             grid_source_to_update.assigned_label = label_sidebar;
             // and it DOES have a target associated
-            grid_source_to_update.index_target_element = index_sidebar;
+            grid_source_to_update.index_target = index_sidebar;
 
-            // DROP TARGET update: the current SIDEBAR element HAS a thumbnail assigned
+            // DROP TARGET update: 
+            // the current SIDEBAR element HAS a thumbnail assigned
             sidebar_target_to_update.isAssigned = true;
-            sidebar_target_to_update.index_source_img = index_grid;
-            //console.log(index_grid);
+            // and it DOES have a source associated
+            sidebar_target_to_update.index_source = index_grid;
 
         }
 
@@ -97,15 +115,11 @@ class RktViewerFilePicker extends Component {
         grid_sources_info[index_grid] = grid_source_to_update;
         sidebar_targets_info[index_sidebar] = sidebar_target_to_update;
 
-        console.log("GRID SOURCES, SIDEBAR TARGETS")
-        console.log(grid_sources_info);
-        console.log(sidebar_targets_info);
-
         this.setState({
             grid_sources_info: grid_sources_info,
             sidebar_targets_info: sidebar_targets_info
         });
-        
+
     }
 
     renderSidebar() {

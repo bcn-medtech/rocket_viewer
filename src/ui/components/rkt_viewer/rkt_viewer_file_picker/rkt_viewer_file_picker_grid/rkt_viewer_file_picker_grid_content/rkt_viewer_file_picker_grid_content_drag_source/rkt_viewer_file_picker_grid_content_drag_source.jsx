@@ -66,7 +66,6 @@ class RktViewerFilePickerSidebarDragSource extends Component {
     renderLabel() {
 
         var assigned_label = this.props.grid_sources_item_info.assigned_label;
-        //console.log(assigned_label);
         if (assigned_label)
             return (<div className="assigned-label">
                 <span className="assigned-label-name">{assigned_label}</span>
@@ -79,16 +78,14 @@ class RktViewerFilePickerSidebarDragSource extends Component {
         // the corresponding dicom in the SIDEBAR is removed
         
         var grid_sources_item_info = this.props.grid_sources_item_info;
-        // grid_sources_item_info = {"index":id, "imgCanvas": ?, "hasLabelAssigned":true/false, "assigned_label":?, "index_target_element":?};
+        // grid_sources_item_info = {"index":id, "imgCanvas": ?, "hasLabelAssigned":true/false, "assigned_label":?, "index_target":?};
         
         // inmutable, informative variables
         var index_grid = grid_sources_item_info.index;
 
         // variables to update
-        var index_sidebar = grid_sources_item_info.index_target_element;
-        console.log(index_sidebar);
+        var index_sidebar = grid_sources_item_info.index_target;
         var label_sidebar = grid_sources_item_info.assigned_label;
-        console.log(label_sidebar);
         var toAssignDropTarget = false; // "false" because label assignment is cancelled
 
         this.props.onimgdragdrop(index_sidebar, label_sidebar, toAssignDropTarget, index_grid);
@@ -96,7 +93,6 @@ class RktViewerFilePickerSidebarDragSource extends Component {
 
     render() {
         const { connectDragSource, isDragging } = this.props;
-        //console.log(this.props.grid_sources_item_info);
         return connectDragSource((
             <div className="grid-block drag-source" onClick={this.handleClick} >
                 <div ref={(dicomContainer) => { this.dicomContainer = dicomContainer; }}>

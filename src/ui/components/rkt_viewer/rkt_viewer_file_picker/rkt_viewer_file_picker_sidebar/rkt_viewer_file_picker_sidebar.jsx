@@ -24,14 +24,14 @@ export default class RktViewerFilePickerSidebar extends Component {
                 keys_sidebar_targets_info.map((key) => {
 
                     var sidebar_targets_item_info = this.props.sidebar_targets_info[key];
-                    // sidebar_targets_item_info = {"index":key, "label": ?, "isAssigned":true/false, "index_source_img":?};
+                    // sidebar_targets_item_info = {"index":key, "label": ?, "isAssigned":true/false, "index_source":?};
                     
                     return (
                         <RktViewerFilePickerSidebarDropTarget
                             // index={sidebar_targets_item_info.index}
                             // img_label={sidebar_targets_item_info.label}
                             // isAssigned={sidebar_targets_item_info.isAssigned}
-                            // index_source_img={sidebar_targets_item_info.index_source_img}
+                            // index_source={sidebar_targets_item_info.index_source}
                             sidebar_targets_item_info={sidebar_targets_item_info}
                             onimgdragdrop={this.props.onimgdragdrop}
                         />                

@@ -9,7 +9,6 @@ const dropDicomTarget = {
     drop(props, monitor, component) {
 
         var item = monitor.getItem() // item = {files, imgCanvas, index_grid} (what 'dragSouce' returns)
-        //console.log("Dropped item:" + JSON.stringify(item));
         component.setItem(item);
 
     }
@@ -37,8 +36,6 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
     componentDidUpdate() {}
 
     setItem(item) {
-        console.log("SET ITEM OF DROP TARGET:");
-        console.log(item);
         //item = {files, imgCanvas, index_grid} (what 'dragSouce' returns)
         this.setState({
             selectedImgCanvas: item.imgCanvas,
@@ -46,16 +43,15 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
 
         // we confirm that an image has been dropped in the drop target
         var sidebar_targets_item_info = this.props.sidebar_targets_item_info;
-        // sidebar_targets_item_info = {"index":key, "label": ?, "isAssigned":true/false, "index_source_img":?};
+        // sidebar_targets_item_info = {"index":key, "label": ?, "isAssigned":true/false, "index_source":?};
         
         // inmutable, informative variables
         var index_sidebar = sidebar_targets_item_info.index;
         var label_sidebar = sidebar_targets_item_info.label;
-        console.log(label_sidebar);
 
         // variables to update
         var toAssignDropTarget = true; // "true" because we are doing an assignment
-        var index_grid = item.index_grid;//sidebar_targets_info.index_source_img; // I DON'T THINK SO
+        var index_grid = item.index_grid;
 
         this.props.onimgdragdrop(index_sidebar, label_sidebar, toAssignDropTarget, index_grid);
     }

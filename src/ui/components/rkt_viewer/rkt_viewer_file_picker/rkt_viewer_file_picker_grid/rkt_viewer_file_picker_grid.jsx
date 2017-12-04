@@ -75,7 +75,7 @@ export default class RktViewerFilePickerGrid extends Component {
 
         for (var i = 0; i < keys_fileList.length; i++) {
 
-            grid_sources_info[i] = {"index":i, "imgCanvas": undefined, "hasLabelAssigned":false, "assigned_label":undefined, "index_target_element":undefined};
+            grid_sources_info[i] = {"index":i, "imgCanvas": undefined, "hasLabelAssigned":false, "assigned_label":undefined, "index_target":undefined};
 
         }
 
