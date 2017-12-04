@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+//modules
+import { obtainInfoToLoad, loadZipWithInfo } from "./rkt_viewer_file_picker_grid_stats_actions";
+
 export default class RktToolboxStageStats extends Component {
 
     constructor() {
@@ -7,6 +10,8 @@ export default class RktToolboxStageStats extends Component {
         this.state = {
 
         };
+
+        this.loadImagesInfo = this.loadImagesInfo.bind(this);
     }
 
     renderLoadingProgressBar() {
@@ -28,7 +33,9 @@ export default class RktToolboxStageStats extends Component {
                     <span>{" "}</span>
                     {this.props.title} {(this.props.totalDicoms > 0) && "(" + this.props.loadedDicoms + "/" + this.props.totalDicoms + ")"}
                 </h4>
+                {this.renderLoadButton()}
             </div>
+            
         );
     }
 
@@ -53,7 +60,36 @@ export default class RktToolboxStageStats extends Component {
         )
     }
 
+    renderLoadButton() {
+
+        // the button is only rendered when there is image info to load (that is, 
+        // when GRID thumbnails have sidebar elements associated)
+        var grid_sources_info = this.props.grid_sources_info;
+        var areImagesToLoad = false
+
+        for (var i = 0; i < Object.keys(grid_sources_info).length; i++) {
+            if (grid_sources_info[i].hasLabelAssigned === true) {
+                areImagesToLoad = true;
+                break;
+            }
+
+            if (areImagesToLoad) break; 
+        }
+
+        if (areImagesToLoad) {
+            
+            return (<a className="grid-block shrink load-images-info-button" id="load-images-info-button" onClick={this.loadImagesInfo}>Download ZIP</a>);
+            
+        }
+
+    }
+
+    loadImagesInfo() {
+        loadZipWithInfo(this.props.grid_sources_info);
+    }
+
     render() {
+
         return (
             <div className="grid-block vertical shrink container-stats">
                 {this.renderLoadingProgressBar()}

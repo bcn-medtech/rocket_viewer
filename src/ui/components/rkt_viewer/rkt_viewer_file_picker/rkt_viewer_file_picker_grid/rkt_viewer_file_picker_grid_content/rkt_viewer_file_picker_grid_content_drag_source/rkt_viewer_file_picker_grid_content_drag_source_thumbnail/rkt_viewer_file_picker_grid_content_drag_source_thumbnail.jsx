@@ -69,8 +69,10 @@ export default class RktViewerFilePickerGridContentDragSourceThumbnail extends C
             error: false
         })
 
+        var pngCanvas = this.getImageCanvas();
+
         // metadata of the dicom is passed to "Stats" component
-        this.props.onLoaded(cornerstoneImage.data);
+        this.props.onLoaded(cornerstoneImage.data, pngCanvas);
     }
 
     handleThumbnailClicked() {
@@ -83,9 +85,30 @@ export default class RktViewerFilePickerGridContentDragSourceThumbnail extends C
     }
 
     getImageCanvas(){
-        var image = new Image();
-        image.src = this.state.image.getCanvas().toDataURL("image/png");
-        return image;
+        
+        if (this.state.image.getCanvas) {
+            return this.state.image.getCanvas();
+        }
+        else {
+            //alert("(getImageCanvas) Error loading this image");
+            return undefined;
+        }
+        
+    }
+
+    getImageDataURL(){
+        
+        if (this.state.image.getCanvas) {
+            var image = new Image();
+            image.src = this.state.image.getCanvas().toDataURL("image/png");
+            return image;
+        }
+        else {
+            //alert("(getImageDataURL) Error loading this image");
+            alert("Error loading this image");
+            return undefined;
+        }
+        
     }
 
     render() {

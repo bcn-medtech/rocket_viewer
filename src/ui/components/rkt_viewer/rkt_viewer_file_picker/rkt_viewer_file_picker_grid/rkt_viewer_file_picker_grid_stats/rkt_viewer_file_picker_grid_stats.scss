@@ -36,4 +36,21 @@ $purpleMain: #443363; //rgb(110, 83, 158);
             background-color: #333;
         }
     }
+    
+    .load-images-info-button {
+        
+        padding: 10px;
+        //font-size: .9rem;
+        display: inline-block;
+        height: fit-content;
+        background: $purpleMain;//#00558b;//#333
+        color: #ffffff;
+        margin: 0px;
+        overflow: hidden;
+
+        &:focus, &:hover {
+            background: #6f579a;//#004876;
+            color: #fff;
+        }         
+    }
 }

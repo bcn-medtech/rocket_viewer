@@ -48,7 +48,6 @@ class RktViewerFilePicker extends Component {
 
     componentDidMount() { }
 
-    /* SIDEBAR component */
     onImgDragAndDrop(index_sidebar, label_sidebar, toAssignDropTarget, index_grid) {
 
         var grid_sources_info = this.state.grid_sources_info; // drag source
@@ -61,7 +60,7 @@ class RktViewerFilePicker extends Component {
 
             // DRAG SOURCE update: 
             // the current label of the GRID thumbnail is updated to FALSE,
-            grid_source_to_update.hasAssignedLabel = false;
+            grid_source_to_update.hasLabelAssigned = false;
             grid_source_to_update.assigned_label = false;
             // and it does NOT have any target associated:
             grid_source_to_update.index_target = false;
@@ -77,7 +76,7 @@ class RktViewerFilePicker extends Component {
             for (var i = 0; i < Object.keys(sidebar_targets_info).length; i++) {
 
                 if (sidebar_targets_info[i].index_source === index_grid) {
-                    // this sidebar cannot have the current source associated
+                    // this sidebar element cannot have the current source associated
                     sidebar_targets_info[i].index_source = false;
                     sidebar_targets_info[i].isAssigned = false;
                 }
@@ -91,14 +90,14 @@ class RktViewerFilePicker extends Component {
                 if (grid_sources_info[i].assigned_label === label_sidebar) {
                     // this grid thumbnail cannot have the current sidebar label any more
                     grid_sources_info[i].assigned_label = false;
-                    grid_sources_info[i].hasAssignedLabel = false;
+                    grid_sources_info[i].hasLabelAssigned = false;
                     grid_sources_info[i].index_target = false;
                 }
             }
 
             // DRAG SOURCE update: 
             // the current label of the GRID thumbnail is updated,
-            grid_source_to_update.hasAssignedLabel = true;
+            grid_source_to_update.hasLabelAssigned = true;
             grid_source_to_update.assigned_label = label_sidebar;
             // and it DOES have a target associated
             grid_source_to_update.index_target = index_sidebar;
@@ -122,6 +121,7 @@ class RktViewerFilePicker extends Component {
 
     }
 
+    /* SIDEBAR component */
     renderSidebar() {
         var sidebar_targets_info = this.state.sidebar_targets_info;
         return (<RktViewerFilePickerSidebar sidebar_targets_info={sidebar_targets_info} onimgdragdrop={this.onImgDragAndDrop} />);

@@ -34,6 +34,7 @@ export default class RktViewerFilePickerGrid extends Component {
             <RktViewerFilePickerGridStats
                 title="Folder info"
                 items={manufacturerInfo}
+                grid_sources_info={this.props.grid_sources_info}
                 loadedDicoms={loadedFiles}
                 totalDicoms={totalFiles} />
         );
@@ -49,7 +50,6 @@ export default class RktViewerFilePickerGrid extends Component {
             return (
                 <RktViewerFilePickerGridContent
                     fileList={fileList}
-                    // assigned_grid_labels={this.props.assigned_grid_labels}
                     grid_sources_info={this.props.grid_sources_info}
                     onchangegridcontent={this.onGridContentChange}
                     onimgselection={this.props.onimgselection}
@@ -75,7 +75,7 @@ export default class RktViewerFilePickerGrid extends Component {
 
         for (var i = 0; i < keys_fileList.length; i++) {
 
-            grid_sources_info[i] = {"index":i, "imgCanvas": undefined, "hasLabelAssigned":false, "assigned_label":undefined, "index_target":undefined};
+            grid_sources_info[i] = {"index":i, "imgCanvas": undefined, "file": fileList[i], "hasLabelAssigned":false, "assigned_label":undefined, "index_target":undefined};
 
         }
 
@@ -97,15 +97,24 @@ export default class RktViewerFilePickerGrid extends Component {
         });
     }
 
-    onGridContentChange(instances) {
+    onGridContentChange(instances, pngCanvasArray) {
         var myComponent = this;
+        
+        // update of props "grid_sources_info"
+        for (var i = 0; i < Object.keys(myComponent.props.grid_sources_info).length; i++) {
+            var current_PNG_canvas = pngCanvasArray[i];
 
+            myComponent.props.grid_sources_info[i].imgCanvas = current_PNG_canvas;
+        }
+
+        // update of "stats" at GRID STATS
         computeStats(instances, function(manufacturerDict) {
             myComponent.setState({
                 loadedFiles: instances.length,
                 manufacturerInfo: manufacturerDict
             });
         })
+  
     }
 
     render() {

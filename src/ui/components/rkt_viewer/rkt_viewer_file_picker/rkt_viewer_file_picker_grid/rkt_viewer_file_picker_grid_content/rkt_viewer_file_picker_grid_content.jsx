@@ -11,6 +11,7 @@ export default class RktViewerFilePickerGridContent extends Component {
         this.state = {
             selectedImg: -1,
             imgInstances: [],
+            imgCanvasArray: []
         }
 
         this.handleImgLoaded = this.handleImgLoaded.bind(this);
@@ -53,7 +54,6 @@ export default class RktViewerFilePickerGridContent extends Component {
                         index={key}
                         files={files}
                         url={url} // for the moment, empty
-                        // assigned_label={assigned_label}
                         grid_sources_item_info={grid_sources_item_info}
                         isSelected={key === this.state.selectedImg}
                         onLoaded={this.handleImgLoaded}
@@ -65,15 +65,19 @@ export default class RktViewerFilePickerGridContent extends Component {
         );
     }
 
-    handleImgLoaded(data) {
+    handleImgLoaded(data, pngCanvas) {
         let instances = this.state.imgInstances;
+        let imgCanvasArray = this.state.imgCanvasArray;
+
         instances.push(data);
+        imgCanvasArray.push(pngCanvas);
 
         this.setState({
-            dicomInstances: instances
+            imgInstances: instances,
+            imgCanvasArray: imgCanvasArray
         })
 
-        this.props.onchangegridcontent(this.state.imgInstances);
+        this.props.onchangegridcontent(this.state.imgInstances, this.state.imgCanvasArray);
     }
 
     handleImgClicked(index, file, url, viewerType) {

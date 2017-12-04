@@ -11,7 +11,7 @@ const dicomSource = {
 
     beginDrag(props, monitor, component) {
 
-        var imgCanvas = component.dicom.getImageCanvas();
+        var imgCanvas = component.dicom.getImageDataURL();
 
         return {
             files: props.files,
@@ -78,7 +78,7 @@ class RktViewerFilePickerSidebarDragSource extends Component {
         // the corresponding dicom in the SIDEBAR is removed
         
         var grid_sources_item_info = this.props.grid_sources_item_info;
-        // grid_sources_item_info = {"index":id, "imgCanvas": ?, "hasLabelAssigned":true/false, "assigned_label":?, "index_target":?};
+        // grid_sources_item_info = {"index":id, "imgCanvas": ?, "file": ?, "hasLabelAssigned":true/false, "assigned_label":?, "index_target":?};
         
         // inmutable, informative variables
         var index_grid = grid_sources_item_info.index;
