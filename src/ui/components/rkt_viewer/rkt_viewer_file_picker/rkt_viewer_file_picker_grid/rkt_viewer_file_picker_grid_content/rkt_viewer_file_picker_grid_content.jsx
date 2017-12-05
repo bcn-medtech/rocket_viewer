@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import RktViewerFilePickerGridContentThumbnail from './rkt_viewer_file_picker_grid_content_thumbnail/rkt_viewer_file_picker_grid_content_thumbnail';
 import RktViewerFilePickerGridContentDragSource from './rkt_viewer_file_picker_grid_content_drag_source/rkt_viewer_file_picker_grid_content_drag_source';
 
 // actions
@@ -11,7 +10,8 @@ export default class RktViewerFilePickerGridContent extends Component {
         this.state = {
             selectedImg: -1,
             imgInstances: [],
-            imgCanvasArray: []
+            imgCanvasArray: [],
+            metadataArray: []
         }
 
         this.handleImgLoaded = this.handleImgLoaded.bind(this);
@@ -65,19 +65,22 @@ export default class RktViewerFilePickerGridContent extends Component {
         );
     }
 
-    handleImgLoaded(data, pngCanvas) {
+    handleImgLoaded(data, pngCanvas, metadata) {
         let instances = this.state.imgInstances;
         let imgCanvasArray = this.state.imgCanvasArray;
+        let metadataArray = this.state.metadataArray;
 
         instances.push(data);
         imgCanvasArray.push(pngCanvas);
+        metadataArray.push(metadata);
 
         this.setState({
             imgInstances: instances,
-            imgCanvasArray: imgCanvasArray
+            imgCanvasArray: imgCanvasArray,
+            metadataArray: metadataArray
         })
 
-        this.props.onchangegridcontent(this.state.imgInstances, this.state.imgCanvasArray);
+        this.props.onchangegridcontent(this.state.imgInstances, this.state.imgCanvasArray, this.state.metadataArray);
     }
 
     handleImgClicked(index, file, url, viewerType) {

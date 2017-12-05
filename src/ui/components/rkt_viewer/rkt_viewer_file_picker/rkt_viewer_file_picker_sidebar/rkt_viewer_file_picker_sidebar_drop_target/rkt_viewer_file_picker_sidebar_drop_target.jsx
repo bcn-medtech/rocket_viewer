@@ -9,8 +9,11 @@ const dropDicomTarget = {
     drop(props, monitor, component) {
 
         var item = monitor.getItem() // item = {files, imgCanvas, index_grid} (what 'dragSouce' returns)
-        component.setItem(item);
 
+        if (item.imgCanvas!==undefined){
+            component.setItem(item);
+        }
+    
     }
 };
 
@@ -62,11 +65,13 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
         if (canvas) {
             var image_to_display = this.state.selectedImgCanvas;
 
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            if (this.props.sidebar_targets_item_info.isAssigned) {
-                ctx.drawImage(image_to_display, 0, 0, canvas.width, canvas.height);
+            if (image_to_display!==undefined){
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+                if (this.props.sidebar_targets_item_info.isAssigned) {
+                    ctx.drawImage(image_to_display, 0, 0, canvas.width, canvas.height);
+                }
             }
         }
     }

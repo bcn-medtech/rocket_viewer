@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import PubSub from 'pubsub-js'
 
 //actions
-import { getViewerType, loadImage, getImageName } from './rkt_viewer_file_picker_grid_content_drag_source_thumbnail_actions';
+import { getViewerType, loadImage, getImageName, getDicomMetadata } from './rkt_viewer_file_picker_grid_content_drag_source_thumbnail_actions';
 
 //Using global variables
 const cornerstone = window.cornerstone;
@@ -39,11 +39,17 @@ export default class RktViewerFilePickerGridContentDragSourceThumbnail extends C
         var myComponent = this;
 
         getViewerType(files, url, function(viewerType) {
+            
             myComponent.setState({
                 viewerType: viewerType
             })
+
+            if (viewerType!==undefined) { // the image is only displayed if its format is compatible
+                loadImage(viewerType, files, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
+            } else {
+                myComponent.onErrorLoading(false);
+            }
             
-            loadImage(viewerType, files, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
         });
 
     }
@@ -70,9 +76,15 @@ export default class RktViewerFilePickerGridContentDragSourceThumbnail extends C
         })
 
         var pngCanvas = this.getImageCanvas();
-
+        var metadata;
+        if (this.state.viewerType === "dicom") {
+            metadata = getDicomMetadata(cornerstoneImage);
+        } else {
+            metadata = undefined;
+        }
+        
         // metadata of the dicom is passed to "Stats" component
-        this.props.onLoaded(cornerstoneImage.data, pngCanvas);
+        this.props.onLoaded(cornerstoneImage.data, pngCanvas, metadata);
     }
 
     handleThumbnailClicked() {
@@ -86,29 +98,38 @@ export default class RktViewerFilePickerGridContentDragSourceThumbnail extends C
 
     getImageCanvas(){
         
-        if (this.state.image.getCanvas) {
-            return this.state.image.getCanvas();
-        }
-        else {
-            //alert("(getImageCanvas) Error loading this image");
+        if (this.state.image) {
+            if (this.state.image.getCanvas) {
+                return this.state.image.getCanvas();
+            }
+            else {
+                //alert("(getImageCanvas) Error loading this image");
+                return undefined;
+            }
+        }else {
+            console.log("HERE!!!!!!!!!!!");
             return undefined;
         }
-        
+ 
     }
 
     getImageDataURL(){
         
-        if (this.state.image.getCanvas) {
-            var image = new Image();
-            image.src = this.state.image.getCanvas().toDataURL("image/png");
-            return image;
-        }
-        else {
-            //alert("(getImageDataURL) Error loading this image");
-            alert("Error loading this image");
+        if (this.state.image) {
+            if (this.state.image.getCanvas) {
+                var image = new Image();
+                image.src = this.state.image.getCanvas().toDataURL("image/png");
+                return image;
+            }
+            else {
+                //alert("(getImageDataURL) Error loading this image");
+                alert("Error loading this image");
+                return undefined;
+            }
+        } else {
             return undefined;
         }
-        
+
     }
 
     render() {

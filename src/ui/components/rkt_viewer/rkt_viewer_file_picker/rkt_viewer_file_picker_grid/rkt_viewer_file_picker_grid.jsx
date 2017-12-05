@@ -75,7 +75,7 @@ export default class RktViewerFilePickerGrid extends Component {
 
         for (var i = 0; i < keys_fileList.length; i++) {
 
-            grid_sources_info[i] = {"index":i, "imgCanvas": undefined, "file": fileList[i], "hasLabelAssigned":false, "assigned_label":undefined, "index_target":undefined};
+            grid_sources_info[i] = {"index":i, "imgCanvas": undefined, "metadata": undefined, "file": fileList[i], "hasLabelAssigned":false, "assigned_label":undefined, "index_target":undefined};
 
         }
 
@@ -97,14 +97,16 @@ export default class RktViewerFilePickerGrid extends Component {
         });
     }
 
-    onGridContentChange(instances, pngCanvasArray) {
+    onGridContentChange(instances, pngCanvasArray, metadataArray) {
         var myComponent = this;
-        
+
         // update of props "grid_sources_info"
         for (var i = 0; i < Object.keys(myComponent.props.grid_sources_info).length; i++) {
             var current_PNG_canvas = pngCanvasArray[i];
+            var current_metadata = metadataArray[i];
 
             myComponent.props.grid_sources_info[i].imgCanvas = current_PNG_canvas;
+            myComponent.props.grid_sources_info[i].metadata = current_metadata
         }
 
         // update of "stats" at GRID STATS
