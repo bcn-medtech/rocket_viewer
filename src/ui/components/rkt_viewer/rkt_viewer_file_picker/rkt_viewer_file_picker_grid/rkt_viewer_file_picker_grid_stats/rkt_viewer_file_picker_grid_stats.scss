@@ -11,12 +11,34 @@ $purpleMain: #443363; //rgb(110, 83, 158);
         overflow: hidden;
         //background-color: $purpleMain; // IT DOES NOT WORK
     }
-    
-    h4 {
-        padding: 10px;
-        color: black;
+
+    .folder-info{
+        h4 {
+            color: black;
+            padding: 10px;
+        }
     }
 
+    .load-images-info-button {
+
+        padding: 12px;
+        right: 0px;
+        //font-size: .9rem;
+        display: inline-block;
+        height: fit-content;
+        background: $purpleMain;//#00558b;//#333
+        margin: 0px;
+        overflow: hidden;
+        color: #ffffff;
+
+        &:focus, &:hover {
+            background: #6f579a;//#004876;
+            color: #fff;
+        }
+                 
+    }
+    
+    
     .stat-item {
         display: inline-block;
         padding: 10px;
@@ -37,20 +59,4 @@ $purpleMain: #443363; //rgb(110, 83, 158);
         }
     }
     
-    .load-images-info-button {
-        
-        padding: 10px;
-        //font-size: .9rem;
-        display: inline-block;
-        height: fit-content;
-        background: $purpleMain;//#00558b;//#333
-        color: #ffffff;
-        margin: 0px;
-        overflow: hidden;
-
-        &:focus, &:hover {
-            background: #6f579a;//#004876;
-            color: #fff;
-        }         
-    }
 }

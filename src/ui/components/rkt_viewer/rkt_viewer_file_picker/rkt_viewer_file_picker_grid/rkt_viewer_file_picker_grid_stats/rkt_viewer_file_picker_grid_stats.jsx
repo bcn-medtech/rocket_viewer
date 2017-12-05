@@ -27,15 +27,19 @@ export default class RktToolboxStageStats extends Component {
 
     renderFolderInfo() {
         return (
-            <div className="grid-block shrink folder-info" style={{ overflow: "hidden" }} >
-                <h4>
-                    <i className="fi-folder"></i>
-                    <span>{" "}</span>
-                    {this.props.title} {(this.props.totalDicoms > 0) && "(" + this.props.loadedDicoms + "/" + this.props.totalDicoms + ")"}
-                </h4>
-                {this.renderLoadButton()}
+            <div className="grid-block shrink" style={{ overflow: "hidden", alignItems:"baseline" }} >
+                <div className="grid-block shrink folder-info">
+                    <h4>
+                        <i className="fi-folder"></i>
+                        <span>{" "}</span>
+                        {this.props.title} {(this.props.totalDicoms > 0) && "(" + this.props.loadedDicoms + "/" + this.props.totalDicoms + ")"}
+                    </h4>
+                </div>
+                <div className="grid-block shrink" style={{ left: "50%" }}>
+                    {this.renderLoadButton()}
+                </div>
+
             </div>
-            
         );
     }
 
@@ -73,13 +77,13 @@ export default class RktToolboxStageStats extends Component {
                 break;
             }
 
-            if (areImagesToLoad) break; 
+            if (areImagesToLoad) break;
         }
 
         if (areImagesToLoad) {
-            
+
             return (<a className="grid-block shrink load-images-info-button" id="load-images-info-button" onClick={this.loadImagesInfo}>Download ZIP</a>);
-            
+
         }
 
     }

@@ -42,7 +42,7 @@ export default class RktViewerFilePickerGridContentDragSourceThumbnail extends C
             myComponent.setState({
                 viewerType: viewerType
             })
-
+            
             loadImage(viewerType, files, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
         });
 
