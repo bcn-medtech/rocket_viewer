@@ -16,7 +16,7 @@ export default class RktToolboxList extends Component {
             currentItem: {},
             currentItemID: undefined,
             display_extra_toolbox: false,
-            open_toolbox_list: false,
+            isToolboxListOpen: false,
         };
 
     }
@@ -39,7 +39,7 @@ export default class RktToolboxList extends Component {
     openAndCloseToolboxList(event) {
 
         this.setState({
-            open_toolbox_list: !this.state.open_toolbox_list
+            isToolboxListOpen: !this.state.isToolboxListOpen
         });
 
     }
@@ -47,7 +47,7 @@ export default class RktToolboxList extends Component {
     renderToolboxListItems(items) {
 
         // we will only render items if we ask to open the toolbox list
-        if (this.state.open_toolbox_list) {
+        if (this.state.isToolboxListOpen) {
 
             // If this toolbox list can have an extra toolbox
             if ((this.props.extratoolboxinfo) && (this.props.addextratoolboxfunction)) {
@@ -79,7 +79,7 @@ export default class RktToolboxList extends Component {
                                 })}
                             </div>
                             <div className="grid-block vertical extra-rkt-toolbox">
-                                {this.props.addextratoolboxfunction(extra_toolbox_info, this.state.open_toolbox_table_list)}
+                                {this.props.addextratoolboxfunction(extra_toolbox_info)}
                             </div>
                         </div>
                     );

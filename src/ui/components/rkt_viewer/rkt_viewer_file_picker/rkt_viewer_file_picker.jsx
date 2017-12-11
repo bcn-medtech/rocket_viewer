@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
+// actions
+import { setConfigInfo } from "./rkt_viewer_file_picker_actions";
 // components
 import RktViewerFilePickerSidebar from './rkt_viewer_file_picker_sidebar/rkt_viewer_file_picker_sidebar';
 import RktViewerFilePickerGrid from './rkt_viewer_file_picker_grid/rkt_viewer_file_picker_grid';
@@ -17,33 +19,17 @@ class RktViewerFilePicker extends Component {
 
         if (config !== undefined) {
 
-            var image_types = config.image_types;
-
-            // "grid_sources_info": info of the drag sources (GRID CONTENT elements) of the file picker -->
-            var grid_sources_info = {};
-
-            // "sidebar_targets_info": info of the drop targets (SIDEBAR elements) of the file picker -->
-            var sidebar_targets_info = {};
-
-            // for the moment we can initialize "sidebar_targets_info":
-            for (var i = 0; i < image_types.length; i++) {
-
-                // DROP TARGET
-                var dicom_type = image_types[i];
-                var label = dicom_type.label;
-
-                sidebar_targets_info[i] = { "index": i, "label": label, "isAssigned": false, "index_source": undefined };
-
-            }
+            var sidebar_targets_info = setConfigInfo(config);
 
             this.state = {
-                sidebar_targets_info: sidebar_targets_info,
-                grid_sources_info: grid_sources_info
+                sidebar_targets_info: sidebar_targets_info, // sidebar_targets_info[i] = { "index": i, "label": label, "isAssigned": false, "index_source": undefined };
+                grid_sources_info: {}
             }
         }
 
         this.onImgSelection = this.onImgSelection.bind(this);
         this.onImgDragAndDrop = this.onImgDragAndDrop.bind(this);
+        this.onConfigChange = this.onConfigChange.bind(this);
     }
 
     componentDidMount() { }
@@ -55,7 +41,7 @@ class RktViewerFilePicker extends Component {
 
         var grid_source_to_update = grid_sources_info[index_grid];
         var sidebar_target_to_update = sidebar_targets_info[index_sidebar];
-        
+
         if (!toAssignDropTarget) { // case of clicking a deleteIcon in a GRID thumbnail
 
             // DRAG SOURCE update: 
@@ -122,9 +108,34 @@ class RktViewerFilePicker extends Component {
     }
 
     /* SIDEBAR component */
+    onConfigChange(new_config) {
+        if (new_config !== undefined) {
+            console.log("LET'S CHANGE CONFIG INFO!");
+            var sidebar_targets_info = setConfigInfo(new_config);
+            console.log(sidebar_targets_info);
+            var grid_sources_info = this.state.grid_sources_info;
+
+            // in case "grid_sources_info" is already filled (after importing DICOMs into the GRID)
+            if (Object.keys(grid_sources_info).length > 0) { // we update/reinitialize the labels of the grid content to "false"
+                for (var i = 0; i < Object.keys(grid_sources_info).length; i++) {
+                    var grid_source_to_update = grid_sources_info[i];
+                    grid_source_to_update.assigned_label = false;
+                    grid_source_to_update.isAssigned = false;
+                }
+            }
+
+            this.setState = {
+                sidebar_targets_info: sidebar_targets_info,
+                grid_sources_info: grid_sources_info
+            }
+        }
+    }
+
     renderSidebar() {
         var sidebar_targets_info = this.state.sidebar_targets_info;
-        return (<RktViewerFilePickerSidebar sidebar_targets_info={sidebar_targets_info} onimgdragdrop={this.onImgDragAndDrop} />);
+        console.log(sidebar_targets_info);
+        console.log(sidebar_targets_info);
+        return (<RktViewerFilePickerSidebar sidebar_targets_info={sidebar_targets_info} onimgdragdrop={this.onImgDragAndDrop} onconfigchange={this.onConfigChange} />);
     }
 
     /* GRID component */

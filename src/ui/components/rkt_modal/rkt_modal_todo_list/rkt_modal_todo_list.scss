@@ -1,0 +1,158 @@
+@import './rkt_modal_todo_list_item/rkt_modal_todo_list_item.scss';
+$purpleMain: #443363;//rgb(110, 83, 158);
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes popmodal {
+    from {opacity:0;}
+    to {opacity: 1;}
+}
+
+/* Standard syntax */
+@keyframes popmodal {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes unpopmodal {
+    from {opacity:1;}
+    to {opacity: 0;}
+}
+
+/* Standard syntax */
+@keyframes unpopmodal {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+.rkt-modal-todo-list {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    z-index: 1000;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.897);
+    color: white;
+
+    -webkit-animation-name: popmodal; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 0.5s; /* Safari 4.0 - 8.0 */
+    animation-name: popmodal;
+    animation-duration: 0.5s;
+
+    .rkt-modal-todo-list-title {
+        padding:10px;
+        h2{
+            color:rgba(255, 255, 255, 0.89);
+        }
+    }
+    
+    .rkt-modal-todo-list-input-area {
+        padding: 10px;
+
+        .rkt-modal-todo-list-submit-button {
+            padding: 12px;
+            right: 0px;
+            //font-size: .9rem;
+            height: fit-content;
+            display: inline-block;
+            background: $purpleMain;//#6f579a;//#00558b;//#333
+            margin: 0px;
+            overflow: hidden;
+            color: #ffffff;
+    
+            &:focus, &:hover {
+                background: #6f579a;//#004876;
+                color: #fff;
+            }
+        }
+
+    }
+
+    .rkt-modal-todo-list-items {
+        h3{
+            color:rgba(255, 255, 255, 0.89);
+        }
+    }
+
+
+    .rkt-modal-todo-list-load-button {
+        padding: 12px;
+        //right: 0px;
+        //font-size: .9rem;
+        bottom: 0px;
+        height: fit-content;
+        display: inline-block;
+        background: $purpleMain;//#6f579a;//#00558b;//#333
+        margin: 0px;
+        overflow: hidden;
+        color: #ffffff;
+
+        &:focus, &:hover {
+            background: #6f579a;//#004876;
+            color: #fff;
+        }
+    }
+}
+
+.rkt-modal-todo-list-closed {
+    width: 100%;
+    height: 100%;
+    position:fixed;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.897);
+    color: white;
+    opacity: 0;
+
+    -webkit-animation-name: unpopmodal; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 0.5s; /* Safari 4.0 - 8.0 */
+    animation-name: unpopmodal;
+    animation-duration: 0.5s;
+
+    .rkt-modal-todo-list-title {
+        padding:10px;
+        h2{
+            color:rgba(255, 255, 255, 0.89);
+        }
+    }
+
+    // h2{
+    //     color:rgba(255, 255, 255, 0.89);
+    // }
+    
+
+    .rkt-modal-todo-list-submit-button {
+        padding: 12px;
+        right: 0px;
+        //font-size: .9rem;
+        display: inline-block;
+        height: fit-content;
+        background: $purpleMain;//#6f579a;//#00558b;//#333
+        margin: 0px;
+        overflow: hidden;
+        color: #ffffff;
+
+        &:focus, &:hover {
+            background: #6f579a;//#004876;
+            color: #fff;
+        }
+    }
+
+    .rkt-modal-todo-list-load-button {
+        padding: 12px;
+        right: 0px;
+        //font-size: .9rem;
+        display: inline-block;
+        height: fit-content;
+        background: #6f579a;//#00558b;//#333
+        margin: 0px;
+        overflow: hidden;
+        color: #ffffff;
+
+        &:focus, &:hover {
+            background: #6f579a;//#004876;
+            color: #fff;
+        }
+    }
+}
+
+

@@ -1,8 +1,27 @@
+@import "./../../../rkt_modal/rkt_modal_todo_list/rkt_modal_todo_list.scss";
 @import './rkt_viewer_file_picker_sidebar_drop_target/rkt_viewer_file_picker_sidebar_drop_target.scss';
 
 .file-picker-sidebar {
     background-color: #282828;
     overflow-x: hidden;
-    overflow-y: auto; // IT WORKS... BUT THE SCROLL BAR IS ONLY SEEN WHEN I SCROLL
+    overflow-y: auto;
+    //justify-content: center;
+
+    .open-modal-todo-list-button {
+        padding: 12px;
+        //font-size: .9rem;
+        display: inline-block;
+        background: #6f579a;//#00558b;//#333
+        margin: 10px;
+        overflow: hidden;
+        color: #ffffff;
+        text-align: center;
+    
+        &:focus, &:hover {
+            background: #6f579a;//#004876;
+            color: #fff;
+        }
+        
+    }
 }
 
