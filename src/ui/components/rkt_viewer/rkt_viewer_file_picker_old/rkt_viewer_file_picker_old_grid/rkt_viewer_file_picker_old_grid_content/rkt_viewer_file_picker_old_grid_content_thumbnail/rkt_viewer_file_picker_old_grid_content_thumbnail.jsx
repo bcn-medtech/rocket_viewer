@@ -38,11 +38,17 @@ export default class RktViewerFilePickerGridContentThumbnail extends Component {
         var myComponent = this;
 
         getViewerType(files, url, function(viewerType) {
+            
             myComponent.setState({
                 viewerType: viewerType
             })
 
-            loadImage(viewerType, files, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
+            if (viewerType!==undefined) { // the image is only displayed if its format is compatible
+                loadImage(viewerType, files, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
+            } else {
+                myComponent.onErrorLoading(false);
+            }
+            
         });
 
     }

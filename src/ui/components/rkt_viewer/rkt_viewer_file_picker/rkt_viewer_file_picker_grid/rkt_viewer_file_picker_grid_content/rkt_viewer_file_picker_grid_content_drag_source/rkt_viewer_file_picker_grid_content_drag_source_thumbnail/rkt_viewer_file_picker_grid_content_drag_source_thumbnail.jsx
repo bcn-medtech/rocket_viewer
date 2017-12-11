@@ -107,7 +107,6 @@ export default class RktViewerFilePickerGridContentDragSourceThumbnail extends C
                 return undefined;
             }
         }else {
-            console.log("HERE!!!!!!!!!!!");
             return undefined;
         }
  

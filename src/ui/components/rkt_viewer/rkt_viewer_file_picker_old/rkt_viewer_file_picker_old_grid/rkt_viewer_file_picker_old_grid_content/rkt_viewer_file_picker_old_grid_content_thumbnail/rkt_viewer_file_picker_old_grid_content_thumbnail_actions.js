@@ -13,6 +13,7 @@ var TrackballControls = require('three-trackballcontrols');
 const cornerstone = window.cornerstone;
 const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
 const cornerstoneWebImageLoader = window.cornerstoneWebImageLoader;
+const dicomParser = window.dicomParser;
 
 export function isViewerLoadingAURLSource(img_url) {
 
@@ -30,13 +31,10 @@ export function getViewerType(files, url, callback) {
     var viewerType;
 
     if (isViewerLoadingAURLSource(url)) {
-
-        // TO DO
-
-
+        // TO DO?
     } else {
-
         var fileType = files[0].type;
+
 
         if (!isObjectEmpty(fileType)) {
 
@@ -57,19 +55,28 @@ export function getViewerType(files, url, callback) {
                     break;
             }
 
+            callback(viewerType);
+
         } else {
 
             var nameFile = files[0].name;
 
-            if (nameFile.includes(".nrrd")) viewerType = "nrrd";
-            else if (nameFile.includes(".ply")) viewerType = "ply";
-            else if (nameFile.includes(".vtk")) viewerType = "vtk";
+            if (nameFile.includes(".nrrd")) callback("nrrd");
+            else if (nameFile.includes(".ply")) callback("ply");
+            else if (nameFile.includes(".vtk")) callback("vtk");
+            else {
+                isFileADicomFile(files[0], function (fileisDicom) {
 
+                    if (fileisDicom) {
+                        callback("dicom");
+                    } else {
+                        callback(undefined);
+                    }
+
+                })
+            }
         }
     }
-
-    callback(viewerType);
-
 }
 
 export function loadImage(viewerType, files, url, on_image_loaded_function, on_error_loading_function) {
@@ -138,6 +145,36 @@ export function getImageName(files, url) {
 
 
 ////////////////////////// DICOM
+function isFileADicomFile(file, callback) {
+    try {
+        loadFile(file, function (dicomFileAsBuffer) {
+            try {
+                var dataSet = dicomParser.parseDicom(dicomFileAsBuffer);
+                callback(true);
+            }
+            catch (exceptionParseDicom) {
+                callback(false);
+            }
+        });
+
+    } catch (exceptionFileReader) {
+        callback(false);
+    }
+
+    // based on view-source:https://rawgit.com/chafey/dicomParser/master/examples/gettingStarted/index.html
+    function loadFile(file, callback) {
+        var reader = new FileReader();
+
+        reader.onload = function (file) {
+            var arrayBuffer = reader.result;
+            var byteArray = new Uint8Array(arrayBuffer);
+            callback(byteArray);
+        }
+
+        reader.readAsArrayBuffer(file);
+    }
+}
+
 export function loadDicom(url, img_source, on_image_loaded_function, on_error_loading_function) {
 
     if (img_source === "filesystem") {
