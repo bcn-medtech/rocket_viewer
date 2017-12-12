@@ -3,7 +3,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 // actions
-import { setConfigInfo } from "./rkt_viewer_file_picker_actions";
+import { setConfigInfo, updateFilePickerInfo } from "./rkt_viewer_file_picker_actions";
 // components
 import RktViewerFilePickerSidebar from './rkt_viewer_file_picker_sidebar/rkt_viewer_file_picker_sidebar';
 import RktViewerFilePickerGrid from './rkt_viewer_file_picker_grid/rkt_viewer_file_picker_grid';
@@ -40,70 +40,11 @@ class RktViewerFilePicker extends Component {
         var grid_sources_info = this.state.grid_sources_info; // drag source
         var sidebar_targets_info = this.state.sidebar_targets_info; // drop target
 
-        var grid_source_to_update = grid_sources_info[index_grid];
-        var sidebar_target_to_update = sidebar_targets_info[index_sidebar];
-
-        if (!toAssignDropTarget) { // case of clicking a deleteIcon in a GRID thumbnail
-
-            // DRAG SOURCE update: 
-            // the current label of the GRID thumbnail is updated to FALSE,
-            grid_source_to_update.hasLabelAssigned = false;
-            grid_source_to_update.assigned_label = false;
-            // and it does NOT have any target associated:
-            grid_source_to_update.index_target = false;
-
-            // DROP TARGET update: 
-            // the current SIDEBAR element has NOT any GRID thumbnail assigned,
-            sidebar_target_to_update.isAssigned = false;
-            // and it does NOT have any source associated
-            sidebar_target_to_update.index_source = false;
-
-        } else { // case of dragging a GRID thumnail into a SIDEBAR element
-
-            for (var i = 0; i < Object.keys(sidebar_targets_info).length; i++) {
-
-                if (sidebar_targets_info[i].index_source === index_grid) {
-                    // this sidebar element cannot have the current source associated
-                    sidebar_targets_info[i].index_source = false;
-                    sidebar_targets_info[i].isAssigned = false;
-                }
-            }
-
-            // 2) a target (sidebar element) can only have ONE source (grid thumbnail) associated -->
-            // we check whether any of the grid thumbnails has assigned the current "sidebar_label"
-
-            for (var i = 0; i < Object.keys(grid_sources_info).length; i++) {
-
-                if (grid_sources_info[i].assigned_label === label_sidebar) {
-                    // this grid thumbnail cannot have the current sidebar label any more
-                    grid_sources_info[i].assigned_label = false;
-                    grid_sources_info[i].hasLabelAssigned = false;
-                    grid_sources_info[i].index_target = false;
-                }
-            }
-
-            // DRAG SOURCE update: 
-            // the current label of the GRID thumbnail is updated,
-            grid_source_to_update.hasLabelAssigned = true;
-            grid_source_to_update.assigned_label = label_sidebar;
-            // and it DOES have a target associated
-            grid_source_to_update.index_target = index_sidebar;
-
-            // DROP TARGET update: 
-            // the current SIDEBAR element HAS a thumbnail assigned
-            sidebar_target_to_update.isAssigned = true;
-            // and it DOES have a source associated
-            sidebar_target_to_update.index_source = index_grid;
-
-        }
-
-        // final update
-        grid_sources_info[index_grid] = grid_source_to_update;
-        sidebar_targets_info[index_sidebar] = sidebar_target_to_update;
+        var [updated_grid_sources_info, updated_sidebar_targets_info] = updateFilePickerInfo(grid_sources_info, sidebar_targets_info, index_sidebar, label_sidebar, toAssignDropTarget, index_grid);
 
         this.setState({
-            grid_sources_info: grid_sources_info,
-            sidebar_targets_info: sidebar_targets_info
+            grid_sources_info: updated_grid_sources_info,
+            sidebar_targets_info: updated_sidebar_targets_info
         });
 
     }
@@ -111,30 +52,30 @@ class RktViewerFilePicker extends Component {
     /* SIDEBAR component */
     onConfigChange(new_config) {
         if (new_config !== undefined) {
-            //console.log("LET'S CHANGE CONFIG INFO!");
-            var sidebar_targets_info = setConfigInfo(new_config);
-            //console.log(sidebar_targets_info);
-            var grid_sources_info = this.state.grid_sources_info;
+            var updated_sidebar_targets_info = setConfigInfo(new_config);
+            var updated_grid_sources_info = this.state.grid_sources_info;
 
             // in case "grid_sources_info" is already filled (after importing DICOMs into the GRID)
-            if (Object.keys(grid_sources_info).length > 0) { // we update/reinitialize the labels of the grid content to "false"
-                for (var i = 0; i < Object.keys(grid_sources_info).length; i++) {
-                    var grid_source_to_update = grid_sources_info[i];
+            if (Object.keys(updated_grid_sources_info).length > 0) { // we update/reinitialize the labels of the grid content to "false"
+                for (var i = 0; i < Object.keys(updated_grid_sources_info).length; i++) {
+                    var grid_source_to_update = updated_grid_sources_info[i];
                     grid_source_to_update.assigned_label = false;
                     grid_source_to_update.isAssigned = false;
+
+                    updated_grid_sources_info[i] = grid_source_to_update;
                 }
             }
 
-            this.setState = {
-                sidebar_targets_info: sidebar_targets_info,
-                grid_sources_info: grid_sources_info
-            }
+            this.setState({
+                sidebar_targets_info: updated_sidebar_targets_info,
+                grid_sources_info: updated_grid_sources_info
+            });
         }
     }
 
     renderSidebar() {
         var sidebar_targets_info = this.state.sidebar_targets_info;
-        //console.log(sidebar_targets_info);
+        
         return (<RktViewerFilePickerSidebar sidebar_targets_info={sidebar_targets_info} onimgdragdrop={this.onImgDragAndDrop} onconfigchange={this.onConfigChange} />);
     }
 

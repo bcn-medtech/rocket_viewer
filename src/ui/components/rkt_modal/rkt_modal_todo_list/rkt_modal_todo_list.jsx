@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 //modules
 import { isObjectEmpty, isObjectAFunction } from './../../../../modules/rkt_module_object';
-// //actions
-// import { saveAsJSONObject } from "./rkt_modal_todo_list_actions";
+//actions
+import { lookForElementInArray } from "./rkt_modal_todo_list_actions";
 //utils
 import newId from './../../../../utils/newid.js';
 //components
-import CloseButton from "./../../rkt_button/rkt_button_delete_icon/rkt_button_delete_icon";
+import RktButtonDeleteIcon from "./../../rkt_button/rkt_button_delete_icon/rkt_button_delete_icon";
 import RktModalTodoListItem from './rkt_modal_todo_list_item/rkt_modal_todo_list_item';
 
 export default class RktModalTodoList extends Component {
@@ -24,35 +24,48 @@ export default class RktModalTodoList extends Component {
         this.closeModal = this.closeModal.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
         this.addTodoListItem = this.addTodoListItem.bind(this);
+        this.removeTodoListItem = this.removeTodoListItem.bind(this);
         this.onTodoListSave = this.onTodoListSave.bind(this);
-
-        console.log("Modal construction")
 
     }
 
     componentDidMount() { }
 
     closeModal() {
-        console.log("Close modal");
-        this.setState({ 
+        this.setState({
             items: [],
-            closed: true 
+            closed: true
         });
 
         var myComponent = this;
 
-        setTimeout(function(){ 
+        setTimeout(function () {
             myComponent.props.closemodaltodolist();
         }, 500);
-        
+
+    }
+
+    onInputChange(e) {
+        this.setState({ input: e.target.value });
     }
 
     renderModalInputField() {
+
+        // The user has to *write* an item
+        var submit_button_id;
+        if ((this.state.input === undefined) || (this.state.input.trim() === "")) submit_button_id = "disabled-button";
+        else submit_button_id = "enabled-button";
+
         return (
             <div className="grid-block shrink rkt-modal-todo-list-input-area">
-                <input type="text" value={this.state.input} className="grid-block rkt-modal-todo-list-input-field" placeholder="" onChange={this.onInputChange} />
+                <input className="grid-block rkt-modal-todo-list-input-field"
+                    type="text"
+                    value={this.state.input}
+                    placeholder={""}
+                    onChange={this.onInputChange}
+                />
                 <div className="grid-block shrink">
-                    <a className="rkt-modal-todo-list-submit-button" onClick={this.addTodoListItem}>
+                    <a className="rkt-modal-todo-list-submit-button" id={submit_button_id} onClick={this.addTodoListItem}>
                         Submit
                     </a>
                 </div>
@@ -60,58 +73,74 @@ export default class RktModalTodoList extends Component {
         )
     }
 
-    onInputChange(e) {
-        this.setState({ input: e.target.value.trim() });
-    }
-
     addTodoListItem(e) {
         var items = this.state.items;
-        var input = this.state.input;
-        items.push(input);
+        var input = this.state.input.trim();
+
+        var isNewElement = lookForElementInArray(input, items);
+
+        if (isNewElement) items.push(input); // we add the new item to the "items" array
+        else alert("You cannot repeat items in the list");
 
         this.setState({
             items: items,
             input: ""
+        });
+
+    }
+
+    removeTodoListItem(index) {
+        var items = this.state.items;
+        items.splice(index, 1);
+
+        this.setState({
+            items: items
         });
     }
 
     renderModalTodoListItems() {
 
         var items = this.state.items;
-        console.log(items);
-        console.log(items.length);
 
         if (items.length > 0) {
-            console.log("WE CAN RENDER THE LIST ITEMS!");
             return (
                 <div className="grid-block vertical rkt-modal-todo-list-items">
-                    {items.map((item) => {
-                        console.log(item);
-                        return(<h3>{item}</h3>)
+                    {items.map((item, key) => {
+                        return (
+                            <RktModalTodoListItem
+                                key={newId()}
+                                index={key}
+                                modaltodolistitem={item}
+                                removeitem={this.removeTodoListItem}
+                            />
+                        )
                     })}
-                </div>
-            )
-        }
-    }
-
-    renderModalLoadListButton() {
-        var items = this.state.items;
-
-        if (items.length > 0) {
-            return (
-                <div className="grid-block shrink">
-                    <a className="grid-block rkt-modal-todo-list-load-button" onClick={this.onTodoListSave}>
-                        Load list
-                    </a>
                 </div>
             );
         }
     }
 
+
+    renderModalLoadListButton() {
+        var items = this.state.items;
+
+        // There has to be a list with items
+        var load_button_id;
+        if (items.length === 0) load_button_id = "disabled-button";
+        else if (items.length > 0) load_button_id = "enabled-button";
+
+        return (
+            <div className="grid-block shrink" style={{ justifyContent: "center", padding: "10px", bottom: "0px" }}>
+                <a className="grid-block shrink rkt-modal-todo-list-load-button" id={load_button_id} onClick={this.onTodoListSave}>
+                    LOAD LIST
+                    </a>
+            </div>
+        );
+    }
+
     onTodoListSave(e) {
         var items = this.state.items;
 
-        console.log("onTodoListSave");
         this.closeModal();
         this.props.ontodolistsave(items);
     }
@@ -120,25 +149,26 @@ export default class RktModalTodoList extends Component {
 
         var title = this.props.title;
 
-
-        var style = "grid-block rkt-modal-todo-list shrink vertical";
+        var modal_id = "rkt-modal-todo-list-open";
 
         if (!this.state.closed) {
-            style = "grid-block rkt-modal-todo-list shrink vertical";
+            modal_id = "rkt-modal-todo-list-open";
         } else {
-            style = "grid-block rkt-modal-todo-list-closed shrink vertical";
+            modal_id = "rkt-modal-todo-list-closed";
         }
 
         return (
-            <div className={style} >
+            <div className="grid-block rkt-modal-todo-list shrink vertical" id={modal_id} >
                 <div className="grid-block shrink rkt-modal-todo-list-close-button">
-                    <CloseButton onClick={this.closeModal} />
+                    <RktButtonDeleteIcon onClick={this.closeModal} />
                 </div>
                 <div className="grid-block shrink rkt-modal-todo-list-title">
                     <h2>{title}</h2>
                 </div>
                 {this.renderModalInputField()}
-                {this.renderModalTodoListItems()}
+                <div className="grid-block">
+                    {this.renderModalTodoListItems()}
+                </div>
                 {this.renderModalLoadListButton()}
             </div>
         );

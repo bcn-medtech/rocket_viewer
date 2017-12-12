@@ -18,7 +18,7 @@ export default class DeleteIcon extends Component {
 
     render() {
         return (
-            <span className="fi-x-circle deleteIconButton" onClick={this.handleClick}></span>
+            <a className="fi-x-circle deleteIconButton" onClick={this.handleClick}></a>
         );
     }
 }

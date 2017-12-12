@@ -81,7 +81,7 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
         const { files, connectDropTarget, isOver } = this.props;
 
         return connectDropTarget(
-            <div className="grid-block drop-target" style={{ opacity: isOver ? 1 : 0.8 }}>
+            <div className="grid-block shrink drop-target" style={{ opacity: isOver ? 1 : 0.8 }}>
                 <p>{this.props.sidebar_targets_item_info.label}</p>
                 <canvas ref="dropTargetCanvas"  />
                 {this.updateCanvas()}

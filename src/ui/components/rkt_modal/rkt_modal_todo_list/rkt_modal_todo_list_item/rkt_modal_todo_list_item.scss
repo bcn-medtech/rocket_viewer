@@ -1,0 +1,27 @@
+
+.rkt-modal-todo-list-item {
+    margin-left:30px;
+    margin-right:30px;
+
+    padding-left:30px;
+    padding-right:30px;
+    padding-top:5px;
+    padding-bottom:5px;
+
+    p {
+        color:rgba(255, 255, 255, 0.89);
+        margin:0px;
+        font-size: 25px;
+    }
+
+    .rkt-modal-todo-list-item-erase-button {
+
+        .deleteIconButton {
+            color:white;
+            position: fixed;
+            right:30px;
+            padding-right:30px;;
+            font-size:x-large; 
+        }
+    }
+}

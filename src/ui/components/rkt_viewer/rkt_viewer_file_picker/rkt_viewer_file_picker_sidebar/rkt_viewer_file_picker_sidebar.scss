@@ -1,5 +1,6 @@
 @import "./../../../rkt_modal/rkt_modal_todo_list/rkt_modal_todo_list.scss";
 @import './rkt_viewer_file_picker_sidebar_drop_target/rkt_viewer_file_picker_sidebar_drop_target.scss';
+$purpleMain: #443363;//rgb(110, 83, 158);
 
 .file-picker-sidebar {
     background-color: #282828;
@@ -11,7 +12,7 @@
         padding: 12px;
         //font-size: .9rem;
         display: inline-block;
-        background: #6f579a;//#00558b;//#333
+        background: $purpleMain;//#00558b;//#333
         margin: 10px;
         overflow: hidden;
         color: #ffffff;
