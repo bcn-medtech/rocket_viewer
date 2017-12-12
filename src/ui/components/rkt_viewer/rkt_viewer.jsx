@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 //viewer actions
 import { blob_getResourceType, blob_getNumberOfFiles } from './../../../modules/rkt_module_blob.js';
+import { isFileADicomFile } from './rkt_viewer_actions';
 //modules
 import { isObjectEmpty } from './../../../modules/rkt_module_object.js';
 import { url_getParameterByName } from './../../../modules/rkt_module_url.js';
@@ -114,18 +115,34 @@ export default class RktViewer extends Component {
 
                 } else {
 
-                    alert("Uncompatible format");
+                    // last check:
+                    var myComponent = this;
+                    var files = blob.dataTransfer.files;
+                    isFileADicomFile(files[0], function (fileisDicom) {
+
+                        if (fileisDicom) {
+                            var viewerType = "dicom";
+
+                            myComponent.setState({
+                                viewer: viewerType,
+                                files: files,
+                                blob: blob,
+                            });
+
+                        } else alert("Unsupported format");
+
+                    })
                 }
 
 
             } else {
-                
+
                 alert("Blob with multiple files");
 
             }
         } else
 
-        return false;
+            return false;
     }
 
     setURL(url) {
@@ -175,10 +192,10 @@ export default class RktViewer extends Component {
                 return (<RktViewerFilePickerOld />)
 
             } else if (viewerType === "study_viewer") {
-                
+
                 return (<RktViewerFilePicker />)
-                
-             } else if (viewerType === "filter_viewer") {
+
+            } else if (viewerType === "filter_viewer") {
 
                 return (<RktViewerFilterDicom />)
 

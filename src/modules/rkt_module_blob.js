@@ -24,7 +24,6 @@ export function blob_getResourceType(blob) {
             var j;
 
             if (!isObjectEmpty(fileType)) {
-
                 for (i = 0; i < viewers.length; i++) {
 
                     viewer = viewers[i];
@@ -42,7 +41,6 @@ export function blob_getResourceType(blob) {
                     if (type) break;
                 }
             } else {
-
                 var fileName = files[0].name;
 
                 for (i = 0; i < viewers.length; i++) {
