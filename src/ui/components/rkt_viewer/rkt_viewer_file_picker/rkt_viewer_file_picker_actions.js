@@ -1,9 +1,9 @@
 
 export function setConfigInfo(config) {
-    console.log("SET CONFIG INFO");
+    //console.log("SET CONFIG INFO");
 
     var image_types = config.image_types;
-    console.log(image_types);
+    //console.log(image_types);
 
     // "sidebar_targets_info": info of the drop targets (SIDEBAR elements) of the file picker -->
     var sidebar_targets_info = {};

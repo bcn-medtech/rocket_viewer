@@ -94,7 +94,7 @@ class RktViewerFilePickerSidebarDragSource extends Component {
     render() {
         const { connectDragSource, isDragging } = this.props;
         return connectDragSource((
-            <div className="grid-block drag-source" onClick={this.handleClick} >
+            <div className="grid-block shrink drag-source" onClick={this.handleClick} >
                 <div ref={(dicomContainer) => { this.dicomContainer = dicomContainer; }}>
                     {this.renderDicom()}
                     {this.renderLabel()}

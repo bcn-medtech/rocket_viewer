@@ -21,16 +21,16 @@ export default class RktViewerFilePickerSidebar extends Component {
     }
 
     openAndCloseModalTodoList() {
-        console.log("openAndCloseModalTodoList");
+        //console.log("openAndCloseModalTodoList");
         this.setState({
             isModalTodoListOpen: !this.state.isModalTodoListOpen
         });
-        console.log(this.state.isModalTodoListOpen);
+        //console.log(this.state.isModalTodoListOpen);
     }
 
     renderModalTodoList() {
         if (this.state.isModalTodoListOpen) {
-            console.log("--> Let's open the modal!");
+            //console.log("--> Let's open the modal!");
 
             return (
                 <RktModalTodoList
@@ -44,18 +44,18 @@ export default class RktViewerFilePickerSidebar extends Component {
     }
 
     onTodoListSave(new_config_items) {
-        console.log(new_config_items);
-        console.log(new_config_items.length);
+        //console.log(new_config_items);
+        //console.log(new_config_items.length);
         var new_config = {};//[];
         new_config["image_types"] = [];
-        console.log(new_config)
+        //console.log(new_config)
 
         for (var i = 0; i < new_config_items.length; i++) {
             var current_label = new_config_items[i];
-            console.log(current_label);
+            //console.log(current_label);
             new_config["image_types"].push({ "label": current_label, "needCalibration": true });
         }
-        console.log(new_config);
+        //console.log(new_config);
         this.props.onconfigchange(new_config);
     }
 
@@ -74,6 +74,7 @@ export default class RktViewerFilePickerSidebar extends Component {
 
                     return (
                         <RktViewerFilePickerSidebarDropTarget
+                            index={key}
                             sidebar_targets_item_info={sidebar_targets_item_info}
                             onimgdragdrop={this.props.onimgdragdrop}
                         />

@@ -10,9 +10,14 @@ export function loadZipWithInfo(grid_sources_info) {
         // json_data = ["patient_name_1":{"fileName":string, "filePath":string, "label":string, "metadata": object}, ..., "patient_name_n":{"fileName":string, "filePath":string, "label":string, "metadata": object}]
 
         // load this info in a ZIP
+        var zip = new JSZip();
+
+        var zipName;
+        if (Object.keys(json_data).length === 1) { // there are images of only one patient:
+            zipName = Object.keys(json_data)[0];
+        } else zipName = "image_selection";
 
         // JSON DATA
-        var zip = new JSZip();
         zip.file("images_data.json", JSON.stringify(json_data));
 
         // PNGs
@@ -29,7 +34,7 @@ export function loadZipWithInfo(grid_sources_info) {
 
         zip.generateAsync({ type: "blob" })
             .then(function (content) {
-                FileSaver.saveAs(content, "image_selection.zip");
+                FileSaver.saveAs(content, zipName+".zip");
             });
 
     })

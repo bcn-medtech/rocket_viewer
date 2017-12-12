@@ -10,7 +10,8 @@ import RktViewerFilePickerGrid from './rkt_viewer_file_picker_grid/rkt_viewer_fi
 import RktViewerFilePickerViewer from './rkt_viewer_file_picker_viewer/rkt_viewer_file_picker_viewer';
 
 //config
-import config from "./../../../../config/config_dicom_types.json";
+//import config from "./../../../../config/config_dicom_types.json";
+import config from "./../../../../config/config_dicom_types_2.json";
 
 class RktViewerFilePicker extends Component {
 
@@ -110,9 +111,9 @@ class RktViewerFilePicker extends Component {
     /* SIDEBAR component */
     onConfigChange(new_config) {
         if (new_config !== undefined) {
-            console.log("LET'S CHANGE CONFIG INFO!");
+            //console.log("LET'S CHANGE CONFIG INFO!");
             var sidebar_targets_info = setConfigInfo(new_config);
-            console.log(sidebar_targets_info);
+            //console.log(sidebar_targets_info);
             var grid_sources_info = this.state.grid_sources_info;
 
             // in case "grid_sources_info" is already filled (after importing DICOMs into the GRID)
@@ -133,8 +134,7 @@ class RktViewerFilePicker extends Component {
 
     renderSidebar() {
         var sidebar_targets_info = this.state.sidebar_targets_info;
-        console.log(sidebar_targets_info);
-        console.log(sidebar_targets_info);
+        //console.log(sidebar_targets_info);
         return (<RktViewerFilePickerSidebar sidebar_targets_info={sidebar_targets_info} onimgdragdrop={this.onImgDragAndDrop} onconfigchange={this.onConfigChange} />);
     }
 

@@ -4,9 +4,11 @@ $purpleMain: #443363; //rgb(110, 83, 158);
 
 .drag-source {
     
-    .assigned-label {
+    height: fit-content;
+    width: fit-content;
 
-        display:inline-block;
+    .assigned-label {
+        display: inline-table;
         position: absolute;
         top: 5px;
         left: 5px;
@@ -14,14 +16,14 @@ $purpleMain: #443363; //rgb(110, 83, 158);
         border-radius: 5px;
         color: whitesmoke;
         //font-size: 0.8em;
-        padding: 3px;
+        padding: 2px;
 
         .assigned-label-name  {
-            padding: 3px;
+            padding: inherit;
         }
 
         .deleteIconButton {
-            padding: inherit
+            padding: inherit;
         }
         
     }

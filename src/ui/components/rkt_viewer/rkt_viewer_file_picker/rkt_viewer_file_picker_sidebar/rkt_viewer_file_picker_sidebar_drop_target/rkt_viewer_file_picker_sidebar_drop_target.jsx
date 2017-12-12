@@ -10,10 +10,10 @@ const dropDicomTarget = {
 
         var item = monitor.getItem() // item = {files, imgCanvas, index_grid} (what 'dragSouce' returns)
 
-        if (item.imgCanvas!==undefined){
+        if (item.imgCanvas !== undefined) {
             component.setItem(item);
         }
-    
+
     }
 };
 
@@ -34,9 +34,10 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
         }
 
         this.setItem = this.setItem.bind(this);
+    
     }
 
-    componentDidUpdate() {}
+    componentDidUpdate() { }
 
     setItem(item) {
         //item = {files, imgCanvas, index_grid} (what 'dragSouce' returns)
@@ -47,7 +48,7 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
         // we confirm that an image has been dropped in the drop target
         var sidebar_targets_item_info = this.props.sidebar_targets_item_info;
         // sidebar_targets_item_info = {"index":key, "label": ?, "isAssigned":true/false, "index_source":?};
-        
+
         // inmutable, informative variables
         var index_sidebar = sidebar_targets_item_info.index;
         var label_sidebar = sidebar_targets_item_info.label;
@@ -61,14 +62,14 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
 
     updateCanvas() {
         var canvas = this.refs.dropTargetCanvas;
-        
+
         if (canvas) {
             var image_to_display = this.state.selectedImgCanvas;
 
-            if (image_to_display!==undefined){
+            if (image_to_display !== undefined) {
                 const ctx = canvas.getContext('2d');
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
                 if (this.props.sidebar_targets_item_info.isAssigned) {
                     ctx.drawImage(image_to_display, 0, 0, canvas.width, canvas.height);
                 }
@@ -78,11 +79,11 @@ class RktViewerFilePickerSidebarDropTarget extends Component {
 
     render() {
         const { files, connectDropTarget, isOver } = this.props;
-        
+
         return connectDropTarget(
             <div className="grid-block drop-target" style={{ opacity: isOver ? 1 : 0.8 }}>
                 <p>{this.props.sidebar_targets_item_info.label}</p>
-                <canvas ref="dropTargetCanvas" />
+                <canvas ref="dropTargetCanvas"  />
                 {this.updateCanvas()}
             </div>
         );
