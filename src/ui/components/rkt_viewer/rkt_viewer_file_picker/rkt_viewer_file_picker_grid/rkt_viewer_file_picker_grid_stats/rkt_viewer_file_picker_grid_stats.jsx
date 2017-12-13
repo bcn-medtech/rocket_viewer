@@ -63,8 +63,8 @@ export default class RktToolboxStageStats extends Component {
     }
 
     renderMenu() {
-
         var grid_sources_info = this.props.grid_sources_info;
+        console.log(grid_sources_info);
         var areImagesToLoad = false;
         var downloadButton;
 
@@ -87,11 +87,10 @@ export default class RktToolboxStageStats extends Component {
                 {downloadButton}
             </div>
         )
-
     }
 
     onClickLoadButton() {
-        loadZipWithInfo(this.props.grid_sources_info);
+        this.props.onclickloadbutton();
     }
 
     onClickSettingsButton(){
@@ -99,7 +98,6 @@ export default class RktToolboxStageStats extends Component {
     }
 
     render() {
-
         return (
             <div className="grid-block vertical shrink container-stats">
                 {this.renderLoadingProgressBar()}

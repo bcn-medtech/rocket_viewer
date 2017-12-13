@@ -3,7 +3,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 // actions
-import { setConfigInfo, updateFilePickerInfo } from "./rkt_viewer_file_picker_actions";
+import { setConfigInfo, updateFilePickerInfo, loadZipWithInfo } from "./rkt_viewer_file_picker_actions";
 // components
 import RktViewerFilePickerSidebar from './rkt_viewer_file_picker_sidebar/rkt_viewer_file_picker_sidebar';
 import RktViewerFilePickerGrid from './rkt_viewer_file_picker_grid/rkt_viewer_file_picker_grid';
@@ -22,9 +22,7 @@ class RktViewerFilePicker extends Component {
         this.state = {
             isModalTodoListOpen: false
         }
-
-        console.log(this.state.isModalTodoListOpen);
-
+        
         if (config !== undefined) {
 
             if (!localStorage.getItem("config-image-selection")) {
@@ -47,12 +45,13 @@ class RktViewerFilePicker extends Component {
             }
         }
 
-        this.onImgSelection = this.onImgSelection.bind(this);
         this.onImgDragAndDrop = this.onImgDragAndDrop.bind(this);
-        this.onConfigChange = this.onConfigChange.bind(this);
-
+        this.onImgSelection = this.onImgSelection.bind(this);
+        this.onClickLoadButton = this.onClickLoadButton.bind(this);
+        
         this.openAndCloseModalTodoList = this.openAndCloseModalTodoList.bind(this);
         this.renderModalTodoList = this.renderModalTodoList.bind(this);
+        this.onConfigChange = this.onConfigChange.bind(this);
     }
 
     componentDidMount() { }
@@ -91,6 +90,10 @@ class RktViewerFilePicker extends Component {
         });
     }
 
+    onClickLoadButton() {
+        loadZipWithInfo(this.state.grid_sources_info);
+    }
+
     renderGrid() {
         var grid_sources_info = this.state.grid_sources_info;
         return (
@@ -98,7 +101,8 @@ class RktViewerFilePicker extends Component {
                 grid_sources_info={grid_sources_info}
                 onimgselection={this.onImgSelection}
                 onimgdragdrop={this.onImgDragAndDrop}
-                onclicksettingsbutton={this.openAndCloseModalTodoList} />
+                onclicksettingsbutton={this.openAndCloseModalTodoList}
+                onclickloadbutton={this.onClickLoadButton} />
         );
     }
 
@@ -114,15 +118,12 @@ class RktViewerFilePicker extends Component {
 
     /* MODAL TODO LIST component */
     openAndCloseModalTodoList() {
-
-    
         this.setState({
             isModalTodoListOpen: !this.state.isModalTodoListOpen
         });
     }
 
     renderModalTodoList() {
-        
         if (this.state.isModalTodoListOpen) {
             return (
                 <RktModalTodoList
@@ -135,7 +136,6 @@ class RktViewerFilePicker extends Component {
     }
 
     onConfigChange(new_image_types) {
-        
         if (new_image_types !== undefined) {
             localStorage.setItem("config-image-selection", JSON.stringify(new_image_types));
 
@@ -147,11 +147,13 @@ class RktViewerFilePicker extends Component {
                 for (var i = 0; i < Object.keys(updated_grid_sources_info).length; i++) {
                     var grid_source_to_update = updated_grid_sources_info[i];
                     grid_source_to_update.assigned_label = false;
-                    grid_source_to_update.isAssigned = false;
+                    grid_source_to_update.hasLabelAssigned = false;
 
                     updated_grid_sources_info[i] = grid_source_to_update;
                 }
             }
+
+            console.log(updated_grid_sources_info);
 
             this.setState({
                 sidebar_targets_info: updated_sidebar_targets_info,

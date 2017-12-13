@@ -35,6 +35,7 @@ export default class RktViewerFilePickerGrid extends Component {
                 title="Folder info"
                 items={manufacturerInfo}
                 onclicksettingsbutton={this.props.onclicksettingsbutton}
+                onclickloadbutton={this.props.onclickloadbutton}
                 grid_sources_info={this.props.grid_sources_info}
                 loadedDicoms={loadedFiles}
                 totalDicoms={totalFiles} />

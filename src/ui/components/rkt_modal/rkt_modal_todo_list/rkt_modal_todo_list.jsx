@@ -30,9 +30,9 @@ export default class RktModalTodoList extends Component {
     componentDidMount() {
 
         var items = JSON.parse(localStorage.getItem("config-image-selection"));
-        
+
         this.setState({
-            items:items
+            items: items
         });
     }
 
@@ -54,44 +54,37 @@ export default class RktModalTodoList extends Component {
         this.setState({ input: e.target.value });
     }
 
-    renderModalInputField() {
-
-        // The user has to *write* an item
-        var submit_button_id;
-        if ((this.state.input === undefined) || (this.state.input.trim() === "")) submit_button_id = "disabled-button";
-        else submit_button_id = "enabled-button";
-
-        return (
-            <div className="grid-block shrink rkt-modal-todo-list-input-area">
-                <input className="grid-block rkt-modal-todo-list-input-field"
-                    type="text"
-                    value={this.state.input}
-                    placeholder={""}
-                    onChange={this.onInputChange}
-                />
-                <div className="grid-block shrink">
-                    <a className="rkt-modal-todo-list-submit-button" id={submit_button_id} onClick={this.addTodoListItem}>
-                        Submit
-                    </a>
-                </div>
-            </div>
-        )
-    }
-
     addTodoListItem(e) {
+        e.preventDefault();
         var items = this.state.items;
-        var input = this.state.input.trim();
 
-        var isNewElement = lookForElementInArray(input, items);
+        if ((this.state.input === undefined) || (this.state.input.trim() === "")) alert("You have to write an item");
+        else {
+            var input = this.state.input.trim();
+            var isNewElement = lookForElementInArray(input, items);
 
-        if (isNewElement) items.push(input); // we add the new item to the "items" array
-        else alert("You cannot repeat items in the list");
+            if (isNewElement) items.push(input); // we add the new item to the "items" array
+            else alert("You cannot repeat items in the list");
+        }
 
         this.setState({
             items: items,
             input: ""
         });
+    }
 
+    renderModalInputField() {
+        return (
+            <div className="grid-block shrink rkt-modal-todo-list-input-area">
+                <form className="grid-block" onSubmit={this.addTodoListItem}>
+                    <input className="grid-block"
+                        type="text"
+                        value={this.state.input}
+                        placeholder={""}
+                        onChange={this.onInputChange} />
+                </form>
+            </div>
+        )
     }
 
     removeTodoListItem(index) {
@@ -104,7 +97,6 @@ export default class RktModalTodoList extends Component {
     }
 
     renderModalTodoListItems() {
-
         var items = this.state.items;
 
         if (items.length > 0) {
@@ -125,6 +117,12 @@ export default class RktModalTodoList extends Component {
         }
     }
 
+    onClickLoadListButton() {
+        var items = this.state.items;
+
+        this.closeModal();
+        this.props.onClickLoadListButton(items);
+    }
 
     renderModalLoadListButton() {
         var items = this.state.items;
@@ -138,20 +136,9 @@ export default class RktModalTodoList extends Component {
             <div className="grid-block shrink" style={{ justifyContent: "center", padding: "10px", bottom: "0px" }}>
                 <a className="grid-block shrink rkt-modal-todo-list-load-button" id={load_button_id} onClick={this.onClickLoadListButton}>
                     LOAD LIST
-                    </a>
+                </a>
             </div>
         );
-    }
-
-    onClickLoadListButton() {
-
-        console.log(this);
-
-        var items = this.state.items;
-
-        this.closeModal();
-        //this.props.ontodolistsave(items);
-        this.props.onClickLoadListButton(items);
     }
 
     render() {
@@ -171,7 +158,6 @@ export default class RktModalTodoList extends Component {
                 <div className="grid-block shrink rkt-modal-todo-list-close-button">
                     <RktButtonDeleteIcon onClick={this.closeModal} />
                 </div>
-
                 <div className="grid-block">
                     <div className="grid-block small-2">&nbsp;</div>
                     <div className="grid-block vertical">
@@ -186,8 +172,6 @@ export default class RktModalTodoList extends Component {
                     </div>
                     <div className="grid-block small-2">&nbsp;</div>
                 </div>
-
-
             </div>
         );
     }

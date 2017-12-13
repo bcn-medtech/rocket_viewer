@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 //components
-import RktModalTodoList from "./../../../rkt_modal/rkt_modal_todo_list/rkt_modal_todo_list";
 import RktViewerFilePickerSidebarDropTarget from "./rkt_viewer_file_picker_sidebar_drop_target/rkt_viewer_file_picker_sidebar_drop_target";
 
 export default class RktViewerFilePickerSidebar extends Component {
@@ -9,45 +8,10 @@ export default class RktViewerFilePickerSidebar extends Component {
     constructor() {
         super();
 
-        this.state = {
-            isModalTodoListOpen: false
-        }
+        this.state = {}
 
-        this.openAndCloseModalTodoList = this.openAndCloseModalTodoList.bind(this);
-        this.renderModalTodoList = this.renderModalTodoList.bind(this);
-        this.saveNewConfigList = this.saveNewConfigList.bind(this);
         this.renderDicomPlaceholders = this.renderDicomPlaceholders.bind(this);
 
-    }
-
-    openAndCloseModalTodoList() {
-        this.setState({
-            isModalTodoListOpen: !this.state.isModalTodoListOpen
-        });
-    }
-
-    renderModalTodoList() {
-        if (this.state.isModalTodoListOpen) {
-            return (
-                <RktModalTodoList
-                    title={"Write DICOM typologies"}
-                    ontodolistsave={this.saveNewConfigList}
-                    closemodaltodolist={this.openAndCloseModalTodoList}
-                />
-            );
-        }
-    }
-
-    saveNewConfigList(new_config_items) {
-        var new_config = {};
-        new_config["image_types"] = [];
-
-        for (var i = 0; i < new_config_items.length; i++) {
-            var current_label = new_config_items[i];
-            new_config["image_types"].push({ "label": current_label, "needCalibration": true });
-        }
-
-        this.props.onconfigchange(new_config);
     }
 
     renderDicomPlaceholders() {
@@ -85,12 +49,6 @@ export default class RktViewerFilePickerSidebar extends Component {
     render() {
         return (
             <div className="grid-block medium-2 vertical file-picker-sidebar" >
-                {/*<div className="grid-block shrink" style={{ justifyContent: "center", padding:"10px" }}>
-                    <a className="grid-block shrink open-modal-todo-list-button" onClick={this.openAndCloseModalTodoList}>
-                        SET DICOM TYPOLOGIES
-                    </a>
-        </div>*/}
-                {this.renderModalTodoList()}
                 {this.renderDicomPlaceholders()}
             </div>
         );
