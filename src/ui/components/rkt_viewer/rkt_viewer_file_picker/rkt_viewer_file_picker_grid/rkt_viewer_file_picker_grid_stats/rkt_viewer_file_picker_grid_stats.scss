@@ -1,6 +1,7 @@
 $slider-background: #646464;
 $rkt-green-color:#00B04C;
 $purpleMain: #443363; //rgb(110, 83, 158);
+$purpleHover:#a58cd8;
 
 .container-stats {
     background-color: #646464; //rgba(76, 222, 82, 0.2);
@@ -56,6 +57,18 @@ $purpleMain: #443363; //rgb(110, 83, 158);
             padding: 5px;
             color: white;
             background-color: #333;
+        }
+    }
+
+    .menu{
+        padding-right: 20px;
+        a{
+            font-size: 25px;
+            padding: 5px;
+            color:white;
+            &:hover{
+                color:$purpleHover;
+            }
         }
     }
     

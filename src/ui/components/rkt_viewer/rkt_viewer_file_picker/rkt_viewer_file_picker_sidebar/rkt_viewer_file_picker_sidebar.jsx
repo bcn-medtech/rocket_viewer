@@ -85,11 +85,11 @@ export default class RktViewerFilePickerSidebar extends Component {
     render() {
         return (
             <div className="grid-block medium-2 vertical file-picker-sidebar" >
-                <div className="grid-block shrink" style={{ justifyContent: "center", padding:"10px" }}>
+                {/*<div className="grid-block shrink" style={{ justifyContent: "center", padding:"10px" }}>
                     <a className="grid-block shrink open-modal-todo-list-button" onClick={this.openAndCloseModalTodoList}>
                         SET DICOM TYPOLOGIES
                     </a>
-                </div>
+        </div>*/}
                 {this.renderModalTodoList()}
                 {this.renderDicomPlaceholders()}
             </div>

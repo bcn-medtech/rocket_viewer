@@ -18,24 +18,24 @@ export default class RktModalTodoListItem extends Component {
     componentDidMount() { }
 
     removeModalTodoListItem(index) {
+        var index = this.props.index;
         this.props.removeitem(index);
     }
 
     renderModalTodoListItem(modaltodolistitem) {
         return (
-            <p>{modaltodolistitem}</p>
+            <div className="grid-block"><p>{modaltodolistitem}</p></div>
         )
     }
 
     render() {
         var modaltodolistitem = this.props.modaltodolistitem;
-        var index = this.props.index;
-
+        
         return (
             <div className="grid-block rkt-modal-todo-list-item shrink" >
                 {this.renderModalTodoListItem(modaltodolistitem)}
-                <div className="grid-block shrink rkt-modal-todo-list-item-erase-button">
-                    <RktButtonDeleteIcon onClick={this.removeModalTodoListItem} />
+                <div className="grid-block rkt-modal-todo-list-item-erase-button shrink">
+                    <RktButtonDeleteIcon onClick={this.removeModalTodoListItem} className="grid-block shrink" />
                 </div>
             </div>
         );

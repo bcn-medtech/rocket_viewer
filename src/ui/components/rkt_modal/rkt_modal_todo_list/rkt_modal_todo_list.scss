@@ -1,5 +1,6 @@
 @import './rkt_modal_todo_list_item/rkt_modal_todo_list_item.scss';
 $purpleMain: #443363;//rgb(110, 83, 158);
+$purpleHover:#a58cd8;
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes popmodal {
@@ -70,6 +71,10 @@ $purpleMain: #443363;//rgb(110, 83, 158);
             right: 0px;
             padding-right:10px;
             font-size:xx-large; 
+
+            &:hover{
+                color:$purpleHover;
+            }
         }
     }
 
@@ -89,6 +94,16 @@ $purpleMain: #443363;//rgb(110, 83, 158);
         margin-right:30px;
         margin-top:10px;
         margin-bottom:10px;
+
+        input{
+            background-color: transparent;
+            color: white;
+            font-size: 25px;
+            height:50px;
+            /*&:focus{
+                border: 1px solid $purpleHover;
+            }*/
+        }
 
         .rkt-modal-todo-list-submit-button {
             padding: 12px;

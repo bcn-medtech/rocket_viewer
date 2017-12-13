@@ -11,7 +11,8 @@ export default class RktToolboxStageStats extends Component {
 
         };
 
-        this.loadImagesInfo = this.loadImagesInfo.bind(this);
+        this.onClickLoadButton = this.onClickLoadButton.bind(this);
+        this.onClickSettingsButton = this.onClickSettingsButton.bind(this);
     }
 
     renderLoadingProgressBar() {
@@ -27,7 +28,7 @@ export default class RktToolboxStageStats extends Component {
 
     renderFolderInfo() {
         return (
-            <div className="grid-block shrink" style={{ overflow: "hidden", alignItems:"baseline" }} >
+            <div className="grid-block shrink" style={{ overflow: "hidden", alignItems: "baseline" }} >
                 <div className="grid-block shrink folder-info">
                     <h4>
                         <i className="fi-folder"></i>
@@ -35,10 +36,7 @@ export default class RktToolboxStageStats extends Component {
                         {this.props.title} {(this.props.totalDicoms > 0) && "(" + this.props.loadedDicoms + "/" + this.props.totalDicoms + ")"}
                     </h4>
                 </div>
-                <div className="grid-block shrink" style={{ left: "50%" }}>
-                    {this.renderLoadButton()}
-                </div>
-
+                {this.renderMenu()}
             </div>
         );
     }
@@ -64,12 +62,11 @@ export default class RktToolboxStageStats extends Component {
         )
     }
 
-    renderLoadButton() {
+    renderMenu() {
 
-        // the button is only rendered when there is image info to load (that is, 
-        // when GRID thumbnails have sidebar elements associated)
         var grid_sources_info = this.props.grid_sources_info;
-        var areImagesToLoad = false
+        var areImagesToLoad = false;
+        var downloadButton;
 
         for (var i = 0; i < Object.keys(grid_sources_info).length; i++) {
             if (grid_sources_info[i].hasLabelAssigned === true) {
@@ -81,15 +78,24 @@ export default class RktToolboxStageStats extends Component {
         }
 
         if (areImagesToLoad) {
-
-            return (<a className="grid-block shrink load-images-info-button" id="load-images-info-button" onClick={this.loadImagesInfo}>Download ZIP</a>);
-
+            downloadButton=<a onClick={this.onClickLoadButton}><i className="fi-download"></i></a>;
         }
+
+        return (
+            <div className="grid-block align-right menu">
+                <a onClick={this.onClickSettingsButton}><i className="fi-widget"></i></a>
+                {downloadButton}
+            </div>
+        )
 
     }
 
-    loadImagesInfo() {
+    onClickLoadButton() {
         loadZipWithInfo(this.props.grid_sources_info);
+    }
+
+    onClickSettingsButton(){
+        this.props.onclicksettingsbutton();  
     }
 
     render() {

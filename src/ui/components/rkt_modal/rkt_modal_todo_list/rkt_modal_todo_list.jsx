@@ -23,11 +23,18 @@ export default class RktModalTodoList extends Component {
         this.onInputChange = this.onInputChange.bind(this);
         this.addTodoListItem = this.addTodoListItem.bind(this);
         this.removeTodoListItem = this.removeTodoListItem.bind(this);
-        this.onTodoListSave = this.onTodoListSave.bind(this);
+        this.onClickLoadListButton = this.onClickLoadListButton.bind(this);
 
     }
 
-    componentDidMount() { }
+    componentDidMount() {
+
+        var items = JSON.parse(localStorage.getItem("config-image-selection"));
+        
+        this.setState({
+            items:items
+        });
+    }
 
     closeModal() {
         this.setState({
@@ -129,18 +136,22 @@ export default class RktModalTodoList extends Component {
 
         return (
             <div className="grid-block shrink" style={{ justifyContent: "center", padding: "10px", bottom: "0px" }}>
-                <a className="grid-block shrink rkt-modal-todo-list-load-button" id={load_button_id} onClick={this.onTodoListSave}>
+                <a className="grid-block shrink rkt-modal-todo-list-load-button" id={load_button_id} onClick={this.onClickLoadListButton}>
                     LOAD LIST
                     </a>
             </div>
         );
     }
 
-    onTodoListSave(e) {
+    onClickLoadListButton() {
+
+        console.log(this);
+
         var items = this.state.items;
 
         this.closeModal();
-        this.props.ontodolistsave(items);
+        //this.props.ontodolistsave(items);
+        this.props.onClickLoadListButton(items);
     }
 
     render() {
@@ -160,14 +171,23 @@ export default class RktModalTodoList extends Component {
                 <div className="grid-block shrink rkt-modal-todo-list-close-button">
                     <RktButtonDeleteIcon onClick={this.closeModal} />
                 </div>
-                <div className="grid-block shrink rkt-modal-todo-list-title">
-                    <h2>{title}</h2>
-                </div>
-                {this.renderModalInputField()}
+
                 <div className="grid-block">
-                    {this.renderModalTodoListItems()}
+                    <div className="grid-block small-2">&nbsp;</div>
+                    <div className="grid-block vertical">
+                        <div className="grid-block shrink rkt-modal-todo-list-title">
+                            <h2>{title}</h2>
+                        </div>
+                        {this.renderModalInputField()}
+                        <div className="grid-block">
+                            {this.renderModalTodoListItems()}
+                        </div>
+                        {this.renderModalLoadListButton()}
+                    </div>
+                    <div className="grid-block small-2">&nbsp;</div>
                 </div>
-                {this.renderModalLoadListButton()}
+
+
             </div>
         );
     }

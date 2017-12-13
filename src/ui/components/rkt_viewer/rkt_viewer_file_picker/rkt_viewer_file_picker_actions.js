@@ -7,23 +7,32 @@ export function setConfigInfo(config) {
     var sidebar_targets_info = {};
 
     //for the moment we can initialize "sidebar_targets_info":
-    for (var i = 0; i < image_types.length; i++) {
+    // for (var i = 0; i < image_types.length; i++) {
+
+    //     //DROP TARGET
+    //     var dicom_type = image_types[i];
+    //     var label = dicom_type.label;
+
+    //     sidebar_targets_info[i] = { "index": i, "label": label, "isAssigned": false, "index_source": undefined };
+
+    // }
+
+    for (var i = 0; i < config.length; i++) {
 
         //DROP TARGET
-        var dicom_type = image_types[i];
-        var label = dicom_type.label;
-
+        var label = config[i];
         sidebar_targets_info[i] = { "index": i, "label": label, "isAssigned": false, "index_source": undefined };
 
     }
+
     return sidebar_targets_info;
 }
 
 export function updateFilePickerInfo(grid_sources_info, sidebar_targets_info, index_sidebar, label_sidebar, toAssignDropTarget, index_grid) {
-    
+
     var grid_source_to_update = grid_sources_info[index_grid];
     var sidebar_target_to_update = sidebar_targets_info[index_sidebar];
-    
+
     if (!toAssignDropTarget) { // case of clicking a deleteIcon in a GRID thumbnail
 
         // DRAG SOURCE update: 

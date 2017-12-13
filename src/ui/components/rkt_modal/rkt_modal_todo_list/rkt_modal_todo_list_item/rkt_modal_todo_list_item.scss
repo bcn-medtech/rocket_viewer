@@ -1,3 +1,4 @@
+$purpleHover:#a58cd8;
 
 .rkt-modal-todo-list-item {
     margin-left:30px;
@@ -7,6 +8,7 @@
     padding-right:30px;
     padding-top:5px;
     padding-bottom:5px;
+    border-bottom: 1px solid #ffffff24;
 
     p {
         color:rgba(255, 255, 255, 0.89);
@@ -18,10 +20,13 @@
 
         .deleteIconButton {
             color:white;
-            position: fixed;
-            right:30px;
-            padding-right:30px;;
+            position: relative;
+            margin-top: 10px;
             font-size:x-large; 
+
+            &:hover{
+                color:$purpleHover;
+            }
         }
     }
 }
