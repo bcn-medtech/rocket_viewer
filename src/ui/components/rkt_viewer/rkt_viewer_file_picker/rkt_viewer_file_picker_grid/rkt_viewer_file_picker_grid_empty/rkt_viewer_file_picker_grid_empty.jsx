@@ -41,20 +41,26 @@ export default class RktViewerFilePickerGridEmpty extends Component {
 
         return (
             <div className="grid-block vertical file-picker-grid-empty">
-                <div className="grid-block vertical shrink dropzone-widget">
-                    <label>DRAG AND DROP FILES</label>
-                    <Dropzone onDrop={this.onDropApp.bind(this)}></Dropzone>
+                <div className="grid-block">&nbsp;</div>
+                <div className="grid-block vertical shrink">
+                    <div className="grid-block shrink align-center dropzone-widget">
+                        <div className="grid-block vertical shrink">
+                            <label className="text-center">Drag and drop your files</label>
+                            <Dropzone onDrop={this.onDropApp.bind(this)}></Dropzone>
+                            <div className="grid-block shrink choose-folder-widget align-center">
+                                <label className="grid-block choose-folder-button shrink">
+                                    <input
+                                        id="input-choose-folder"
+                                        style={{ "display": "none" }}
+                                        type="file"
+                                        ref="inputContainer" />
+                                    <i className="fi-folder"></i> Choose a folder
+                            </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="grid-block vertical shrink choose-folder-widget">
-                    <label className="choose-folder-button shrink">
-                        <input
-                            id="input-choose-folder"
-                            style={{ "display": "none" }}
-                            type="file"
-                            ref="inputContainer" />
-                        CHOOSE A FOLDER
-                    </label>
-                </div>
+                <div className="grid-block">&nbsp;</div>
             </div>
         );
     }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-//modules
-//import { isObjectEmpty, isObjectAFunction } from './../../../../modules/rkt_module_object';
 //components
 import RktButtonDeleteIcon from "./../../../rkt_button/rkt_button_delete_icon/rkt_button_delete_icon";
 

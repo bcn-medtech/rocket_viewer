@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-//modules
-import { isObjectEmpty, isObjectAFunction } from './../../../../modules/rkt_module_object';
 //actions
 import { lookForElementInArray } from "./rkt_modal_todo_list_actions";
 //utils

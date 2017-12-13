@@ -1,10 +1,12 @@
 $purpleMain: #443363;//rgb(110, 83, 158);
 
 .file-picker-grid-empty{
+    
     padding: 10px;
     background-color: #1d1d1d;
     overflow: hidden;  
     label {
+        font-size: 1rem;
         color: white;
     }
 
@@ -20,7 +22,7 @@ $purpleMain: #443363;//rgb(110, 83, 158);
         .choose-folder-button {
             
             padding: 10px;
-            font-size: .9rem;
+            font-size: 1rem;
             display: inline-block;
             width: fit-content;
             background: $purpleMain;//#00558b;//#333
