@@ -1,4 +1,5 @@
-
+$purpleMain: #443363;//rgb(110, 83, 158);
+$purpleHover:#a58cd8;
 
 .filtered-dicom-container {
     width: 50%;
@@ -17,10 +18,10 @@
         position: absolute;
         bottom: 0px; //5%;
         color: #ffffff;
-        background: #00558b;
+        background: $purpleMain;
     
         &:hover {
-            background: #004876;
+            background: $purpleHover;
             color: #fff;
         }
     }

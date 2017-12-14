@@ -14,7 +14,7 @@ export default class RktModalTodoList extends Component {
 
         super();
         this.state = {
-            input: undefined,
+            input: "",
             items: [],
             closed: false,
         };
@@ -28,7 +28,6 @@ export default class RktModalTodoList extends Component {
     }
 
     componentDidMount() {
-
         var items = JSON.parse(localStorage.getItem("config-image-selection"));
 
         this.setState({
@@ -47,7 +46,6 @@ export default class RktModalTodoList extends Component {
         setTimeout(function () {
             myComponent.props.closemodaltodolist();
         }, 500);
-
     }
 
     onInputChange(e) {

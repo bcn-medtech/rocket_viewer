@@ -1,7 +1,7 @@
 @import './../../rkt_card/rkt_card_viewer/rkt_card_viewer.scss';
 
-$rkt-main-color:#00B04C;
-$rkt-main-color-hover:#33EA82;
+$rkt-main-color:#a58cd8;
+$rkt-main-color-hover:#a58cd8;
 $rkt-second-color:rgb(218, 215, 215);
 $form-elements-background-color:rgba(128, 128, 128, 0.31);
 $form-elements-background-color-hover:rgba(128, 128, 128, 0.64);
@@ -20,80 +20,82 @@ $form-elements-background-color-hover:rgba(128, 128, 128, 0.64);
     100%   {fill: $rkt-second-color}
 }
 
-.box{
-    //fill:rgb(218, 215, 215);
-    fill:$rkt-main-color;
-    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-    -webkit-animation-iteration-count: 30;
-    animation-name: example;
-    animation-duration: 4s;
-    animation-iteration-count: 30;
-}
-
-.arrow{
-    fill:$rkt-main-color;
-    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
-    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
-    -webkit-animation-iteration-count: 30;
-    animation-name: example;
-    animation-duration: 4s;
-    animation-iteration-count: 30;
-}
-
-.head{
-    fill:$rkt-second-color;
-}
-
-.rkt-viewer-empty-url-information{
-    
-    h3{
-        color:$rkt-main-color;  
-    }
-}
-
-.rkt-viewer-empty-url-form-icon{
-    color: gray;
-    font-size: 26pt;
-    padding: 8px;
-    padding-right: 12px;
-}
-
-.rkt-viewer-empty-url-button{
-
-    padding: 7px;
-
-    i{
-        color:$rkt-main-color;
-        font-size: 20pt;
-        padding: 4px;
-        padding-right: 10px;
-        &:hover{
-            color: $rkt-main-color-hover;
-        }
+.rkt-viewer-empty-dragbox-icon {
+    .box{
+        //fill:rgb(218, 215, 215);
+        fill:$rkt-main-color;
+        -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+        -webkit-animation-iteration-count: 30;
+        animation-name: example;
+        animation-duration: 4s;
+        animation-iteration-count: 30;
     }
     
-}
-
-.rkt-viewer-empty-url-form{
-    padding: 20px;
-    padding-bottom:10px; 
-    background-color: rgba(0, 0, 0, 0.13);
-
-    input{
-        background-color: $form-elements-background-color;
-        color:white;
-        margin-right: 10px;
-        margin-top: 5px;
-        //font-size: $font-size;
-        border: 0px;
-        &:focus, &:hover{
-            background-color: $form-elements-background-color-hover;
-            color: white;
-            border: 0px;
-            .rkt-viewer-empty-url-form-icon{
-                color: $rkt-main-color;
-            }
-        }
+    .arrow{
+        fill:$rkt-main-color;
+        -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+        -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+        -webkit-animation-iteration-count: 30;
+        animation-name: example;
+        animation-duration: 4s;
+        animation-iteration-count: 30;
+    }
+    
+    .head{
+        fill:$rkt-second-color;
     }
 }
+
+// .rkt-viewer-empty-url-information{
+    
+//     h3{
+//         color:$rkt-main-color;  
+//     }
+// }
+
+// .rkt-viewer-empty-url-form-icon{
+//     color: gray;
+//     font-size: 26pt;
+//     padding: 8px;
+//     padding-right: 12px;
+// }
+
+// .rkt-viewer-empty-url-button{
+
+//     padding: 7px;
+
+//     i{
+//         color:$rkt-main-color;
+//         font-size: 20pt;
+//         padding: 4px;
+//         padding-right: 10px;
+//         &:hover{
+//             color: $rkt-main-color-hover;
+//         }
+//     }
+    
+// }
+
+// .rkt-viewer-empty-url-form{
+//     padding: 20px;
+//     padding-bottom:10px; 
+//     background-color: rgba(0, 0, 0, 0.13);
+
+//     input{
+//         background-color: $form-elements-background-color;
+//         color:white;
+//         margin-right: 10px;
+//         margin-top: 5px;
+//         //font-size: $font-size;
+//         border: 0px;
+//         &:focus, &:hover{
+//             background-color: $form-elements-background-color-hover;
+//             color: white;
+//             border: 0px;
+//             .rkt-viewer-empty-url-form-icon{
+//                 color: $rkt-main-color;
+//             }
+//         }
+//     }
+// }

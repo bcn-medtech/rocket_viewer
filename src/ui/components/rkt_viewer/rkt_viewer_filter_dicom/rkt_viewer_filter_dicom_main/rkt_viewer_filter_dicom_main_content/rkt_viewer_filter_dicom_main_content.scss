@@ -1,4 +1,6 @@
 $rkt-top-bar-background-color:#228B22;
+$purpleMain: #443363;//rgb(110, 83, 158);
+$purpleHover:#a58cd8;
 
 .main-dicom-container-content {
     background-color: #111111;
@@ -22,10 +24,10 @@ $rkt-top-bar-background-color:#228B22;
         position: absolute;
         bottom: 0px; //5%;
         color: #ffffff;
-        background: #00558b;
+        background: $purpleMain;
 
         &:hover {
-            background: #004876;
+            background: $purpleHover;//#004876;
             color: #fff;
         }
     }

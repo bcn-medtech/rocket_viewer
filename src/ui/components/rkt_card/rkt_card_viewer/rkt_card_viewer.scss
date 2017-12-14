@@ -1,8 +1,12 @@
+$purpleMain: #443363;//rgb(110, 83, 158);
+$purpleHover:#a58cd8;
+$purpleSeparator:#a48cd84d;
+
 .rkt-card-viewer{
     //padding: 10px;
     display: inline;
     h2{
-        color:#33EA82;
+        color:$purpleHover;
     }
     word-wrap: break-word;
     overflow: hidden;
@@ -10,6 +14,8 @@
 
 .rkt-card-viewer-content{
     padding: 10px;
+    border-bottom: 1px solid $purpleSeparator;
+    margin-right: 10px;
     
     &:hover{
         background-color: rgba(0, 0, 0, 0.09);
@@ -25,7 +31,7 @@
     a{
         color:rgba(255, 255, 255, 0.64);
         &:hover{
-            color:#33EA82;
+            color:$purpleHover;
         }
     }
     overflow: hidden;
@@ -39,5 +45,5 @@
     padding-right: 5px;
     font-size: 11pt;
     //overflow: hidden;
-    color:#33EA82;
+    color:$purpleHover;
 }
