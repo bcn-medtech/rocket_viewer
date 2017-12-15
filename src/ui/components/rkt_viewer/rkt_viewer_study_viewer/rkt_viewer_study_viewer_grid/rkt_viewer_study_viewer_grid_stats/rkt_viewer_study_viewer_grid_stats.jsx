@@ -5,8 +5,9 @@ export default class RktToolboxStageStats extends Component {
     constructor() {
         super();
         this.state = {
-
         };
+
+        //this.onClickNavigationButton = this.onClickNavigationButton.bind(this);
     }
 
     renderLoadingProgressBar() {
@@ -28,6 +29,7 @@ export default class RktToolboxStageStats extends Component {
                     <span>{" "}</span>
                     {this.props.title} {(this.props.totalDicoms > 0) && "(" + this.props.loadedDicoms + "/" + this.props.totalDicoms + ")"}
                 </h4>
+                {this.renderNavigationButton()}
             </div>
         );
     }
@@ -51,6 +53,28 @@ export default class RktToolboxStageStats extends Component {
                 })}
             </div>
         )
+    }
+
+    renderNavigationButton() {
+        if (this.props.totalDicoms > 0) {
+            
+            var current_img_section = this.props.current_img_section;
+            //if (current_img_section)
+            var navigationButtonPrevious = <a onClick={this.onClickNavigationButton.bind(this, "previous")}><i className="fi-arrow-left"></i></a>;
+            var navigationButtonNext = <a onClick={this.onClickNavigationButton.bind(this,"next")}><i className="fi-arrow-right"></i></a>;
+        }
+
+        return (
+            <div className="grid-block align-right menu">
+                {navigationButtonPrevious}
+                {navigationButtonNext}
+            </div>
+        )
+    }
+
+    onClickNavigationButton(navigateTo) {
+        this.props.onclicknavigationbutton(navigateTo);
+        console.log("******************* After navigation ******************");
     }
 
     render() {

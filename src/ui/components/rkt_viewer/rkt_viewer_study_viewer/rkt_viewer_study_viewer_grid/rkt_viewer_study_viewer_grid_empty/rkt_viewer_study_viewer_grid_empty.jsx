@@ -19,7 +19,6 @@ export default class RktViewerFilePickerGridEmpty extends Component {
     }
 
     onDropApp(acceptedFiles, rejectedFiles) {
-
         if (acceptedFiles.length > 0) {
             var fileList = array2Object(acceptedFiles);
             this.props.onselectedfiles(fileList);

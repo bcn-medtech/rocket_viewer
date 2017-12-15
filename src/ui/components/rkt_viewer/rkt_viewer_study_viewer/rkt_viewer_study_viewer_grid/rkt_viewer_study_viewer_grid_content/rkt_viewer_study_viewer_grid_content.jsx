@@ -17,6 +17,7 @@ export default class RktViewerFilePickerGridContent extends Component {
     }
 
     componentWillUpdate(nextProps) {
+        
         if (nextProps.fileList !== this.props.fileList) {
             this.clearGrid();
         }
@@ -25,15 +26,18 @@ export default class RktViewerFilePickerGridContent extends Component {
     clearGrid() {
         this.setState({
             selectedImg: -1,
-            fileInstances: [],
+            //fileInstances: [],
         });
     }
 
     renderGrid() {
         var fileList = this.props.fileList; // {0: File, 1: File, ... , lenght: int}
-        
+        console.log("----------------------------------------------");
+        console.log(fileList);
         var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
+        console.log(keys_fileList);
         keys_fileList.pop(); // ["0", "1", ... , "n"]
+        console.log(keys_fileList);
 
         var url; // TO DO
 
@@ -41,8 +45,10 @@ export default class RktViewerFilePickerGridContent extends Component {
             keys_fileList.map((key) => {
 
                 var value = fileList[key];
+                //console.log(value);
                 var files = array2Object([value]); // same as doing "var files = {0:fileList[key], "lenght":1};"
-                
+                console.log(files[0].preview);
+
                 return (
                     <RktViewerFilePickerGridContentThumbnail
                         index={key}
@@ -79,6 +85,7 @@ export default class RktViewerFilePickerGridContent extends Component {
     }
 
     render() {
+        
         return (
             <div className="grid-block study-viewer-grid-content">
                 <div className="grid-block small-up-3 align-spaced">

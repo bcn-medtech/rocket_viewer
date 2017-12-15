@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
 // components
-import RktViewerImageSelectionGrid from './rkt_viewer_study_viewer_grid/rkt_viewer_study_viewer_grid';
-import RktViewerImageSelectionViewer from './rkt_viewer_study_viewer_viewer/rkt_viewer_study_viewer_viewer';
+import RktViewerStudyViewerGrid from './rkt_viewer_study_viewer_grid/rkt_viewer_study_viewer_grid';
+import RktViewerStudyViewerViewer from './rkt_viewer_study_viewer_viewer/rkt_viewer_study_viewer_viewer';
 
-export default class RktViewerImageSelection extends Component {
+export default class RktViewerStudyViewer extends Component {
 
     constructor() {
         super();
@@ -28,7 +28,7 @@ export default class RktViewerImageSelection extends Component {
     }
 
     renderGrid() {
-        return (<RktViewerImageSelectionGrid handleimgselected={this.handleImgSelected}/>);
+        return (<RktViewerStudyViewerGrid handleimgselected={this.handleImgSelected}/>);
     }
 
     renderViewer() {
@@ -36,7 +36,7 @@ export default class RktViewerImageSelection extends Component {
         var files = this.state.files_to_display;
         var viewerType = this.state.viewerType;
 
-        return (<RktViewerImageSelectionViewer url={url} files={files} viewerType={viewerType}/>);
+        return (<RktViewerStudyViewerViewer url={url} files={files} viewerType={viewerType}/>);
     }
 
     render() {

@@ -26,6 +26,9 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
 
     componentDidMount() {
 
+
+        console.log("Component did mount")
+
         this.setState({
             elementWidth: this.containerThumbnail.clientWidth,// - 20,
             loaded: false,

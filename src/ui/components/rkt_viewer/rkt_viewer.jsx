@@ -134,15 +134,18 @@ export default class RktViewer extends Component {
                     })
                 }
 
-
             } else {
 
                 alert("Blob with multiple files");
 
             }
-        } else
+
+        } else {
 
             return false;
+
+        }
+            
     }
 
     setURL(url) {

@@ -178,7 +178,7 @@ function isFileADicomFile(file, callback) {
 export function loadDicom(url, img_source, on_image_loaded_function, on_error_loading_function) {
 
     if (img_source === "filesystem") {
-        loadLocalImage(url, on_image_loaded_function, on_error_loading_function);
+        loadLocalImage(url, on_image_loaded_function, on_error_loading_function);;
     }
     else if (img_source === "wado") {
         loadWADOImage(url, on_image_loaded_function, on_error_loading_function);
@@ -186,13 +186,15 @@ export function loadDicom(url, img_source, on_image_loaded_function, on_error_lo
 }
 
 function loadLocalImage(url, on_image_loaded_function, on_error_loading_function) {
-
+    
     var imageId = cornerstoneWADOImageLoader.fileManager.add(url[0]);
     cornerstone.loadImage(imageId).then(
         on_image_loaded_function,
         function (err) {
             on_error_loading_function();
         });
+
+        cornerstoneWADOImageLoader.fileManager.purge();
 }
 
 function loadWADOImage(url, on_image_loaded_function, on_error_loading_function) {
