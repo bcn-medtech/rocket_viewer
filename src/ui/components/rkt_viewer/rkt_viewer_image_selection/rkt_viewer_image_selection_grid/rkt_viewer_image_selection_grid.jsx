@@ -100,7 +100,6 @@ export default class RktViewerImageSelectionGrid extends Component {
 
     onGridContentChange(instances, pngCanvasArray, metadataArray) {
         var myComponent = this;
-        //console.log("onGridContentChange");
 
         // update of props "grid_sources_info"
         for (var i = 0; i < Object.keys(myComponent.props.grid_sources_info).length; i++) {

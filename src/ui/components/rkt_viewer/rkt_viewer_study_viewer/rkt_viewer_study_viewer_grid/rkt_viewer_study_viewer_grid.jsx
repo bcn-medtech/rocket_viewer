@@ -19,19 +19,17 @@ export default class RktViewerStudyViewerGrid extends Component {
         this.state = {
             fileList: {},
             fileList_to_display: {},
-            manufacturerInfo: [],
+            dicomsMetadata: [],
+            manufacturersInfo: [],
             loadedFiles: 0,
             totalFiles: 0,
             img_sections_info: undefined,
             current_img_section: 1
         }
 
-        this.array_loaded_dicoms_metadata = [];
-        //this.array_loaded_dicoms_manufacturers = [];
-
         this.handleGridContentChange = this.handleGridContentChange.bind(this);
         this.clearState = this.clearState.bind(this);
-        //this.handleNavigation = this.handleNavigation.bind(this);
+
     }
 
     // **** Actions ******
@@ -41,38 +39,35 @@ export default class RktViewerStudyViewerGrid extends Component {
         this.setState({
             fileList: [],
             fileList_to_display: {},
-            manufacturerInfo: [],
-            loadedFiles: 0,
-            totalFiles: 0,
+            manufacturersInfo: [],
+            //loadedFiles: 0,
+            //totalFiles: 0,
             img_sections_info: undefined,
             current_img_section: 1
         });
     }
 
-    computeStats(instances) {
+    computeStats(dicomsMetadata, cornerstoneData) {
 
-        var manufacturerDict = [];
+        dicomsMetadata.push(cornerstoneData);
+        var manufacturersDict = [];
 
-        for (var i in instances) {
-            if (instances[i] !== null) {
-                var man = instances[i].string('x00080070');
-                if (manufacturerDict[man]) {
-                    manufacturerDict[man] = manufacturerDict[man] + 1;
+        for (var i in dicomsMetadata) {
+            if (dicomsMetadata[i] !== null) {
+                var man = dicomsMetadata[i].string('x00080070');
+                if (manufacturersDict[man]) {
+                    manufacturersDict[man] = manufacturersDict[man] + 1;
                 } else {
-                    manufacturerDict[man] = 1;
+                    manufacturersDict[man] = 1;
                 }
             }
         }
 
-        // this.setState({
-        //     loadedDicoms: instances.length,
-        //     manufacturerInfo: manufacturerDict
-        // });
-
-        //this.array_loaded_dicoms_manufacturers.push(manufacturerDict);
-        //console.log(manufacturerDict);
-        //this.array_loaded_dicoms_manufacturers = manufacturerDict;
-        return manufacturerDict;
+        this.setState({
+            loadedFiles: dicomsMetadata.length,
+            dicomsMetadata: dicomsMetadata,
+            manufacturersInfo: manufacturersDict
+        });
 
     }
 
@@ -106,20 +101,14 @@ export default class RktViewerStudyViewerGrid extends Component {
 
         }
 
-        //console.log(this.array_loaded_dicoms_manufacturers);
-
-        //console.log(this.array_loaded_dicoms_metadata);
-        //var manufacturers_info = this.computeStats(this.array_loaded_dicoms_metadata);
-
         //update the state
         this.setState({
             fileList_to_display: fileList_to_display,
             fileList: fileList,
-            loadedFiles: loadedFiles,
+            //loadedFiles: loadedFiles,
             totalFiles: fileList.length,
             img_sections_info: img_sections_info,
-            current_img_section: current_img_section,
-            //manufacturers_info: manufacturers_info
+            current_img_section: current_img_section
         });
     }
 
@@ -127,11 +116,8 @@ export default class RktViewerStudyViewerGrid extends Component {
 
     handleGridContentChange(cornerstoneData) {
 
-        //console.log("----------> handleGridContentChange");
-        var array_loaded_dicoms_metadata = this.array_loaded_dicoms_metadata;
-        array_loaded_dicoms_metadata.push(cornerstoneData);
-
-        //this.computeStats(array_loaded_dicoms_metadata);
+        var dicomsMetadata = this.state.dicomsMetadata;
+        this.computeStats(dicomsMetadata, cornerstoneData);
     }
 
 
@@ -178,28 +164,24 @@ export default class RktViewerStudyViewerGrid extends Component {
 
     renderStatsComponent() {
 
-        //var manufacturerInfo = this.state.manufacturerInfo;
-        //var loadedFiles = this.state.loadedFiles;
+        var totalFiles = this.state.totalFiles;
+        var loadedFiles = this.state.loadedFiles;
+        var manufacturersInfo = this.state.manufacturersInfo;
 
-        //if (this.array_loaded_dicoms_manufacturers !== undefined) {
-            //var array_loaded_dicoms_manufacturers = this.array_loaded_dicoms_manufacturers;
-            var totalFiles = this.state.totalFiles;
-            var loadedFiles = this.state.loadedFiles;
-            var current_img_section = this.state.current_img_section;
+        var current_img_section = this.state.current_img_section;
+        var img_sections_info = this.state.img_sections_info;
 
-            var img_sections_info = this.state.img_sections_info;
+        return (
 
-            return (
-                <RktViewerStudyViewerGridStats
-                    title="Folder info"
-                    items={this.state.manufacturers_info}
-                    loadedFiles={loadedFiles}
-                    totalFiles={totalFiles}
-                    current_img_section={current_img_section}
-                    img_sections_info={img_sections_info}
-                    onclicknavigationbutton={this.handleNavigation.bind(this)} />
-            );
-        //}
+            <RktViewerStudyViewerGridStats
+                title="Folder info"
+                items={manufacturersInfo}
+                loadedFiles={loadedFiles}
+                totalFiles={totalFiles}
+                current_img_section={current_img_section}
+                img_sections_info={img_sections_info}
+                onclicknavigationbutton={this.handleNavigation.bind(this)} />
+        );
 
     }
 
@@ -212,7 +194,6 @@ export default class RktViewerStudyViewerGrid extends Component {
         // if files have been obtained, they are displayed in the grid (as thumbnails)
         if (fileList.length > 0) {
 
-            //console.log(fileList_to_display);
             return (
                 <RktViewerStudyViewerGridContent
                     fileList={fileList_to_display}

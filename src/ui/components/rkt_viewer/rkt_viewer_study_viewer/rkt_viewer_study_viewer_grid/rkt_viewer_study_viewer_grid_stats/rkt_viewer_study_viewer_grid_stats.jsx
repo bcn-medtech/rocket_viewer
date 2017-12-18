@@ -33,8 +33,8 @@ export default class RktToolboxStageStats extends Component {
     }
 
     renderStats() {
+
         if (this.props.items !== undefined) {
-            //console.log(this.props.items);
             return (
                 <div className="grid-block align-left stats">
                     {Object.keys(this.props.items).map((key) => {
@@ -100,7 +100,6 @@ export default class RktToolboxStageStats extends Component {
 
     onClickNavigationButton(navigateTo) {
         this.props.onclicknavigationbutton(navigateTo);
-        //console.log("******************* After navigation ******************");
     }
 
     render() {
