@@ -56,21 +56,36 @@ export default class RktToolboxStageStats extends Component {
     }
 
     renderNavigationButton() {
-        if (this.props.totalDicoms > 0) {
-            
+
+        if ((this.props.totalDicoms > 0) && (this.props.number_sections > 1)) {
+            var number_sections = this.props.number_sections;
             var current_img_section = this.props.current_img_section;
-            //if (current_img_section)
-            var navigationButtonPrevious = <a onClick={this.onClickNavigationButton.bind(this, "previous")}><i className="fi-arrow-left"></i></a>;
-            var navigationButtonNext = <a onClick={this.onClickNavigationButton.bind(this,"next")}><i className="fi-arrow-right"></i></a>;
+            var navigationButtonNext, navigationButtonPrevious;
+
+            // console.log(current_img_section);
+            // console.log(number_sections);
+
+            if ((current_img_section > 1) && (current_img_section < number_sections)) {
+                navigationButtonPrevious = <a onClick={this.onClickNavigationButton.bind(this, "previous")}><i className="fi-arrow-left"></i></a>;
+                navigationButtonNext = <a onClick={this.onClickNavigationButton.bind(this, "next")}><i className="fi-arrow-right"></i></a>;
+                
+            } else if (current_img_section === 1) {
+                navigationButtonNext = <a onClick={this.onClickNavigationButton.bind(this, "next")}><i className="fi-arrow-right"></i></a>;
+
+            } else if (current_img_section === number_sections) {
+                navigationButtonPrevious = <a onClick={this.onClickNavigationButton.bind(this, "previous")}><i className="fi-arrow-left"></i></a>;
+
+            }
         }
 
         return (
-            <div className="grid-block align-right menu">
+            <div className="grid-block align-right menu" >
                 {navigationButtonPrevious}
                 {navigationButtonNext}
             </div>
         )
     }
+
 
     onClickNavigationButton(navigateTo) {
         this.props.onclicknavigationbutton(navigateTo);

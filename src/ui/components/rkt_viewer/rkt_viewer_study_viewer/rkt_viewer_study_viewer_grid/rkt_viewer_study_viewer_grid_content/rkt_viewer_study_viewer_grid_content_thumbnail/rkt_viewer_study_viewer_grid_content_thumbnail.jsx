@@ -24,10 +24,7 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
         this.handleThumbnailClicked = this.handleThumbnailClicked.bind(this);
     }
 
-    componentDidMount() {
-
-
-        console.log("Component did mount")
+    loadThumbnailInComponent(file,url){
 
         this.setState({
             elementWidth: this.containerThumbnail.clientWidth,// - 20,
@@ -35,24 +32,32 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
             error: false
         });
 
-        var files = this.props.files;
-        var url = this.props.url;
-        
         var myComponent = this;
 
-        getViewerType(files, url, function(viewerType) {
+        getViewerType(file, url, function(viewerType) {
             
             myComponent.setState({
                 viewerType: viewerType
             })
 
             if (viewerType!==undefined) { // the image is only displayed if its format is compatible
-                loadImage(viewerType, files, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
+                loadImage(viewerType, file, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
             } else {
                 myComponent.onErrorLoading(false);
             }
             
         });
+
+    }
+
+    componentDidMount() {
+
+        //console.log("Component did mount")
+
+        var file = this.props.files;
+        var url = this.props.url;
+        
+        this.loadThumbnailInComponent(file,url);
 
     }
 
@@ -67,6 +72,7 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
         var element = this.imageThumbnail;
         cornerstone.enable(element);
         var viewport = cornerstone.getDefaultViewportForImage(element, cornerstoneImage);
+        
 
         // image is displayed
         cornerstone.displayImage(element, cornerstoneImage, viewport);
@@ -78,7 +84,7 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
         })
 
         // metadata of the dicom is passed to "Stats" component
-        this.props.onLoaded(cornerstoneImage.data);
+        //this.props.onLoaded(cornerstoneImage.data);
     }
 
     handleThumbnailClicked() {
