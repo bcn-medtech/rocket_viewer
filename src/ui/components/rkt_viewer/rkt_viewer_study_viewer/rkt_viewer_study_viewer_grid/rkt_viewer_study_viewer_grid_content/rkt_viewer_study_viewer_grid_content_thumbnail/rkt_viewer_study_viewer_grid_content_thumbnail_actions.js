@@ -2,12 +2,12 @@
 import { isObjectEmpty } from './../../../../../../../modules/rkt_module_object';
 
 // libraries
-import NRRDLoader from './../../../../../../../libraries/NRRDLoader';
-import PLYLoader from './../../../../../../../libraries/PLYLoader';
-import VTKLoader from './../../../../../../../libraries/VTKLoader';
+// import NRRDLoader from './../../../../../../../libraries/NRRDLoader';
+// import PLYLoader from './../../../../../../../libraries/PLYLoader';
+// import VTKLoader from './../../../../../../../libraries/VTKLoader';
 
-var THREE = require('three');
-var TrackballControls = require('three-trackballcontrols');
+// var THREE = require('three');
+// var TrackballControls = require('three-trackballcontrols');
 
 //Using global variables
 const cornerstone = window.cornerstone;

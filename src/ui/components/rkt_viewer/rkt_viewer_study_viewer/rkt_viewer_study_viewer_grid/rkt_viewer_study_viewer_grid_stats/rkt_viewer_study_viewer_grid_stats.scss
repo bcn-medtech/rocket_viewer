@@ -38,15 +38,24 @@ $purpleHover:#a58cd8;
         }
     }
 
-    .menu{
+    .navigation-menu{
         padding-right: 20px;
-        a{
-            font-size: 25px;
+        
+        .navigation-info {
             padding: 5px;
-            color:white;
-            &:hover{
-                color:$purpleHover;
+            color: white;
+        }
+
+        .navigation-buttons {
+            a{
+                font-size: 25px;
+                padding: 5px;
+                color:white;
+                &:hover{
+                    color:$purpleHover;
+                }
             }
         }
+
     }
 }

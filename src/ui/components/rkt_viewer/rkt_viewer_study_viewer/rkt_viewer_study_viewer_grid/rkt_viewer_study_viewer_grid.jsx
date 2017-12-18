@@ -8,20 +8,26 @@ import RktViewerStudyViewerGridContent from './rkt_viewer_study_viewer_grid_cont
 // actions
 import { divideImagesInSections } from './rkt_viewer_study_viewer_grid_actions';
 
+//global imports
+const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
+
 export default class RktViewerStudyViewerGrid extends Component {
 
     constructor(props) {
         super(props);
-        
+
         this.state = {
             fileList: {},
             fileList_to_display: {},
             manufacturerInfo: [],
-            loadedDicoms: 0,
-            totalDicoms: 0,
+            loadedFiles: 0,
+            totalFiles: 0,
             img_sections_info: undefined,
             current_img_section: 1
         }
+
+        this.array_loaded_dicoms_metadata = [];
+        //this.array_loaded_dicoms_manufacturers = [];
 
         this.handleGridContentChange = this.handleGridContentChange.bind(this);
         this.clearState = this.clearState.bind(this);
@@ -31,24 +37,24 @@ export default class RktViewerStudyViewerGrid extends Component {
     // **** Actions ******
 
     clearState() {
-        
+
         this.setState({
             fileList: [],
             fileList_to_display: {},
             manufacturerInfo: [],
-            loadedDicoms: 0,
-            totalDicoms: 0,
+            loadedFiles: 0,
+            totalFiles: 0,
             img_sections_info: undefined,
             current_img_section: 1
         });
     }
 
     computeStats(instances) {
-        
+
         var manufacturerDict = [];
 
         for (var i in instances) {
-            if (instances[i] != null) {
+            if (instances[i] !== null) {
                 var man = instances[i].string('x00080070');
                 if (manufacturerDict[man]) {
                     manufacturerDict[man] = manufacturerDict[man] + 1;
@@ -58,19 +64,30 @@ export default class RktViewerStudyViewerGrid extends Component {
             }
         }
 
-        this.setState({
-            loadedFiles: instances.length,
-            manufacturerInfo: manufacturerDict
-        });
+        // this.setState({
+        //     loadedDicoms: instances.length,
+        //     manufacturerInfo: manufacturerDict
+        // });
+
+        //this.array_loaded_dicoms_manufacturers.push(manufacturerDict);
+        //console.log(manufacturerDict);
+        //this.array_loaded_dicoms_manufacturers = manufacturerDict;
+        return manufacturerDict;
+
     }
 
-    loadImagesToDisplay(fileList,img_sections_info,current_img_section) {
+    loadImagesToDisplay(fileList, img_sections_info, current_img_section) {
 
+        // update of the images to display
         var fileList_to_display = {}
+        var loadedFiles;
+
+        cornerstoneWADOImageLoader.fileManager.purge();
 
         if (img_sections_info.number_sections === 1) {
 
             fileList_to_display = fileList;
+            loadedFiles = fileList.length;
 
         } else if (img_sections_info.number_sections > 1) {
 
@@ -79,6 +96,7 @@ export default class RktViewerStudyViewerGrid extends Component {
             var current_info = sectionsObject[current_img_section];
             var first_file_id = current_info.first_file_id;
             var last_file_id = current_info.last_file_id;
+            var loadedFiles = last_file_id + 1;
 
             for (var i = first_file_id; i < last_file_id + 1; i++) {
                 fileList_to_display[i] = fileList[i];
@@ -88,24 +106,37 @@ export default class RktViewerStudyViewerGrid extends Component {
 
         }
 
+        //console.log(this.array_loaded_dicoms_manufacturers);
+
+        //console.log(this.array_loaded_dicoms_metadata);
+        //var manufacturers_info = this.computeStats(this.array_loaded_dicoms_metadata);
+
+        //update the state
         this.setState({
             fileList_to_display: fileList_to_display,
             fileList: fileList,
+            loadedFiles: loadedFiles,
             totalFiles: fileList.length,
             img_sections_info: img_sections_info,
-            current_img_section:current_img_section
+            current_img_section: current_img_section,
+            //manufacturers_info: manufacturers_info
         });
     }
 
     // ******* Events *********
 
-    handleGridContentChange(instances) {
-        this.computeStats(instances)
+    handleGridContentChange(cornerstoneData) {
+
+        //console.log("----------> handleGridContentChange");
+        var array_loaded_dicoms_metadata = this.array_loaded_dicoms_metadata;
+        array_loaded_dicoms_metadata.push(cornerstoneData);
+
+        //this.computeStats(array_loaded_dicoms_metadata);
     }
 
 
     handleNavigation(navigateTo) {
-        
+
         var current_img_section = this.state.current_img_section;
         var fileList = this.state.fileList;
         var img_sections_info = this.state.img_sections_info;
@@ -114,28 +145,28 @@ export default class RktViewerStudyViewerGrid extends Component {
         else if (navigateTo === "next") current_img_section += 1;
 
         this.clearState();
-        
+
         this.setState({
-            navigating:true
+            navigating: true
         });
 
         var myComponent = this;
 
-        setTimeout(function(){ 
-            myComponent.loadImagesToDisplay(fileList,img_sections_info,current_img_section);
-         }, 10);
+        setTimeout(function () {
+            myComponent.loadImagesToDisplay(fileList, img_sections_info, current_img_section);
+        }, 10);
     }
 
     handleFilesObtention(fileList) {
 
-        var num_img_per_section = 20;//20;
+        var num_img_per_section = 20;
         var img_sections_info = divideImagesInSections(fileList, num_img_per_section);
         var current_img_section = 1;
 
         // we update "GridContent" and "Stats" data
         this.clearState();
 
-        this.loadImagesToDisplay(fileList,img_sections_info,current_img_section);
+        this.loadImagesToDisplay(fileList, img_sections_info, current_img_section);
 
     }
 
@@ -147,34 +178,38 @@ export default class RktViewerStudyViewerGrid extends Component {
 
     renderStatsComponent() {
 
-        var manufacturerInfo = this.state.manufacturerInfo;
-        var loadedFiles = this.state.loadedFiles;
-        var totalFiles = this.state.totalFiles;
-        var current_img_section = this.state.current_img_section;
+        //var manufacturerInfo = this.state.manufacturerInfo;
+        //var loadedFiles = this.state.loadedFiles;
 
-        if (this.state.img_sections_info !== undefined) {
-            var number_sections = this.state.img_sections_info["number_sections"];
-        }
+        //if (this.array_loaded_dicoms_manufacturers !== undefined) {
+            //var array_loaded_dicoms_manufacturers = this.array_loaded_dicoms_manufacturers;
+            var totalFiles = this.state.totalFiles;
+            var loadedFiles = this.state.loadedFiles;
+            var current_img_section = this.state.current_img_section;
 
-        return (
-            <RktViewerStudyViewerGridStats
-                title="Folder info"
-                items={manufacturerInfo}
-                loadedDicoms={loadedFiles}
-                totalDicoms={totalFiles}
-                current_img_section={current_img_section}
-                number_sections={number_sections}
-                onclicknavigationbutton={this.handleNavigation.bind(this)} />
-        );
+            var img_sections_info = this.state.img_sections_info;
+
+            return (
+                <RktViewerStudyViewerGridStats
+                    title="Folder info"
+                    items={this.state.manufacturers_info}
+                    loadedFiles={loadedFiles}
+                    totalFiles={totalFiles}
+                    current_img_section={current_img_section}
+                    img_sections_info={img_sections_info}
+                    onclicknavigationbutton={this.handleNavigation.bind(this)} />
+            );
+        //}
+
     }
 
     renderGridComponent() {
-        
+
         var fileList = this.state.fileList;
         var fileList_to_display = this.state.fileList_to_display;
         var current_img_section = this.state.current_img_section;
 
-        // if files have been dragged and drop, they are displayed in the grid (as thumbnails)
+        // if files have been obtained, they are displayed in the grid (as thumbnails)
         if (fileList.length > 0) {
 
             //console.log(fileList_to_display);
@@ -190,7 +225,7 @@ export default class RktViewerStudyViewerGrid extends Component {
             // if files have NOT been dragged and drop yet, dropzone widget
         } else {
 
-            if(!this.state.navigating){
+            if (!this.state.navigating) {
                 return (<RktViewerStudyViewerGridEmpty onselectedfiles={this.handleFilesObtention.bind(this)} />);
             }
         }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import RktViewerImageSelectionGridContentDragSource from './rkt_viewer_image_selection_grid_content_drag_source/rkt_viewer_image_selection_grid_content_drag_source';
-
 // actions
 import { array2Object } from './rkt_viewer_image_selection_grid_content_actions.js';
 

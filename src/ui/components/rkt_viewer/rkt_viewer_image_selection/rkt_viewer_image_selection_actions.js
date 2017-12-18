@@ -49,13 +49,13 @@ export function updateImageSelectionInfo(grid_sources_info, sidebar_targets_info
             }
         }
 
-        for (var i = 0; i < Object.keys(grid_sources_info).length; i++) {
+        for (var j = 0; j < Object.keys(grid_sources_info).length; j++) {
 
-            if (grid_sources_info[i].assigned_label === label_sidebar) {
+            if (grid_sources_info[j].assigned_label === label_sidebar) {
                 // this grid thumbnail cannot have the current sidebar label any more
-                grid_sources_info[i].assigned_label = false;
-                grid_sources_info[i].hasLabelAssigned = false;
-                grid_sources_info[i].index_target = false;
+                grid_sources_info[j].assigned_label = false;
+                grid_sources_info[j].hasLabelAssigned = false;
+                grid_sources_info[j].index_target = false;
             }
         }
 

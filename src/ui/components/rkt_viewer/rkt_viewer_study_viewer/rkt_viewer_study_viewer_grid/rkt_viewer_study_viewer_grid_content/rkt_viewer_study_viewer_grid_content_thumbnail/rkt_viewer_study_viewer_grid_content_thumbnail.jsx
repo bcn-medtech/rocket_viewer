@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-
 //actions
 import { getViewerType, loadImage, getImageName } from './rkt_viewer_study_viewer_grid_content_thumbnail_actions';
 
 //Using global variables
 const cornerstone = window.cornerstone;
+const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
 
 export default class RktViewerImageSelectionGridContentThumbnail extends Component {
 
@@ -22,6 +22,17 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
         this.onImageLoaded = this.onImageLoaded.bind(this);
         this.onErrorLoading = this.onErrorLoading.bind(this);
         this.handleThumbnailClicked = this.handleThumbnailClicked.bind(this);
+    }
+
+    componentDidMount() {
+
+        //console.log("Component did mount")
+
+        var file = this.props.files;
+        var url = this.props.url;
+        
+        this.loadThumbnailInComponent(file,url);
+
     }
 
     loadThumbnailInComponent(file,url){
@@ -50,17 +61,6 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
 
     }
 
-    componentDidMount() {
-
-        //console.log("Component did mount")
-
-        var file = this.props.files;
-        var url = this.props.url;
-        
-        this.loadThumbnailInComponent(file,url);
-
-    }
-
     onErrorLoading(err) {
         this.setState({
             error: true
@@ -72,7 +72,6 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
         var element = this.imageThumbnail;
         cornerstone.enable(element);
         var viewport = cornerstone.getDefaultViewportForImage(element, cornerstoneImage);
-        
 
         // image is displayed
         cornerstone.displayImage(element, cornerstoneImage, viewport);
@@ -84,7 +83,7 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
         })
 
         // metadata of the dicom is passed to "Stats" component
-        //this.props.onLoaded(cornerstoneImage.data);
+        this.props.onLoaded(cornerstoneImage.data);
     }
 
     handleThumbnailClicked() {

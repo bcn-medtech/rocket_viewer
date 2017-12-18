@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+//utils
+import newId from './../../../../utils/newid';
 //modules
 import { createURL } from './rkt_viewer_empty_actions.js';
 //config viewers
@@ -38,7 +40,7 @@ export default class RktComponentTemplate extends Component {
         return (
             viewers.map((item) => {
                 return (
-                    <RktCardViewer viewer={item} seturl={this.setURLFromCard.bind(this)} />
+                    <RktCardViewer viewer={item} seturl={this.setURLFromCard.bind(this)} key={newId()} />
                 )
             })
         );

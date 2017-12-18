@@ -264,7 +264,7 @@ export default class RktViewerDicomOneFrame extends Component {
     }
 
     render() {
-
+        console.log(this.state.loaded);
         return (
             <div className="grid-block rkt-dicom-viewer-one-frame">
                 {this.renderLoading()}

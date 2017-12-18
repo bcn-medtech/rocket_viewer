@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import RktViewerFilePickerGridContentThumbnail from './rkt_viewer_study_viewer_grid_content_thumbnail/rkt_viewer_study_viewer_grid_content_thumbnail';
-
 // actions
 import { array2Object } from './rkt_viewer_study_viewer_grid_content_actions.js';
 
@@ -9,25 +8,11 @@ export default class RktViewerFilePickerGridContent extends Component {
         super(props);
         this.state = {
             selectedImg: -1,
-            imgInstances: [],
+            //imgInstances: [],
         }
 
         this.handleImgLoaded = this.handleImgLoaded.bind(this);
         this.handleImgClicked = this.handleImgClicked.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps) {
-       
-        if (nextProps.fileList !== this.props.fileList) {
-            console.log("nextProps.fileList, length");
-            console.log(nextProps.fileList);
-            console.log(nextProps.fileList.length);
-            console.log("this.props.fileList, length");
-            console.log(this.props.fileList);
-            console.log(this.props.fileList.length);
-            this.clearGrid();
-        }
-        
     }
 
     clearGrid() {
@@ -39,12 +24,10 @@ export default class RktViewerFilePickerGridContent extends Component {
 
     renderGrid() {
         var fileList = this.props.fileList; // {0: File, 1: File, ... , lenght: int}
-        console.log("----------------------------------------------");
         //console.log(fileList);
+        //console.log("----------------------------------------------");
         var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
-        //console.log(keys_fileList);
         keys_fileList.pop(); // ["0", "1", ... , "n"]
-        //console.log(keys_fileList);
 
         var url; // TO DO
 
@@ -52,9 +35,7 @@ export default class RktViewerFilePickerGridContent extends Component {
             keys_fileList.map((key) => {
 
                 var value = fileList[key];
-                //console.log(value);
                 var files = array2Object([value]); // same as doing "var files = {0:fileList[key], "lenght":1};"
-                //console.log(files[0].preview);
 
                 return (
                     <RktViewerFilePickerGridContentThumbnail
@@ -70,15 +51,12 @@ export default class RktViewerFilePickerGridContent extends Component {
         );
     }
 
-    handleImgLoaded(data) {
-        let instances = this.state.imgInstances;
-        instances.push(data);
+    handleImgLoaded(cornerstoneData) {
+        //let instances = this.state.imgInstances;
+        //instances.push(cornerstoneData);
 
-        this.setState({
-            dicomInstances: instances
-        })
-
-        this.props.onchangegridcontent(this.state.imgInstances);
+        //this.props.onchangegridcontent(instances);
+        this.props.onchangegridcontent(cornerstoneData);
     }
 
     handleImgClicked(index, file, url, viewerType) {

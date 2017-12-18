@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 // components
 import RktViewerImageSelectionGridStats from './rkt_viewer_image_selection_grid_stats/rkt_viewer_image_selection_grid_stats';
 import RktViewerImageSelectionGridEmpty from './rkt_viewer_image_selection_grid_empty/rkt_viewer_image_selection_grid_empty';
@@ -56,7 +55,6 @@ export default class RktViewerImageSelectionGrid extends Component {
                     onchangegridcontent={this.onGridContentChange}
                     onimgselection={this.props.onimgselection}
                     onimgdragdrop={this.props.onimgdragdrop}
-                    // onconfigchange={this.props.onconfigchange}
                 />
             );
 
@@ -102,6 +100,7 @@ export default class RktViewerImageSelectionGrid extends Component {
 
     onGridContentChange(instances, pngCanvasArray, metadataArray) {
         var myComponent = this;
+        //console.log("onGridContentChange");
 
         // update of props "grid_sources_info"
         for (var i = 0; i < Object.keys(myComponent.props.grid_sources_info).length; i++) {
