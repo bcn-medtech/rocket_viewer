@@ -44,7 +44,7 @@ export function divideImagesInSections(all_files, num_img_per_section) {
                     "index": 1,
                     "num_img": num_img_per_section,
                     "first_file_id": 0, "last_file_id": all_files.length - 1,
-                    "navigation_info": "1 - " + all_files.length + " of "+all_files.length
+                    "navigation_info": "1 - " + all_files.length + " of " + all_files.length
                 }
             }
         };
@@ -52,16 +52,17 @@ export function divideImagesInSections(all_files, num_img_per_section) {
     } else if (all_files.length > num_img_per_section) {
 
         var num_full_sections;
+        var thereIsIncompleteSection;
 
         if (Number.isInteger(all_files.length / num_img_per_section)) {
-
             num_full_sections = all_files.length / num_img_per_section;
             total_num_sections = num_full_sections;
+            thereIsIncompleteSection = false;
 
         } else {
-
             num_full_sections = Math.floor(all_files.length / num_img_per_section);
             total_num_sections = num_full_sections + 1;
+            thereIsIncompleteSection = true;
 
         }
 
@@ -74,7 +75,7 @@ export function divideImagesInSections(all_files, num_img_per_section) {
 
         // 1st. Creation of the FULL SECTIONS with their files
         for (var i = 0; i < num_full_sections; i++) {
-
+           
             // we want the sections indexes to be [1, 2, ..., num_full_sections], rather than [0, 1, ..., num_full_sections-1]
             var current_section_id = i + 1;
             sectionsObject[current_section_id] = {
@@ -98,20 +99,23 @@ export function divideImagesInSections(all_files, num_img_per_section) {
 
         }
 
-        // 2nd. Creation of the (only) INCOMPLETE SECTION with the rest of the files
-        var num_files_incomplete_section = all_files.length - current_file_id;
-        first_file_id = current_file_id;
-        last_file_id = all_files.length;
-        first_file_id_navigation = first_file_id + 1;
-        last_file_id_navigation = last_file_id;
+        // 2nd. Creation of the (only) INCOMPLETE SECTION with the rest of the files (in case there is)
+        if (thereIsIncompleteSection) {
+            var num_files_incomplete_section = all_files.length - current_file_id;
+            first_file_id = current_file_id;
+            last_file_id = all_files.length;
+            first_file_id_navigation = first_file_id + 1;
+            last_file_id_navigation = last_file_id;
 
-        sectionsObject[total_num_sections] = {
-            "index": total_num_sections,
-            "num_img": num_files_incomplete_section,
-            "first_file_id": first_file_id,
-            "last_file_id": last_file_id - 1,
-            "navigation_info": first_file_id_navigation + " - " + last_file_id_navigation + " of " + all_files.length
-        };
+            sectionsObject[total_num_sections] = {
+                "index": total_num_sections,
+                "num_img": num_files_incomplete_section,
+                "first_file_id": first_file_id,
+                "last_file_id": last_file_id - 1,
+                "navigation_info": first_file_id_navigation + " - " + last_file_id_navigation + " of " + all_files.length
+            };
+        }
+
 
         // LAST STEP
         img_sections_info.sections = sectionsObject;

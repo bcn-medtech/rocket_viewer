@@ -82,8 +82,12 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
             error: false
         })
 
-        // metadata of the dicom is passed to "Stats" component
-        this.props.onLoaded(cornerstoneImage.data);
+        // In case the cornerstone Image Objects is from a provided DICOM file (and not a created cornerstone Image) 
+        if (cornerstoneImage.data!==undefined) {
+            // metadata of the dicom is passed to "Stats" component
+            this.props.onLoaded(cornerstoneImage.data);
+        }
+        
     }
 
     handleThumbnailClicked() {

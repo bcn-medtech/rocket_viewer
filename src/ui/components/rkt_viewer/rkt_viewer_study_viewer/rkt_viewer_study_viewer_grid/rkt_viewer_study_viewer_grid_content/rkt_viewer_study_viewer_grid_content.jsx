@@ -17,14 +17,13 @@ export default class RktViewerFilePickerGridContent extends Component {
 
     clearGrid() {
         this.setState({
-            selectedImg: -1,
-            //fileInstances: [],
+            selectedImg: -1
         });
     }
 
     renderGrid() {
-        console.log("----------------------------------------------");
-        console.log(this.props.fileList);
+        // console.log("----------------------------------------------");
+        // console.log(this.props.fileList);
         var fileList = this.props.fileList; // {0: File, 1: File, ... , lenght: int}
         var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
         keys_fileList.pop(); // ["0", "1", ... , "n"]
@@ -52,11 +51,7 @@ export default class RktViewerFilePickerGridContent extends Component {
     }
 
     handleImgLoaded(cornerstoneData) {
-        //let instances = this.state.imgInstances;
-        //instances.push(cornerstoneData);
-
-        //this.props.onchangegridcontent(instances);
-        this.props.onchangegridcontent(cornerstoneData);
+        this.props.handleimgloaded(cornerstoneData);
     }
 
     handleImgClicked(index, file, url, viewerType) {

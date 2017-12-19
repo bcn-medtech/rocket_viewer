@@ -62,6 +62,7 @@ export default class RktViewerImageSelectionGridContentDragSourceThumbnail exten
     }
 
     onImageLoaded(cornerstoneImage) {
+        //console.log(cornerstoneImage);
         var element = this.imageThumbnail;
         cornerstone.enable(element);
         var viewport = cornerstone.getDefaultViewportForImage(element, cornerstoneImage);

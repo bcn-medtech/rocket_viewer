@@ -20,14 +20,15 @@ export default class RktViewerStudyViewerGrid extends Component {
             fileList: {},
             fileList_to_display: {},
             dicomsMetadata: [],
-            manufacturersInfo: [],
-            loadedFiles: 0,
+            manufacturersDict: [],
+            loadedDicomsInSection: 0,
+            totalFilesInSection: 0,
             totalFiles: 0,
             img_sections_info: undefined,
             current_img_section: 1
         }
 
-        this.handleGridContentChange = this.handleGridContentChange.bind(this);
+        this.handleImgLoaded = this.handleImgLoaded.bind(this);
         this.clearState = this.clearState.bind(this);
 
     }
@@ -39,8 +40,10 @@ export default class RktViewerStudyViewerGrid extends Component {
         this.setState({
             fileList: [],
             fileList_to_display: {},
-            manufacturersInfo: [],
-            //loadedFiles: 0,
+            dicomsMetadata: [],
+            manufacturersDict: [],
+            loadedDicomsInSection: 0,
+            //totalFilesInSection: 0,
             //totalFiles: 0,
             img_sections_info: undefined,
             current_img_section: 1
@@ -48,8 +51,9 @@ export default class RktViewerStudyViewerGrid extends Component {
     }
 
     computeStats(dicomsMetadata, cornerstoneData) {
-
+        //console.log(cornerstoneData);
         dicomsMetadata.push(cornerstoneData);
+        //console.log(dicomsMetadata);
         var manufacturersDict = [];
 
         for (var i in dicomsMetadata) {
@@ -64,9 +68,9 @@ export default class RktViewerStudyViewerGrid extends Component {
         }
 
         this.setState({
-            loadedFiles: dicomsMetadata.length,
+            loadedDicomsInSection: dicomsMetadata.length,
             dicomsMetadata: dicomsMetadata,
-            manufacturersInfo: manufacturersDict
+            manufacturersDict: manufacturersDict
         });
 
     }
@@ -105,7 +109,8 @@ export default class RktViewerStudyViewerGrid extends Component {
         this.setState({
             fileList_to_display: fileList_to_display,
             fileList: fileList,
-            //loadedFiles: loadedFiles,
+            //loadedDicomsInSection: loadedFiles,
+            totalFilesInSection: fileList_to_display.length,
             totalFiles: fileList.length,
             img_sections_info: img_sections_info,
             current_img_section: current_img_section
@@ -114,8 +119,7 @@ export default class RktViewerStudyViewerGrid extends Component {
 
     // ******* Events *********
 
-    handleGridContentChange(cornerstoneData) {
-
+    handleImgLoaded(cornerstoneData) {
         var dicomsMetadata = this.state.dicomsMetadata;
         this.computeStats(dicomsMetadata, cornerstoneData);
     }
@@ -151,7 +155,6 @@ export default class RktViewerStudyViewerGrid extends Component {
 
         // we update "GridContent" and "Stats" data
         this.clearState();
-
         this.loadImagesToDisplay(fileList, img_sections_info, current_img_section);
 
     }
@@ -164,9 +167,10 @@ export default class RktViewerStudyViewerGrid extends Component {
 
     renderStatsComponent() {
 
+        var loadedDicomsInSection = this.state.loadedDicomsInSection;
+        var totalFilesInSection = this.state.totalFilesInSection;
         var totalFiles = this.state.totalFiles;
-        var loadedFiles = this.state.loadedFiles;
-        var manufacturersInfo = this.state.manufacturersInfo;
+        var manufacturersDict = this.state.manufacturersDict;
 
         var current_img_section = this.state.current_img_section;
         var img_sections_info = this.state.img_sections_info;
@@ -174,9 +178,10 @@ export default class RktViewerStudyViewerGrid extends Component {
         return (
 
             <RktViewerStudyViewerGridStats
-                title="Folder info"
-                items={manufacturersInfo}
-                loadedFiles={loadedFiles}
+                title="DICOMs info"//"Folder info"
+                items={manufacturersDict}
+                loadedDicomsInSection={loadedDicomsInSection}
+                totalFilesInSection={totalFilesInSection}
                 totalFiles={totalFiles}
                 current_img_section={current_img_section}
                 img_sections_info={img_sections_info}
@@ -198,12 +203,12 @@ export default class RktViewerStudyViewerGrid extends Component {
                 <RktViewerStudyViewerGridContent
                     fileList={fileList_to_display}
                     current_img_section={current_img_section}
-                    onchangegridcontent={this.handleGridContentChange}
+                    handleimgloaded={this.handleImgLoaded}
                     handleimgselected={this.props.handleimgselected}
                 />
             );
 
-            // if files have NOT been dragged and drop yet, dropzone widget
+        // if files have NOT been dragged and drop yet, dropzone widget
         } else {
 
             if (!this.state.navigating) {

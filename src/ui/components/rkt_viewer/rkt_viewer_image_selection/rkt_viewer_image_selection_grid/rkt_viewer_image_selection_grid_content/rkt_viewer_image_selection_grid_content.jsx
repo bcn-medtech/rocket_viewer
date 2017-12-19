@@ -79,7 +79,7 @@ export default class RktViewerImageSelectionGridContent extends Component {
             metadataArray: metadataArray
         })
 
-        this.props.onchangegridcontent(this.state.imgInstances, this.state.imgCanvasArray, this.state.metadataArray);
+        this.props.handleimgloaded(this.state.imgInstances, this.state.imgCanvasArray, this.state.metadataArray);
     }
 
     handleImgClicked(index, file, url, viewerType) {

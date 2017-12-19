@@ -16,11 +16,18 @@ export default class RktViewerImageSelectionStats extends Component {
     }
 
     renderLoadingProgressBar() {
+        var current_value_progress_bar;
+        if (this.props.img_sections_info !== undefined) {
+            current_value_progress_bar = this.props.img_sections_info.sections[this.props.current_img_section].last_file_id + 1;
+        }
+
+        var max_value_progress_bar = this.props.totalFiles;
+
         return (
             <div className="grid-block vertical shrink progress-bar-section" style={{ overflow: "hidden" }} >
                 <progress className="loading-progress-bar"
-                    value={this.props.loadedDicoms}
-                    max={this.props.totalDicoms}>
+                    value={current_value_progress_bar}
+                    max={max_value_progress_bar}>
                 </progress>
             </div>
         )
@@ -37,29 +44,32 @@ export default class RktViewerImageSelectionStats extends Component {
                     </h4>
                 </div>
                 {this.renderMenu()}
+                {this.renderNavigationButton()}
             </div>
         );
     }
 
     renderStats() {
-        return (
-            <div className="grid-block align-left stats">
-                {Object.keys(this.props.items).map((key) => {
-                    var name_stat_item = key;
-                    var number_stat_item = this.props.items[name_stat_item]
-                    return (
-                        <div className="stat-item" index={key}>
-                            <span className="name-stat-item">
-                                {name_stat_item}
-                            </span>
-                            <span className="number-stat-item">
-                                {number_stat_item}
-                            </span>
-                        </div>
-                    )
-                })}
-            </div>
-        )
+        if (this.props.items != undefined) {
+            return (
+                <div className="grid-block align-left stats">
+                    {Object.keys(this.props.items).map((key) => {
+                        var name_stat_item = key;
+                        var number_stat_item = this.props.items[name_stat_item]
+                        return (
+                            <div className="stat-item" index={key}>
+                                <span className="name-stat-item">
+                                    {name_stat_item}
+                                </span>
+                                <span className="number-stat-item">
+                                    {number_stat_item}
+                                </span>
+                            </div>
+                        )
+                    })}
+                </div>
+            )
+        }
     }
 
     renderMenu() {
@@ -77,7 +87,7 @@ export default class RktViewerImageSelectionStats extends Component {
         }
 
         if (areImagesToLoad) {
-            downloadButton=<a onClick={this.onClickLoadButton}><i className="fi-download"></i></a>;
+            downloadButton = <a onClick={this.onClickLoadButton}><i className="fi-download"></i></a>;
         }
 
         return (
@@ -88,12 +98,58 @@ export default class RktViewerImageSelectionStats extends Component {
         )
     }
 
+    renderNavigationButton() {
+
+        if (this.props.img_sections_info !== undefined) {
+
+            var img_sections_info = this.props.img_sections_info;
+            var number_sections = img_sections_info.number_sections;
+            var current_img_section = this.props.current_img_section;
+
+            var sectionsObject = img_sections_info.sections;
+            var current_section_info = sectionsObject[current_img_section];
+            var navigation_info = current_section_info.navigation_info;
+
+            if ((this.props.totalDicoms > 0) && (this.props.img_sections_info.number_sections > 1)) {
+                var navigationButtonNext, navigationButtonPrevious;
+
+                if ((current_img_section > 1) && (current_img_section < number_sections)) {
+                    navigationButtonPrevious = <a onClick={this.onClickNavigationButton.bind(this, "previous")}><i className="fi-arrow-left"></i></a>;
+                    navigationButtonNext = <a onClick={this.onClickNavigationButton.bind(this, "next")}><i className="fi-arrow-right"></i></a>;
+
+                } else if (current_img_section === 1) {
+                    navigationButtonNext = <a onClick={this.onClickNavigationButton.bind(this, "next")}><i className="fi-arrow-right"></i></a>;
+
+                } else if (current_img_section === number_sections) {
+                    navigationButtonPrevious = <a onClick={this.onClickNavigationButton.bind(this, "previous")}><i className="fi-arrow-left"></i></a>;
+
+                }
+            }
+        }
+
+        return (
+            <div className="grid-block vertical navigation-menu" >
+                <div className="grid-block navigation-buttons align-right">
+                    {navigationButtonPrevious}
+                    {navigationButtonNext}
+                </div>
+                <div className="grid-block navigation-info align-right">
+                    {navigation_info}
+                </div>
+            </div>
+        )
+    }
+
+    onClickNavigationButton(navigateTo) {
+        this.props.onclicknavigationbutton(navigateTo);
+    }
+
     onClickLoadButton() {
         this.props.onclickloadbutton();
     }
 
-    onClickSettingsButton(){
-        this.props.onclicksettingsbutton();  
+    onClickSettingsButton() {
+        this.props.onclicksettingsbutton();
     }
 
     render() {

@@ -9,11 +9,17 @@ export default class RktToolboxStageStats extends Component {
     }
 
     renderLoadingProgressBar() {
+        var current_value_progress_bar;
+        if (this.props.img_sections_info !== undefined) {
+            current_value_progress_bar = this.props.img_sections_info.sections[this.props.current_img_section].last_file_id + 1;
+        }
+
+        var max_value_progress_bar = this.props.totalFiles;
         return (
             <div className="grid-block vertical shrink progress-bar-section" style={{ overflow: "hidden" }} >
                 <progress className="loading-progress-bar"
-                    value={this.props.loadedFiles}
-                    max={this.props.totalFiles}>
+                    value={current_value_progress_bar}
+                    max={max_value_progress_bar}>
                 </progress>
             </div>
         )
@@ -25,7 +31,7 @@ export default class RktToolboxStageStats extends Component {
                 <h4>
                     <i className="fi-folder"></i>
                     <span>{" "}</span>
-                    {this.props.title} {(this.props.totalFiles > 0) && "(" + this.props.loadedFiles + "/" + this.props.totalFiles + ")"}
+                    {this.props.title} {(this.props.totalFilesInSection > 0) && "(" + this.props.loadedDicomsInSection + "/" + this.props.totalFilesInSection + ")"}
                 </h4>
                 {this.renderNavigationButton()}
             </div>
