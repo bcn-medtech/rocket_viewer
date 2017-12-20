@@ -49,8 +49,6 @@ export function url_EncodeQueryData(data) {
 
     queryString = ret.join('&');
 
-    console.log(queryString);
-
     queryString = fakeReplace(queryString, ".", "%2E");
     queryString = "?"+queryString;
 

@@ -20,8 +20,7 @@ export default class RktViewerDicom extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        //console.log(nextProps);
-
+        
         this.setState({
             cine_mode: false
         });

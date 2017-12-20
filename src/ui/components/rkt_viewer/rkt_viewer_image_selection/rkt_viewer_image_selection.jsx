@@ -73,7 +73,7 @@ class RktViewerImageSelection extends Component {
     /* SIDEBAR component */
     renderSidebar() {
         var sidebar_targets_info = this.state.sidebar_targets_info;
-        //console.log(sidebar_targets_info);
+
         return (<RktViewerImageSelectionSidebar 
             sidebar_targets_info={sidebar_targets_info} 
             onimgdragdrop={this.onImgDragAndDrop} />
@@ -96,7 +96,6 @@ class RktViewerImageSelection extends Component {
 
     renderGrid() {
         var grid_sources_info = this.state.grid_sources_info;
-        //console.log(grid_sources_info);
         return (
             <RktViewerImageSelectionGrid
                 grid_sources_info={grid_sources_info}
@@ -164,7 +163,7 @@ class RktViewerImageSelection extends Component {
     /*  */
 
     render() {
-        
+
         return (
             <div className="grid-block rkt-viewer-image-selection">
                 {this.renderSidebar()}

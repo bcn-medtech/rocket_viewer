@@ -96,7 +96,7 @@ RktViewerImageSelectionSidebarDropTarget.defaultProps = {
 
 RktViewerImageSelectionSidebarDropTarget.propTypes = {
     isOver: PropTypes.bool.isRequired,
-    //img_label: PropTypes.string.isRequired
+    img_label: PropTypes.string.isRequired
 };
 
 export default DropTarget(ItemTypes.DICOM, dropDicomTarget, collect)(RktViewerImageSelectionSidebarDropTarget);

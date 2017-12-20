@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { ItemTypes } from "./../../../Constants";
 import { DragSource } from 'react-dnd';
+
 // components
 import RktViewerImageSelectionSidebarDragSourceThumbnail from "./rkt_viewer_image_selection_grid_content_drag_source_thumbnail/rkt_viewer_image_selection_grid_content_drag_source_thumbnail";
 import RktButtonDeleteIcon from "./../../../../../rkt_button/rkt_button_delete_icon/rkt_button_delete_icon";

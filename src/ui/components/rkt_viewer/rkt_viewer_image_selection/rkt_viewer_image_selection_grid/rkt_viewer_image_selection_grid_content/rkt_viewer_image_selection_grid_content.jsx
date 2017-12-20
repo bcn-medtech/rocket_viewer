@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RktViewerImageSelectionGridContentDragSource from './rkt_viewer_image_selection_grid_content_drag_source/rkt_viewer_image_selection_grid_content_drag_source';
+
 // actions
 import { array2Object } from './rkt_viewer_image_selection_grid_content_actions.js';
 
@@ -8,9 +9,9 @@ export default class RktViewerImageSelectionGridContent extends Component {
         super(props);
         this.state = {
             selectedImg: -1,
-            imgInstances: [],
-            imgCanvasArray: [],
-            metadataArray: []
+            cornerstoneDataArray: [],
+            imgCanvasURLObject: {},
+            metadataObject: {}
         }
 
         this.handleImgLoaded = this.handleImgLoaded.bind(this);
@@ -64,22 +65,22 @@ export default class RktViewerImageSelectionGridContent extends Component {
         );
     }
 
-    handleImgLoaded(data, pngCanvas, metadata) {
-        let instances = this.state.imgInstances;
-        let imgCanvasArray = this.state.imgCanvasArray;
-        let metadataArray = this.state.metadataArray;
-
-        instances.push(data);
-        imgCanvasArray.push(pngCanvas);
-        metadataArray.push(metadata);
+    handleImgLoaded(index_thumbnail, cornerstoneData, pngCanvas, metadata) {
+        let cornerstoneDataArray = this.state.cornerstoneDataArray;
+        let imgCanvasURLObject = this.state.imgCanvasURLObject;
+        let metadataObject = this.state.metadataObject;
+        
+        cornerstoneDataArray.push(cornerstoneData);
+        imgCanvasURLObject[index_thumbnail] = pngCanvas.toDataURL();
+        metadataObject[index_thumbnail] = metadata;
 
         this.setState({
-            imgInstances: instances,
-            imgCanvasArray: imgCanvasArray,
-            metadataArray: metadataArray
+            cornerstoneDataArray: cornerstoneDataArray,
+            imgCanvasURLObject: imgCanvasURLObject,
+            metadataObject: metadataObject
         })
 
-        this.props.handleimgloaded(this.state.imgInstances, this.state.imgCanvasArray, this.state.metadataArray);
+        this.props.onchangegridcontent(cornerstoneDataArray, imgCanvasURLObject, metadataObject);
     }
 
     handleImgClicked(index, file, url, viewerType) {

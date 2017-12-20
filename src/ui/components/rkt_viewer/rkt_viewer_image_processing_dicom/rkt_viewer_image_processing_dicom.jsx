@@ -20,8 +20,7 @@ export default class RktViewerImageProcessingDicom extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        //console.log(nextProps);
-
+        
         this.setState({
             cine_mode: false
         });

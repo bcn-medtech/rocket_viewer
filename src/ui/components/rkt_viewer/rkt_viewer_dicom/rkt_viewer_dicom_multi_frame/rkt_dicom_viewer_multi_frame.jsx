@@ -159,7 +159,7 @@ export default class StackDicomPlayer extends Component {
     }
 
     onImageLoaded(image) {
-        console.log(image);
+        
     }
 
     onNewImage(e, data) {
@@ -182,7 +182,6 @@ export default class StackDicomPlayer extends Component {
         var element = this.imageDiv;
 
         var stackToolDataSource = cornerstoneTools.getToolState(element, 'stack');
-        console.log(stackToolDataSource);
         //var toolStateManager = cornerstoneTools.stackToolDataSource(element);
         //toolStateManager.clear(element)
         //cornerstone.updateImage(element);
@@ -261,7 +260,6 @@ export default class StackDicomPlayer extends Component {
             return;
         }
         var stackData = stackToolDataSource.data[0];
-        //console.log(stackData);
 
         // Switch images, if necessary
         if (newImageIdIndex !== stackData.currentImageIdIndex && stackData.imageIds[newImageIdIndex] !== undefined) {

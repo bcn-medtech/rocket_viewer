@@ -51,9 +51,8 @@ export default class RktViewerStudyViewerGrid extends Component {
     }
 
     computeStats(dicomsMetadata, cornerstoneData) {
-        //console.log(cornerstoneData);
+        
         dicomsMetadata.push(cornerstoneData);
-        //console.log(dicomsMetadata);
         var manufacturersDict = [];
 
         for (var i in dicomsMetadata) {

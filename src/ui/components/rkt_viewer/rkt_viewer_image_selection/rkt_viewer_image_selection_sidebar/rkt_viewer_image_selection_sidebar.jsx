@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-//utils
-import newId from './../../../../../utils/newid';
+
 //components
 import RktViewerImageSelectionSidebarDropTarget from "./rkt_viewer_image_selection_sidebar_drop_target/rkt_viewer_image_selection_sidebar_drop_target";
 
@@ -34,7 +33,6 @@ export default class RktViewerImageSelectionSidebar extends Component {
                                 index={key}
                                 sidebar_targets_item_info={sidebar_targets_item_info}
                                 onimgdragdrop={this.props.onimgdragdrop}
-                                key={newId()}
                             />
                         )
                     })}

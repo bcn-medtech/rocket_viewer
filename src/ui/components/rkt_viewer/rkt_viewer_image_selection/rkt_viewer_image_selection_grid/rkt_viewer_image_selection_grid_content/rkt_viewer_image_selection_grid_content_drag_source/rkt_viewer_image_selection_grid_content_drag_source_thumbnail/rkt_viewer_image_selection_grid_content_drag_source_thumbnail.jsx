@@ -62,7 +62,6 @@ export default class RktViewerImageSelectionGridContentDragSourceThumbnail exten
     }
 
     onImageLoaded(cornerstoneImage) {
-        //console.log(cornerstoneImage);
         var element = this.imageThumbnail;
         cornerstone.enable(element);
         var viewport = cornerstone.getDefaultViewportForImage(element, cornerstoneImage);
@@ -85,7 +84,7 @@ export default class RktViewerImageSelectionGridContentDragSourceThumbnail exten
         }
         
         // metadata of the dicom is passed to "Stats" component
-        this.props.onLoaded(cornerstoneImage.data, pngCanvas, metadata);
+        this.props.onLoaded(this.props.index, cornerstoneImage.data, pngCanvas, metadata);
     }
 
     handleThumbnailClicked() {

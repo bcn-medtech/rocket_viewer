@@ -22,8 +22,7 @@ export default class RktViewerFilePickerGridContent extends Component {
     }
 
     renderGrid() {
-        // console.log("----------------------------------------------");
-        // console.log(this.props.fileList);
+      
         var fileList = this.props.fileList; // {0: File, 1: File, ... , lenght: int}
         var keys_fileList = Object.keys(fileList); // ["0", "1", ... , "n", "length"]
         keys_fileList.pop(); // ["0", "1", ... , "n"]

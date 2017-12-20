@@ -26,8 +26,6 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
 
     componentDidMount() {
 
-        //console.log("Component did mount")
-
         var file = this.props.files;
         var url = this.props.url;
         

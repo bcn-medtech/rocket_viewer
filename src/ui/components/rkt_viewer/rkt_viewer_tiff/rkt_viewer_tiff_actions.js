@@ -33,7 +33,6 @@ function loadLocalImage(blob, display_image_function){
         };
         image.onerror = function (err) {
 
-            //console.log("Problems loading the image");
         };
     };
     reader.readAsArrayBuffer(blob);
