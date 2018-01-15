@@ -48,15 +48,13 @@ export default class RktViewerFilterDicomMainContent extends Component {
         var element = this.imageDiv;
         var viewport = cornerstone.getDefaultViewportForImage(element, image);
         cornerstone.displayImage(element, image, viewport);
-
-        
         
         this.setState({
             loaded: true,
             image: image
         });
         
-        var canvas = document.getElementsByTagName("canvas")[0]
+        var canvas = image.getCanvas();
         this.originalImage = cloneCanvas(canvas);
 
         var blob = this.props.img_url;
@@ -72,7 +70,7 @@ export default class RktViewerFilterDicomMainContent extends Component {
     //*****[Mouse events]******
     onMouseMove(e, eventData) {
         var element = this.imageDiv;
-
+        
         this.setState({
             x: eventData.currentPoints.image.x,
             y: eventData.currentPoints.image.y,
@@ -84,7 +82,7 @@ export default class RktViewerFilterDicomMainContent extends Component {
 
     onMouseDown(e, eventData) {
         var element = this.imageDiv;
-
+        
         this.setState({
             selection: true // a point has been clicked in the image
         });
@@ -276,7 +274,6 @@ export default class RktViewerFilterDicomMainContent extends Component {
         // If we click a point
         if (this.state.selection) {
             var peaks = this.state.peaks;
-
             peaks.push(this.state.filtering_annotation); // we add this peak at the end of 'peaks' in state
             peaks.sort(function (a, b) { return a - b }); // we sort the values in asceding order
 
@@ -284,6 +281,7 @@ export default class RktViewerFilterDicomMainContent extends Component {
                 peaks: peaks,
                 selection: false
             });
+
         }
     }
 
@@ -568,19 +566,17 @@ export default class RktViewerFilterDicomMainContent extends Component {
 
             var peaks = this.state.peaks;
             var coords_peaks_cycle = [peaks[selectedCycle - 1], peaks[selectedCycle]];
-
-            let element = this.imageDiv;
-            var clientHeight = element.clientHeight;
-
+             
             var canvas_image_to_crop = this.originalImage;
+            var canvas_height = canvas_image_to_crop.height;
             var name_image = this.nameOriginalImage;
 
             var inputs_cropping_function = {
                 "top_left_x": coords_peaks_cycle[0],
                 "top_left_y": 0,
                 "width": coords_peaks_cycle[1] - coords_peaks_cycle[0],
-                "height": clientHeight
-            };
+                "height": canvas_height
+            }
 
             this.props.cropimage(canvas_image_to_crop, name_image, inputs_cropping_function);
 
@@ -595,7 +591,7 @@ export default class RktViewerFilterDicomMainContent extends Component {
                 {this.renderToolbox()}
                 {this.renderCropButton()}
                 <div className="dicomImage" ref={(imgDiv) => this.imageDiv = imgDiv}
-                    style={{ top: "0px", left: "0px", width: "100%", /*height: this.props.canvas_height,*/ overflow: "hidden" }}>
+                    style={{ top: "0px", left: "0px", width: "100%" /*height: this.props.canvas_height,*/, overflow: "hidden" }}>
                 </div>
             </div>
 

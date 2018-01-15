@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 //viewer actions
 import { blob_getResourceType, blob_getNumberOfFiles } from './../../../modules/rkt_module_blob.js';
+import { isFileADicomFile } from './rkt_viewer_actions';
 //modules
 import { isObjectEmpty } from './../../../modules/rkt_module_object.js';
 import { url_getParameterByName } from './../../../modules/rkt_module_url.js';
@@ -10,6 +11,7 @@ import { url_getParameterByName } from './../../../modules/rkt_module_url.js';
 import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';
 import RktViewerEmpty from './rkt_viewer_empty/rkt_viewer_empty';
 import RktViewerFilePicker from './rkt_viewer_file_picker/rkt_viewer_file_picker';
+import RktViewerFilePickerOld from './rkt_viewer_file_picker_old/rkt_viewer_file_picker_old';
 import RktViewerFilterDicom from './rkt_viewer_filter_dicom/rkt_viewer_filter_dicom';
 // RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
 import RktViewerNRRD from './rkt_viewer_nrrd/rkt_viewer_nrrd';
@@ -113,7 +115,23 @@ export default class RktViewer extends Component {
 
                 } else {
 
-                    alert("Uncompatible format");
+                    // last check:
+                    var myComponent = this;
+                    var files = blob.dataTransfer.files;
+                    isFileADicomFile(files[0], function (fileisDicom) {
+
+                        if (fileisDicom) {
+                            var viewerType = "dicom";
+
+                            myComponent.setState({
+                                viewer: viewerType,
+                                files: files,
+                                blob: blob,
+                            });
+
+                        } else alert("Unsupported format");
+
+                    })
                 }
 
 
@@ -124,7 +142,7 @@ export default class RktViewer extends Component {
             }
         } else
 
-        return false;
+            return false;
     }
 
     setURL(url) {
@@ -168,6 +186,10 @@ export default class RktViewer extends Component {
             } else if (viewerType === "vtk") {
 
                 return (<RktViewerVTK files={files} url={url} />);
+
+            } else if (viewerType === "study_viewer_old") {
+
+                return (<RktViewerFilePickerOld />)
 
             } else if (viewerType === "study_viewer") {
 

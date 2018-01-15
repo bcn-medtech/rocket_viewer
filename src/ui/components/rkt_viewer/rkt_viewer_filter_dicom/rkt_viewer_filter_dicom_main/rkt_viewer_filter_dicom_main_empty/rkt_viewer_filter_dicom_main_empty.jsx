@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 
 // actions
-import { array2Object } from './rkt_viewer_filter_dicom_main_empty_actions.js';
+import { array2Object, isFileADicomFile } from './rkt_viewer_filter_dicom_main_empty_actions.js';
 
 export default class RktViewerFilterDicomMainEmpty extends Component {
 
@@ -15,20 +15,25 @@ export default class RktViewerFilterDicomMainEmpty extends Component {
     }
 
     onDropApp(acceptedFiles, rejectedFiles) {
-        
+
+        var myComponent = this;
+
         if (acceptedFiles.length > 1) {
-            
+
             alert("You can only provide 1 file");
 
         } else if (acceptedFiles.length === 1) {
 
-            if (acceptedFiles[0].type === "application/dicom") {
+            isFileADicomFile(acceptedFiles[0], function(fileisDicom) {
 
-                var providedDicomFile = array2Object(acceptedFiles);
-                this.props.handleprovideddicom(providedDicomFile);
+                if (fileisDicom) {
 
-            } else alert("Unsupported format");
-            
+                    var providedDicomFile = array2Object(acceptedFiles);
+                    myComponent.props.handleprovideddicom(providedDicomFile);
+
+                } else alert("Unsupported format");
+                
+            })
 
         }
     }

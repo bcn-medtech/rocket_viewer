@@ -1,0 +1,44 @@
+$purpleMain: #443363;//rgb(110, 83, 158);
+
+.container-thumbnail {
+    padding: 0px;
+    overflow: hidden;
+
+    .error-not-image{
+        color: #991111;
+        display: block;
+        text-align: center;
+        margin-top: 10%;
+    }
+      
+    .loading-icon{
+        color: #efefef;
+        display: block;
+        text-align: center;
+        margin-top: 40%;
+    }
+    
+    .image-thumbnail{
+        overflow: hidden;
+        border: 2px solid #1d1d1d;
+        display: block;
+        // &:hover{
+        //     border: 2px solid #00558b;
+        // }
+    }
+    
+    .image-thumbnail.selected{
+        border: 2px solid $purpleMain;//#00558b;
+        display: block;
+    }
+    
+    .image-filename{
+        padding-top: 5px;
+        overflow: hidden;
+        display: block;
+        
+        color: white;
+        text-align: center;
+    }
+}
+  

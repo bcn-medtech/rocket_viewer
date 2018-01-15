@@ -1,21 +1,45 @@
 $slider-background: #646464;
 $rkt-green-color:#00B04C;
+$purpleMain: #443363; //rgb(110, 83, 158);
+$purpleHover:#a58cd8;
 
 .container-stats {
-    background-color: #646464;//rgba(76, 222, 82, 0.2);
+    background-color: #646464; //rgba(76, 222, 82, 0.2);
     overflow: hidden;
-    //min-height: 200px;
 
     .loading-progress-bar{
         height: 5px;
         overflow: hidden;
-    }
-    
-    h4 {
-         padding: 10px;
-         //color: white;
+        //background-color: $purpleMain; // IT DOES NOT WORK
     }
 
+    .folder-info{
+        h4 {
+            color: black;
+            padding: 10px;
+        }
+    }
+
+    .load-images-info-button {
+
+        padding: 12px;
+        right: 0px;
+        //font-size: .9rem;
+        display: inline-block;
+        height: fit-content;
+        background: $purpleMain;//#00558b;//#333
+        margin: 0px;
+        overflow: hidden;
+        color: #ffffff;
+
+        &:focus, &:hover {
+            background: #6f579a;//#004876;
+            color: #fff;
+        }
+                 
+    }
+    
+    
     .stat-item {
         display: inline-block;
         padding: 10px;
@@ -26,7 +50,7 @@ $rkt-green-color:#00B04C;
         .name-stat-item {
             padding: 5px;
             color: white;
-            background-color: #00558b;
+            background-color: $purpleMain; //#00558b;
         }
 
         .number-stat-item {
@@ -35,4 +59,17 @@ $rkt-green-color:#00B04C;
             background-color: #333;
         }
     }
+
+    .menu{
+        padding-right: 20px;
+        a{
+            font-size: 25px;
+            padding: 5px;
+            color:white;
+            &:hover{
+                color:$purpleHover;
+            }
+        }
+    }
+    
 }

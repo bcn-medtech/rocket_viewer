@@ -74,15 +74,13 @@ export default class RktViewerFilterDicomFiltered extends Component {
 
     }
 
-
-
     render() {
         return (
             <div className="grid-block filtered-dicom-container">
                 {this.renderFilteredImage()}
                 {this.renderSaveButton()}
                 <div className="croppedDicomImage" ref={(imgFilteredDiv) => this.imageFilterDiv = imgFilteredDiv}
-                    style={{ top: "0px", left: "0px", width: "100%", /*height: this.props.canvasHeight,*/ overflow: "hidden", margin: "0 auto" }}
+                    style={{ top: "0px", left: "0px", width: "100%", /*height: "100%",*/ overflow: "hidden", margin: "0 auto" }}
                 />
             </div>
         );

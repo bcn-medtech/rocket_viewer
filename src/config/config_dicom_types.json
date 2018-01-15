@@ -1,0 +1,39 @@
+
+{
+    "name": "Boston trial",
+    "image_types":
+    [
+        {
+            "label": "Apical 4 Chambers",
+            "needCalibration": true
+        },
+        {
+            "label": "Aortic valve",
+            "needCalibration": true
+        },
+        {
+            "label": "Mitral valve – PW Doppler",
+            "needCalibration": true
+        },
+        {
+            "label": "Mitral valve – CW Doppler",
+            "needCalibration": true
+        },
+        {
+            "label": "Pulmonary valve",
+            "needCalibration": true
+        },
+        {
+            "label": "Tricuspid - CW Doppler",
+            "needCalibration": true
+        },
+        {
+            "label": "Tricuspid - PW Doppler",
+            "needCalibration": true
+        },
+        {
+            "label": "Short Axis",
+            "needCalibration": true
+        }
+    ]
+}

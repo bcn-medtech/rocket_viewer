@@ -1,15 +1,28 @@
+@import "./../../../rkt_modal/rkt_modal_todo_list/rkt_modal_todo_list.scss";
+@import './rkt_viewer_file_picker_sidebar_drop_target/rkt_viewer_file_picker_sidebar_drop_target.scss';
+$purpleMain: #443363;//rgb(110, 83, 158);
 
 .file-picker-sidebar {
-    width: 50%;
     background-color: #282828;
-    height: 100%;
-    color:white;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    //justify-content: center;
 
-    .container-instructions p{
-        width: 100%;
+    .open-modal-todo-list-button {
+        padding: 12px;
+        //font-size: .9rem;
+        display: inline-block;
+        background: $purpleMain;//#00558b;//#333
+        margin: 10px;
+        overflow: hidden;
+        color: #ffffff;
         text-align: center;
-        padding: 20px;
+    
+        &:focus, &:hover {
+            background: #6f579a;//#004876;
+            color: #fff;
+        }
+        
     }
 }
 

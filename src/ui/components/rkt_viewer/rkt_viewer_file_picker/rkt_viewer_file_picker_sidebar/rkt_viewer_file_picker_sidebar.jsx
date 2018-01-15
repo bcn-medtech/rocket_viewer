@@ -1,65 +1,97 @@
 import React, { Component } from 'react';
 
-//modules
-
 //components
-import RktViewerDicom from './../../rkt_viewer_dicom/rkt_viewer_dicom';
-import RktViewerNRRD from './../../rkt_viewer_nrrd/rkt_viewer_nrrd';
-import RktViewerPDF from './../../rkt_viewer_pdf/rkt_viewer_pdf';
-import RktViewerPLY from './../../rkt_viewer_ply/rkt_viewer_ply';
-import RktViewerTiff from './../../rkt_viewer_tiff/rkt_viewer_tiff';
-import RktViewerVTK from './../../rkt_viewer_vtk/rkt_viewer_vtk';
-// RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
+import RktModalTodoList from "./../../../rkt_modal/rkt_modal_todo_list/rkt_modal_todo_list";
+import RktViewerFilePickerSidebarDropTarget from "./rkt_viewer_file_picker_sidebar_drop_target/rkt_viewer_file_picker_sidebar_drop_target";
 
-export default class RktViewerFilePickerGrid extends Component {
+export default class RktViewerFilePickerSidebar extends Component {
 
     constructor() {
         super();
 
         this.state = {
-            imageUrl: "",
-            imageFile: [],
-            isStack: false
+            isModalTodoListOpen: false
+        }
+
+        this.openAndCloseModalTodoList = this.openAndCloseModalTodoList.bind(this);
+        this.renderModalTodoList = this.renderModalTodoList.bind(this);
+        this.saveNewConfigList = this.saveNewConfigList.bind(this);
+        this.renderDicomPlaceholders = this.renderDicomPlaceholders.bind(this);
+
+    }
+
+    openAndCloseModalTodoList() {
+        this.setState({
+            isModalTodoListOpen: !this.state.isModalTodoListOpen
+        });
+    }
+
+    renderModalTodoList() {
+        if (this.state.isModalTodoListOpen) {
+            return (
+                <RktModalTodoList
+                    title={"Write DICOM typologies"}
+                    ontodolistsave={this.saveNewConfigList}
+                    closemodaltodolist={this.openAndCloseModalTodoList}
+                />
+            );
         }
     }
 
-    renderViewer() {
+    saveNewConfigList(new_config_items) {
+        var new_config = {};
+        new_config["image_types"] = [];
 
-        var files = this.props.files;
-        var url = this.props.url;
-        var viewerType = this.props.viewerType;
-
-        if (viewerType === "tiff") {
-
-            return (<RktViewerTiff files={files} url={url} />);
-
-        } else if (viewerType === "pdf") {
-
-            return (<RktViewerPDF files={files} url={url} />);
-
-        } else if (viewerType === "dicom") {
-
-            return (<RktViewerDicom files={files} url={url} />);
-
-        } else if (viewerType === "nrrd") {
-
-            return (<RktViewerNRRD files={files} url={url} />);
-
-        } else if (viewerType === "ply") {
-
-            return (<RktViewerPLY files={files} url={url} />);
-
-        } else if (viewerType === "vtk") {
-
-            return (<RktViewerVTK files={files} url={url} />);
+        for (var i = 0; i < new_config_items.length; i++) {
+            var current_label = new_config_items[i];
+            new_config["image_types"].push({ "label": current_label, "needCalibration": true });
         }
 
+        this.props.onconfigchange(new_config);
+    }
+
+    renderDicomPlaceholders() {
+        var sidebar_targets_info = this.props.sidebar_targets_info;
+
+        if (sidebar_targets_info) {
+
+            var keys_sidebar_targets_info = Object.keys(sidebar_targets_info); // ["0", "1", ... , "n"]
+
+            return (
+                <div className="grid-block vertical drop-targets-items">
+                    {keys_sidebar_targets_info.map((key) => {
+
+                        var sidebar_targets_item_info = this.props.sidebar_targets_info[key];
+                        // sidebar_targets_item_info = {"index":key, "label": ?, "isAssigned":true/false, "index_source":?};
+
+                        return (
+                            <RktViewerFilePickerSidebarDropTarget
+                                index={key}
+                                sidebar_targets_item_info={sidebar_targets_item_info}
+                                onimgdragdrop={this.props.onimgdragdrop}
+                            />
+                        )
+                    })}
+
+                </div>
+
+            );
+
+        } else {
+            return <p>Loading</p>
+        }
     }
 
     render() {
         return (
-            <div className="grid-block vertical file-picker-sidebar">
-                {this.renderViewer()}
+            <div className="grid-block medium-2 vertical file-picker-sidebar" >
+                {/*<div className="grid-block shrink" style={{ justifyContent: "center", padding:"10px" }}>
+                    <a className="grid-block shrink open-modal-todo-list-button" onClick={this.openAndCloseModalTodoList}>
+                        SET DICOM TYPOLOGIES
+                    </a>
+        </div>*/}
+                {this.renderModalTodoList()}
+                {this.renderDicomPlaceholders()}
             </div>
         );
     }

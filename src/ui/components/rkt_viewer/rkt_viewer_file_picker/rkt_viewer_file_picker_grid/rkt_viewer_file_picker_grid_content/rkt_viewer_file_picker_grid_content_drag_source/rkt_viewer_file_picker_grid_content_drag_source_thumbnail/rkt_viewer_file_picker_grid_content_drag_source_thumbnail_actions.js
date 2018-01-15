@@ -1,11 +1,12 @@
 
-import { isObjectEmpty } from './../../../../../../../modules/rkt_module_object';
+import { isObjectEmpty } from './../../../../../../../../modules/rkt_module_object';
 
 // libraries
-import NRRDLoader from './../../../../../../../libraries/NRRDLoader';
-import PLYLoader from './../../../../../../../libraries/PLYLoader';
-import VTKLoader from './../../../../../../../libraries/VTKLoader';
+import NRRDLoader from './../../../../../../../../libraries/NRRDLoader';
+import PLYLoader from './../../../../../../../../libraries/PLYLoader';
+import VTKLoader from './../../../../../../../../libraries/VTKLoader';
 
+//var dicomParser = require('dicom-parser');
 var THREE = require('three');
 var TrackballControls = require('three-trackballcontrols');
 
@@ -13,6 +14,7 @@ var TrackballControls = require('three-trackballcontrols');
 const cornerstone = window.cornerstone;
 const cornerstoneWADOImageLoader = window.cornerstoneWADOImageLoader;
 const cornerstoneWebImageLoader = window.cornerstoneWebImageLoader;
+const dicomParser = window.dicomParser;
 
 export function isViewerLoadingAURLSource(img_url) {
 
@@ -30,13 +32,10 @@ export function getViewerType(files, url, callback) {
     var viewerType;
 
     if (isViewerLoadingAURLSource(url)) {
-
-        // TO DO
-
-
+        // TO DO?
     } else {
-
         var fileType = files[0].type;
+
 
         if (!isObjectEmpty(fileType)) {
 
@@ -57,23 +56,31 @@ export function getViewerType(files, url, callback) {
                     break;
             }
 
+            callback(viewerType);
+
         } else {
 
             var nameFile = files[0].name;
 
-            if (nameFile.includes(".nrrd")) viewerType = "nrrd";
-            else if (nameFile.includes(".ply")) viewerType = "ply";
-            else if (nameFile.includes(".vtk")) viewerType = "vtk";
+            if (nameFile.includes(".nrrd")) callback("nrrd");
+            else if (nameFile.includes(".ply")) callback("ply");
+            else if (nameFile.includes(".vtk")) callback("vtk");
+            else {
+                isFileADicomFile(files[0], function (fileisDicom) {
 
+                    if (fileisDicom) {
+                        callback("dicom");
+                    } else {
+                        callback(undefined);
+                    }
+
+                })
+            }
         }
     }
-
-    callback(viewerType);
-
 }
 
 export function loadImage(viewerType, files, url, on_image_loaded_function, on_error_loading_function) {
-
     var img_url;
 
     switch (viewerType) {
@@ -138,6 +145,36 @@ export function getImageName(files, url) {
 
 
 ////////////////////////// DICOM
+function isFileADicomFile(file, callback) {
+    try {
+        loadFile(file, function (dicomFileAsBuffer) {
+            try {
+                var dataSet = dicomParser.parseDicom(dicomFileAsBuffer);
+                callback(true);
+            }
+            catch (exceptionParseDicom) {
+                callback(false);
+            }
+        });
+
+    } catch (exceptionFileReader) {
+        callback(false);
+    }
+
+    // based on view-source:https://rawgit.com/chafey/dicomParser/master/examples/gettingStarted/index.html
+    function loadFile(file, callback) {
+        var reader = new FileReader();
+
+        reader.onload = function (file) {
+            var arrayBuffer = reader.result;
+            var byteArray = new Uint8Array(arrayBuffer);
+            callback(byteArray);
+        }
+
+        reader.readAsArrayBuffer(file);
+    }
+}
+
 export function loadDicom(url, img_source, on_image_loaded_function, on_error_loading_function) {
 
     if (img_source === "filesystem") {
@@ -191,6 +228,63 @@ function createCornerstoneImage(dataURL, callback) {
         alert("Problems loading the image");
         callback(false);
     };
+}
+
+
+export function getDicomMetadata(cornerstoneImage) {
+    var dicomData = {};
+    var allMetadata = cornerstoneImage.data;
+    
+    var imageData = cornerstoneImage.data;
+    var dicomFileAsBuffer = imageData.byteArray;
+    var dicomDataset = dicomParser.parseDicom(dicomFileAsBuffer);
+    var options = {
+        omitPrivateAttibutes: true,
+        maxElementLength: 128
+    };
+    var dataSetJSON = dicomParser.explicitDataSetToJS(dicomDataset, options);
+
+
+    dicomData["patient_name"] = dataSetJSON['x00100010'];
+    dicomData["modality"] = dataSetJSON['x00080060'];
+    dicomData["manufacturer"] = dataSetJSON['x00080070'];//dataSetJSON['x00081090']; <-- this is tag "Model"
+    dicomData["acquisition_time"] = dataSetJSON['x0008002a'];
+
+    if (!isObjectEmpty(dataSetJSON['x00186011'])) {
+
+        var dicomRegions = dataSetJSON['x00186011'];
+        var arrayOfRegions = [];
+
+        for (var i = 0; i < dicomRegions.length; i++) {
+
+            var dicomRegion = {};
+            dicomRegion["region_spatial_format"] = dicomRegions[i]['x00186012'];
+            dicomRegion["region_data_type"] = dicomRegions[i]['x00186014'];
+            dicomRegion["region_flags"] = dicomRegions[i]['x00186016'];
+            dicomRegion["region_location_min_x0"] = dicomRegions[i]['x00186018'];
+            dicomRegion["region_location_min_y0"] = dicomRegions[i]['x0018601a'];
+            dicomRegion["region_location_max_x1"] = dicomRegions[i]['x0018601c'];
+            dicomRegion["region_location_max_y1"] = dicomRegions[i]['x0018601e'];
+            dicomRegion["reference_pixel_x0"] = dicomRegions[i]['x00186020'];
+            dicomRegion["reference_pixel_y0"] = dicomRegions[i]['x00186022'];
+            dicomRegion["physical_units_x_direction"] = dicomRegions[i]['x00186024'];
+            dicomRegion["physical_units_y_direction"] = dicomRegions[i]['x00186026'];
+            dicomRegion["physical_delta_x"] = dicomRegions[i]['x0018602c'];
+            dicomRegion["physical_delta_y"] = dicomRegions[i]['x0018602e'];
+            dicomRegion["transducer_frequency"] = dicomRegions[i]['x00186030'];
+            arrayOfRegions.push(dicomRegion);
+        }
+
+        dicomData["Sequence_of_ultrasound_regions"] = arrayOfRegions;
+
+    }
+
+    if (!isObjectEmpty(dataSetJSON["x00181088"])) {
+        dicomData["heart_rate"] = dataSetJSON["x00181088"];
+    }
+
+    return dicomData;
+
 }
 
 var default_thumbnails_info = [];
