@@ -95,14 +95,16 @@ $purpleHover:#a58cd8;
         margin-top:10px;
         margin-bottom:10px;
 
-        input{
-            background-color: transparent;
-            color: white;
-            font-size: 25px;
-            height:50px;
-            /*&:focus{
-                border: 1px solid $purpleHover;
-            }*/
+        form {
+            input{
+                background-color: transparent;
+                color: white;
+                font-size: 25px;
+                height:50px;
+                /*&:focus{
+                    border: 1px solid $purpleHover;
+                }*/
+            }
         }
 
         .rkt-modal-todo-list-submit-button {
@@ -125,7 +127,6 @@ $purpleHover:#a58cd8;
             color:rgba(255, 255, 255, 0.89);
         }
     }
-
 
     .rkt-modal-todo-list-load-button {
         padding-top: 12px;

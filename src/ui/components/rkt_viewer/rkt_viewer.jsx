@@ -10,8 +10,8 @@ import { url_getParameterByName } from './../../../modules/rkt_module_url.js';
 //components
 import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';
 import RktViewerEmpty from './rkt_viewer_empty/rkt_viewer_empty';
-import RktViewerFilePicker from './rkt_viewer_file_picker/rkt_viewer_file_picker';
-import RktViewerFilePickerOld from './rkt_viewer_file_picker_old/rkt_viewer_file_picker_old';
+import RktViewerImageSelection from './rkt_viewer_image_selection/rkt_viewer_image_selection';
+import RktViewerImageSelectionOld from './rkt_viewer_study_viewer/rkt_viewer_study_viewer';
 import RktViewerFilterDicom from './rkt_viewer_filter_dicom/rkt_viewer_filter_dicom';
 // RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
 import RktViewerNRRD from './rkt_viewer_nrrd/rkt_viewer_nrrd';
@@ -97,7 +97,7 @@ export default class RktViewer extends Component {
 
         let blob = e;
 
-        if ((this.state.viewer !== "study_viewer") && (this.state.viewer !== "filter_viewer")) {
+        if ((this.state.viewer !== "study_viewer") && (this.state.viewer !== "image_selection") && (this.state.viewer !== "filter_viewer")) {
 
             if (blob_getNumberOfFiles(blob) === 1) {
 
@@ -134,15 +134,18 @@ export default class RktViewer extends Component {
                     })
                 }
 
-
             } else {
 
                 alert("Blob with multiple files");
 
             }
-        } else
+
+        } else {
 
             return false;
+
+        }
+            
     }
 
     setURL(url) {
@@ -187,13 +190,13 @@ export default class RktViewer extends Component {
 
                 return (<RktViewerVTK files={files} url={url} />);
 
-            } else if (viewerType === "study_viewer_old") {
-
-                return (<RktViewerFilePickerOld />)
-
             } else if (viewerType === "study_viewer") {
 
-                return (<RktViewerFilePicker />)
+                return (<RktViewerImageSelectionOld />)
+
+            } else if (viewerType === "image_selection") {
+
+                return (<RktViewerImageSelection />)
 
             } else if (viewerType === "filter_viewer") {
 
@@ -201,18 +204,10 @@ export default class RktViewer extends Component {
 
             } else {
 
-                return (
-                    <div>
-                        <RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />
-                    </div>
-                );
+                return (<RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />);
             }
         } else {
-            return (
-                <div>
-                    <RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />
-                </div>
-            );
+            return (<RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />);
         }
     }
 

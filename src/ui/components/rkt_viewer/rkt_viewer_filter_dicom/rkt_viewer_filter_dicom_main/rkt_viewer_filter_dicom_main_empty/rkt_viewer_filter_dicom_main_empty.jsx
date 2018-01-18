@@ -39,13 +39,18 @@ export default class RktViewerFilterDicomMainEmpty extends Component {
     }
 
     render() {
-
         return (
             <div className="grid-block vertical main-dicom-container-empty">
-                <div className="grid-block vertical shrink dropzone-widget">
-                    <label>DRAG AND DROP A DICOM FILE</label>
-                    <Dropzone onDrop={this.onDropApp.bind(this)}></Dropzone>
+                <div className="grid-block">&nbsp;</div>
+                <div className="grid-block vertical shrink">
+                    <div className="grid-block shrink align-center dropzone-widget">
+                        <div className="grid-block vertical shrink">
+                            <label className="text-center">Drag and drop your files</label>
+                            <Dropzone onDrop={this.onDropApp.bind(this)}></Dropzone>
+                        </div>
+                    </div>
                 </div>
+                <div className="grid-block">&nbsp;</div>
             </div>
         );
     }
