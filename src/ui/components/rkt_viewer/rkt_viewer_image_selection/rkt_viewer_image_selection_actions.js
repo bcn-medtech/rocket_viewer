@@ -104,12 +104,16 @@ export function loadZipWithInfo(grid_sources_info) {
         for (var i = 0; i < Object.keys(pngs_data).length; i++) {
             var imgName = pngs_data[i].imgName;
 
-            var dataURL = pngs_data[i].canvasURL;
-            //var dataURL = canvas.toDataURL();
+            var dataURL;
+            if (pngs_data[i].canvasURL!==undefined) {
 
-            var imgData = dataURL.replace("data:image/png;base64", "");
+                dataURL = pngs_data[i].canvasURL;
+                //dataURL = canvas.toDataURL(); //NO
+                var imgData = dataURL.replace("data:image/png;base64", "");
+                zip.file(imgName+".png", imgData, { base64: true });
 
-            zip.file(imgName+".png", imgData, { base64: true });
+            }
+             
         }
 
         zip.generateAsync({ type: "blob" })

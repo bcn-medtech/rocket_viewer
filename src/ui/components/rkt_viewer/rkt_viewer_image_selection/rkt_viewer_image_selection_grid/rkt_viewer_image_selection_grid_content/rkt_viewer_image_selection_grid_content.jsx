@@ -71,7 +71,10 @@ export default class RktViewerImageSelectionGridContent extends Component {
         let metadataObject = this.state.metadataObject;
         
         cornerstoneDataArray.push(cornerstoneData);
-        imgCanvasURLObject[index_thumbnail] = pngCanvas.toDataURL();
+
+        if (pngCanvas!==undefined) imgCanvasURLObject[index_thumbnail] = pngCanvas.toDataURL();
+        else imgCanvasURLObject[index_thumbnail] = undefined;
+
         metadataObject[index_thumbnail] = metadata;
 
         this.setState({

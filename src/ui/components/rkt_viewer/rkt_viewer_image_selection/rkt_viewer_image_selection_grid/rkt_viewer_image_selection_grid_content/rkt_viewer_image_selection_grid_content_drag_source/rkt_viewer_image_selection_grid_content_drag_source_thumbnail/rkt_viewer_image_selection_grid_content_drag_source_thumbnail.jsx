@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 //import PubSub from 'pubsub-js'
 
+//modules
+import { isObjectAFunction } from './../../../../../../../../modules/rkt_module_object';
 //actions
 import { getViewerType, loadImage, getImageName, getDicomMetadata } from './rkt_viewer_image_selection_grid_content_drag_source_thumbnail_actions';
 
@@ -14,7 +16,7 @@ export default class RktViewerImageSelectionGridContentDragSourceThumbnail exten
 
         this.state = {
             imageId: null,
-            viewerType:undefined,
+            viewerType: undefined,
             loaded: false,
             error: false,
             elementWidth: this.props.canvasWidth,
@@ -35,21 +37,21 @@ export default class RktViewerImageSelectionGridContentDragSourceThumbnail exten
 
         var files = this.props.files;
         var url = this.props.url;
-        
+
         var myComponent = this;
 
-        getViewerType(files, url, function(viewerType) {
-            
+        getViewerType(files, url, function (viewerType) {
+
             myComponent.setState({
                 viewerType: viewerType
             })
 
-            if (viewerType!==undefined) { // the image is only displayed if its format is compatible
+            if (viewerType !== undefined) { // the image is only displayed if its format is compatible
                 loadImage(viewerType, files, url, myComponent.onImageLoaded, myComponent.onErrorLoading);
             } else {
                 myComponent.onErrorLoading(false);
             }
-            
+
         });
 
     }
@@ -58,7 +60,6 @@ export default class RktViewerImageSelectionGridContentDragSourceThumbnail exten
         this.setState({
             error: true
         });
-        this.props.onLoaded(null);
     }
 
     onImageLoaded(cornerstoneImage) {
@@ -75,16 +76,20 @@ export default class RktViewerImageSelectionGridContentDragSourceThumbnail exten
             error: false
         })
 
-        var pngCanvas = this.getImageCanvas();
+        var pngCanvas;
+        if (cornerstoneImage.color === true) { // Cornerstone can only obtain canvases from the dicoms with RGB pixel data
+
+            pngCanvas = this.getImageCanvas();
+            
+        } else pngCanvas = undefined;
+
         var metadata;
-        if (this.state.viewerType === "dicom") {
-            metadata = getDicomMetadata(cornerstoneImage);
-        } else {
-            metadata = undefined;
-        }
-        
+        if (this.state.viewerType === "dicom") metadata = getDicomMetadata(cornerstoneImage);
+        else metadata = undefined;
+
         // metadata of the dicom is passed to "Stats" component
         this.props.onLoaded(this.props.index, cornerstoneImage.data, pngCanvas, metadata);
+
     }
 
     handleThumbnailClicked() {
@@ -96,32 +101,31 @@ export default class RktViewerImageSelectionGridContentDragSourceThumbnail exten
         this.props.onClick(index, files, url, viewerType);
     }
 
-    getImageCanvas(){
-        
+    getImageCanvas() {
+
         if (this.state.image) {
-            if (this.state.image.getCanvas) {
+            if (this.state.image.getCanvas!==undefined) {
                 return this.state.image.getCanvas();
             }
             else {
                 //alert("(getImageCanvas) Error loading this image");
                 return undefined;
             }
-        }else {
+        } else {
             return undefined;
         }
- 
+
     }
 
-    getImageDataURL(){
-        
+    getImageDataURL() {
+
         if (this.state.image) {
-            if (this.state.image.getCanvas) {
+            if (this.state.image.getCanvas!==undefined) {
                 var image = new Image();
                 image.src = this.state.image.getCanvas().toDataURL("image/png");
                 return image;
             }
             else {
-                //alert("(getImageDataURL) Error loading this image");
                 alert("Error loading this image");
                 return undefined;
             }

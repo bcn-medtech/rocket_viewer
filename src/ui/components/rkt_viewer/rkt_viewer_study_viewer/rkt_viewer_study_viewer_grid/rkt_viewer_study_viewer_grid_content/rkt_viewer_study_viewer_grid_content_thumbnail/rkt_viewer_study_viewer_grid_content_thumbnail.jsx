@@ -63,7 +63,6 @@ export default class RktViewerImageSelectionGridContentThumbnail extends Compone
         this.setState({
             error: true
         });
-        this.props.onLoaded(null);
     }
 
     onImageLoaded(cornerstoneImage) {
