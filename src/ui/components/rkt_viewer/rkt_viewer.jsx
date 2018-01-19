@@ -12,6 +12,7 @@ import RktViewerDicom from './rkt_viewer_dicom/rkt_viewer_dicom';
 import RktViewerEmpty from './rkt_viewer_empty/rkt_viewer_empty';
 import RktViewerImageSelection from './rkt_viewer_image_selection/rkt_viewer_image_selection';
 import RktViewerImageSelectionOld from './rkt_viewer_study_viewer/rkt_viewer_study_viewer';
+import RktViewerStudyViewerApi from './rkt_viewer_study_viewer_api/rkt_viewer_study_viewer_api';
 import RktViewerFilterDicom from './rkt_viewer_filter_dicom/rkt_viewer_filter_dicom';
 // RktViewerImageProcessingDicom from './rkt_viewer_image_processing_dicom/rkt_viewer_image_processing_dicom';
 import RktViewerNRRD from './rkt_viewer_nrrd/rkt_viewer_nrrd';
@@ -193,6 +194,10 @@ export default class RktViewer extends Component {
             } else if (viewerType === "study_viewer") {
 
                 return (<RktViewerImageSelectionOld />)
+
+            } else if(viewerType === "study_viewer_pl_api_fs"){
+
+                return (<RktViewerStudyViewerApi/>);
 
             } else if (viewerType === "image_selection") {
 

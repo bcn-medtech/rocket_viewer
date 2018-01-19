@@ -1,0 +1,8 @@
+@import './rkt_viewer_study_viewer_api_grid_stats/rkt_viewer_study_viewer_api_grid_stats.scss';
+@import './rkt_viewer_study_viewer_api_grid_empty/rkt_viewer_study_viewer_api_grid_empty.scss';
+@import './rkt_viewer_study_viewer_api_grid_content/rkt_viewer_study_viewer_api_grid_content.scss';
+
+.study-viewer-grid {
+    width: 50%;
+    overflow: hidden;
+}

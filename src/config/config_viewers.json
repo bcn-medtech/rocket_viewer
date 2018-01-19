@@ -97,6 +97,23 @@
             "tags":["study","multiple_images"]
         },
         {
+            "name":"Study viewer (Patient line API fs) New!",
+            "extensions":["anything"],
+            "blob_types":["anything"],
+            "description":"Visualize multiple files from the Patient line API fs. Click on the links to have a quick demo.",
+            "examples":[
+                {
+                    "name":"Study viewer demo with images from fs api",
+                    "link":"/viewer?type=study_viewer_pl_api_fs&url=http://10.55.1.68:4000&patient_id=030238&modality_id=US&followup_id=20020226"
+                },
+                {
+                    "name":"Study viewer demo with images from fs api local",
+                    "link":"/viewer?type=study_viewer_pl_api_fs&url=http://localhost:4000&patient_id=030238&modality_id=US&followup_id=20020226"
+                }
+            ],
+            "tags":["study","multiple_images"]
+        },
+        {
             "name":"Image selection",
             "extensions":["anything"],
             "blob_types":["anything"],
