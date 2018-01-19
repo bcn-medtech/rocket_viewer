@@ -1,0 +1,26 @@
+Affero General Public License. This licensing file applies to the Rocket viewer software library.
+
+Rocket viewer is © Universitat Pompeu Fabra 2017. 
+Original Developers: Carlos Yagüe Méndez, María del Pilar García, Daniele Pezzatini. 
+Contributors: Sergio Sánchez Martínez
+
+Rocket viewer is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Rocket viewer is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Rocket viewer.  If not, see <http://www.gnu.org/licenses/>.
+
+
+Dependant libraries are: 
+
+	A.	Python dependencies
+
+
+WRITTEN OFFER: Our source code is currently available on GitHub (http://github.com/BCNMedTech/Rocket viewer). If you would like a coy of the third party GPL or LGPL source code contained in this product, you may find it on our Github project, otherwise pease contact bcnmedtech@upf.edu
