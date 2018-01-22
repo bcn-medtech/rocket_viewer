@@ -44,6 +44,7 @@ import RktViewerPDF from './rkt_viewer_pdf/rkt_viewer_pdf';
 import RktViewerPLY from './rkt_viewer_ply/rkt_viewer_ply';
 import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerVTK from './rkt_viewer_vtk/rkt_viewer_vtk';
+import RktViewerECG from './rkt_viewer_ecg/rkt_viewer_ecg';
 
 //config
 import config from './../../../config/config.json';
@@ -231,7 +232,11 @@ export default class RktViewer extends Component {
 
                 return (<RktViewerFilterDicom />)
 
-            } else {
+            }else if (viewerType === "ecg_viewer"){
+
+                return (<RktViewerECG />);
+            } 
+            else {
 
                 return (<RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />);
             }

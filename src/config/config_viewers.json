@@ -84,6 +84,19 @@
             "tags":["volumes","3D","surfaces","scalars"]
         },
         {
+            "name":"ECG",
+            "extensions":["txt"],
+            "blob_types":["image/tiff"],
+            "description":"Visualize ECG. Click on the links to have a quick demo.",
+            "examples":[
+                {
+                    "name":"ECG signal",
+                    "link":"/viewer?type=ecg_viewer&url=https%3A%2F%2Fwww.dl.dropboxusercontent.com%2Fs%2Flrfm9hvmbct8lol%2FImg_0001_Nuc.tif%3Fdl%3D0"
+                }
+            ],
+            "tags":["bioimages","images"]
+        },
+        {
             "name":"Study viewer",
             "extensions":["anything"],
             "blob_types":["anything"],
