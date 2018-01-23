@@ -22,49 +22,23 @@
 # Sergio Sánchez Martínez
 */
 
-$color:rgba(204, 204, 204, 0.267);
-$background_color_menu:rgba(0, 0, 0, 0.192);
+export function downloadFile(url,callback){
 
-.rkt_chart_line_chart{
-    margin-left: 10px;
-    margin-right: 10px;
-    height: 150px;
-    min-height: 150px;
-    overflow: hidden;
-}
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            // The request is done; did it work?
+            if (xhr.status == 200) {
+                // ***Yes, use `xhr.responseText` here***
+                callback(xhr.responseText);
+            } else {
+                // ***No, tell the callback the call failed***
+                callback(null);
+            }
+        }
+    };
 
-.rkt_chart_line_chart_label{
-    z-index: 1;
-    position: absolute;
-    margin-left: 10px;
-}
+    xhr.open("GET", url);
+    xhr.send();
 
-.rkt_chart_line_bottom_menu{
-    z-index: 1;
-    position: absolute;
-    //text-align: right;
-    color:white;
-    bottom: 0px;
-    padding: 10px;
-    float: right;
-    background-color: $background_color_menu;
-    width:100%;
-}
-
-.rkt_chart_line_bottom_menu_button{
-    padding-left: 5px;
-    padding-right: 10px;
-    color:gray;
-    &:hover{
-        font-weight: bold;
-    }    
-}
-
-.rkt_chart_line_bottom_menu_button_selected{
-    padding-left: 5px;
-    padding-right: 10px;
-    color:white;
-    &:hover{
-        font-weight: bold;
-    }    
 }

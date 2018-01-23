@@ -234,7 +234,7 @@ export default class RktViewer extends Component {
 
             }else if (viewerType === "ecg"){
 
-                return (<RktViewerECG files={files}/>);
+                return (<RktViewerECG files={files} url={url}/>);
             } 
             else {
 

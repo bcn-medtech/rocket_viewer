@@ -91,7 +91,7 @@
             "examples":[
                 {
                     "name":"ECG signal",
-                    "link":"/viewer?type=ecg&url=https%3A%2F%2Fwww.dl.dropboxusercontent.com%2Fs%2Flrfm9hvmbct8lol%2FImg_0001_Nuc.tif%3Fdl%3D0"
+                    "link":"/viewer?type=ecg&url=https%3A%2F%2Fwww.dl.dropboxusercontent.com%2Fs%2Fpiptwg5w0x6076r%2F5-1-1.TXT%3Fdl%3D0"
                 }
             ],
             "tags":["bioimages","images"]

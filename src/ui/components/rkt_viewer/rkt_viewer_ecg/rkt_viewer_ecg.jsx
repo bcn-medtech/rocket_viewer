@@ -26,7 +26,11 @@ import React, { Component } from 'react';
 //Components
 import RktChartLine from './../../rkt_chart/rkt_chart_line/rkt_chart_line';
 //actions
-import {readSignals} from './rkt_viewer_ecg_actions';
+import {readSignalsFromBlob,readSignalsFromURL} from './rkt_viewer_ecg_actions';
+//modules
+import {isObjectEmpty} from './../../../../modules/rkt_module_object';
+
+
 
 export default class RktViewerECG extends Component {
 
@@ -34,15 +38,15 @@ export default class RktViewerECG extends Component {
         super();
 
         this.state = {
-            signal:false
+            signals:false
         };
     }
 
-    loadSignals(files){
+    loadSignalsFromLocalhost(files){
 
         var myComponent = this;
         
-        readSignals(files,function(result){
+        readSignalsFromBlob(files,function(result){
             
             if(result){
 
@@ -56,17 +60,40 @@ export default class RktViewerECG extends Component {
 
     }
 
+    loadSignalsFromURL(url){
+
+        var myComponent = this;
+
+        readSignalsFromURL(url,function(result){
+
+            if(result){
+
+                myComponent.setState({
+                    signals:result
+                });
+            }
+        });
+    }
+
     componentDidMount() {
         
+        var url = this.props.url;
         var files = this.props.files;
-        this.loadSignals(files);
+
+        if(!isObjectEmpty(url)){
+
+            this.loadSignalsFromURL(url);
+        }else{
+            this.loadSignalsFromLocalhost(files);
+        }
 
     }
 
     componentWillReceiveProps(nextProps) {
 
         var files = nextProps.files;
-        this.loadSignals(files);
+        var url = nextProps.url;
+        this.loadSignalsFromLocalhost(files);
 
     }
 

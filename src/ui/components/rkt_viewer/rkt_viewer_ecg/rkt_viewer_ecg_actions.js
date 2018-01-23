@@ -22,10 +22,11 @@
 # Sergio Sánchez Martínez
 */
 
-import {convert_csv_in_json} from './../../../../modules/rkt_module_csv';
-import {getKeysOfAnObject} from './../../../../modules/rkt_module_object'; 
+import { convert_csv_in_json } from './../../../../modules/rkt_module_csv';
+import { getKeysOfAnObject } from './../../../../modules/rkt_module_object';
+import { downloadFile } from './../../../../modules/rkt_module_download';
 
-export function readSignals(blob,callback) {
+export function readSignalsFromBlob(blob, callback) {
 
     var reader = new FileReader();
 
@@ -36,9 +37,9 @@ export function readSignals(blob,callback) {
         var signals = data.data;
         var silnals_names = getKeysOfAnObject(signals[0]);
 
-        var object={
-            signals:signals,
-            signals_names:silnals_names
+        var object = {
+            signals: signals,
+            signals_names: silnals_names
         }
 
         callback(object);
@@ -46,5 +47,28 @@ export function readSignals(blob,callback) {
     }
 
     reader.readAsBinaryString(blob[0]);
+}
+
+export function readSignalsFromURL(url,callback) {
+
+
+    downloadFile(url, function (result) {
+
+
+        if (result) {
+
+            var data = convert_csv_in_json(result);
+            var signals = data.data;
+            var silnals_names = getKeysOfAnObject(signals[0]);
+
+            var object = {
+                signals: signals,
+                signals_names: silnals_names
+            }
+
+            callback(object);
+        }
+
+    });
 }
 
