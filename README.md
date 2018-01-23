@@ -1,8 +1,12 @@
 # Rocket Viewer
 
-The Rocket Viewer is a simple and generic viewer that allows you to visualize diferent kind of resources such as medical images, biological images and documents.
+This Viewer is a simple and generic viewer that allows you to visualize diferent kind of resources such as medical images, biological images, 3D surfaces, electronical signals and documents.
 
-Rocket viewer can visualize data from the web just typing a URL or can load information from the local file system just drag and dropping a file from the localhost. 
+**Rocket viewer** can visualize data from the web or can load information from the local file system just drag and dropping a file to the browser. 
+
+**Rocket viewer** is **© Universitat Pompeu Fabra 2017**. 
+Original Developers: *Carlos Yagüe Méndez, María del Pilar García, Daniele Pezzatini.* 
+Contributors: *Sergio Sánchez Martínez, Oscar Cámara, Bart Bijnents.*
 
 ### Compatible formats
 
@@ -10,18 +14,16 @@ Rocket viewer can visualize data from the web just typing a URL or can load info
 DICOM: One frame (2D visualization), multi frame (2D visualization + t)
 * Biological images: Tiff images
 * Signals: PDF
-
-### Try the viewer [here](http://wicked-watch.surge.sh/)
-
-### Working on ...
-
 * Surfaces: VTK (3D Visualization), PLY (3D Visualization)
 * Surfaces + Medical images: NRRD (3D Visualization)
+* Electronical signals (CSV files)
+
+### Try the viewer [here](http://rkt-viewer.surge.sh/)
 
 ### Quick start
 
 ```
-git clone bla bla
+git clone https://github.com/bcnmedtech/rocket_viewer.git
 ```
 
 Installing dependencies
@@ -36,17 +38,31 @@ Running the app
 npm run start-dev
 ```
 
-### Libraries that we use
+Create website for production
 
-Image visualization:
-* [Cornerstone](https://github.com/chafey/cornerstone) a javaScript library to display interactive medical images including but not limited to DICOM .
-* [Cornerstone tools](https://github.com/chafey/cornerstoneTools) a framework for tools built on top of cornerstone.
-* [Cornerstone wado image loader](https://github.com/chafey/cornerstoneWADOImageLoader) a DICOM WADO Image Loader for the cornerstone library.
-* [Cornerstone web image loader](https://github.com/chafey/cornerstoneWebImageLoader) an image Loader for Web Images (PNG, JPEG). 
+```
+npm run production
+```
 
-User interface:
-* [React](https://github.com/facebook/react) a javascript framework for building interfaces .
-* [create-react-app](https://github.com/facebookincubator/create-react-app) Bootstraping the whole project .
-* [foundation for apps](https://foundation.zurb.com/apps.html) The first front-end framework created for developing fully responsive web apps. 
-* [Sass](http://sass-lang.com/) Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.
+### Sample data
 
+:(   Available soon ......
+
+### Videos
+
+:(   Available soon ......
+
+### Tutorials
+
+:(   Available soon ......
+
+## License
+**Rocket viewer** *is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.*
+
+*Rocket viewer is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.You should have received a copy of the GNU General Public License along with Rocket viewer.  If not, see <http://www.gnu.org/licenses/>.*
