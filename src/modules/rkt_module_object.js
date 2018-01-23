@@ -62,3 +62,7 @@ export function isObjectAFunction(functionToCheck) {
     var getType = {};
     return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
+
+export function getKeysOfAnObject(object){
+    return Object.keys(object);
+}

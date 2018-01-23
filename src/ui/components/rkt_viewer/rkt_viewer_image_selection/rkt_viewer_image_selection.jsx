@@ -36,7 +36,7 @@ import RktModalTodoList from "./../../rkt_modal/rkt_modal_todo_list/rkt_modal_to
 
 //config
 //import config from "./../../../../config/config_dicom_types.json";
-import config from "./../../../../config/config_dicom_types_2.json";
+import config from "./../../../../config/config_dicom_types.json";
 
 class RktViewerImageSelection extends Component {
 

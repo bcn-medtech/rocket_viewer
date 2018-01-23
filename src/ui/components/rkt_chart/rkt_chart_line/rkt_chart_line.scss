@@ -22,4 +22,31 @@
 # Sergio Sánchez Martínez
 */
 
-@import './../../rkt_chart/rkt_chart_line/rkt_chart_line.scss';
+$color:rgba(204, 204, 204, 0.267);
+$background_color_menu:rgba(0, 0, 0, 0.192);
+
+.rkt_chart_line_chart{
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 150px;
+    min-height: 150px;
+    overflow: hidden;
+}
+
+.rkt_chart_line_chart_label{
+    z-index: 1;
+    position: absolute;
+}
+
+.rkt_chart_line_bottom_menu{
+    z-index: 1;
+    position: absolute;
+    //text-align: right;
+    color:white;
+    bottom: 0px;
+    padding: 10px;
+    float: right;
+    background-color: $background_color_menu;
+    width:100%;
+
+}

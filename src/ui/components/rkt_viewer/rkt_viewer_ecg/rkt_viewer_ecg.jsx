@@ -24,8 +24,9 @@
 
 import React, { Component } from 'react';
 //Components
+import RktChartLine from './../../rkt_chart/rkt_chart_line/rkt_chart_line';
 //actions
-
+import {readSignals} from './rkt_viewer_ecg_actions';
 
 export default class RktViewerECG extends Component {
 
@@ -33,15 +34,51 @@ export default class RktViewerECG extends Component {
         super();
 
         this.state = {
-            cine_mode: false
+            signal:false
         };
     }
 
+    loadSignals(files){
+
+        var myComponent = this;
+        
+        readSignals(files,function(result){
+            
+            if(result){
+
+                myComponent.setState({
+                    signals:result
+                });
+
+            }
+
+        });
+
+    }
+
     componentDidMount() {
+        
+        var files = this.props.files;
+        this.loadSignals(files);
 
     }
 
     componentWillReceiveProps(nextProps) {
+
+        var files = nextProps.files;
+        this.loadSignals(files);
+
+    }
+
+    renderCharts(){
+
+        var signals = this.state.signals;
+        
+        if(signals){
+            var curves = signals.signals;
+            var curves_names = signals.signals_names;
+            return (<RktChartLine lines={curves} lines_names={curves_names}/>)
+        }
 
     }
 
@@ -49,7 +86,7 @@ export default class RktViewerECG extends Component {
 
         return (
             <div className="grid-block">
-                ECG Viewer
+                {this.renderCharts()}
             </div>
         );
     }

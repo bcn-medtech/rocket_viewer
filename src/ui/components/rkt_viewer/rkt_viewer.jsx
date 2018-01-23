@@ -232,9 +232,9 @@ export default class RktViewer extends Component {
 
                 return (<RktViewerFilterDicom />)
 
-            }else if (viewerType === "ecg_viewer"){
+            }else if (viewerType === "ecg"){
 
-                return (<RktViewerECG />);
+                return (<RktViewerECG files={files}/>);
             } 
             else {
 

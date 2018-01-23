@@ -22,4 +22,29 @@
 # Sergio Sánchez Martínez
 */
 
-@import './../../rkt_chart/rkt_chart_line/rkt_chart_line.scss';
+import Papaparse from 'babyparse';
+
+export function convert_csv_in_json(csv) {
+
+    var data = Papaparse.parse(csv, {
+        delimiter: "",	// auto-detect
+        newline: "",	// auto-detect
+        header: true,
+        dynamicTyping: true,
+        preview: 0,
+        encoding: "",
+        worker: false,
+        comments: false,
+        step: undefined,
+        complete: undefined,
+        error: undefined,
+        download: false,
+        skipEmptyLines: true,
+        chunk: undefined,
+        fastMode: undefined,
+        beforeFirstChunk: undefined,
+        withCredentials: undefined
+    });
+
+    return data;
+}
