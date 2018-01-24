@@ -1,3 +1,5 @@
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+
 # Rocket Viewer
 
 This simple and generic viewer allows you to visualize different kinds of data such as medical and biological images, 3D surfaces, electric signals (ECGs) and documents.
