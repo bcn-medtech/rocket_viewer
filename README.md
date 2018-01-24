@@ -1,22 +1,21 @@
 # Rocket Viewer
 
-This Viewer is a simple and generic viewer that allows you to visualize diferent kind of resources such as medical images, biological images, 3D surfaces, electronical signals and documents.
+This simple and generic viewer allows you to visualize different kinds of data such as medical and biological images, 3D surfaces, electric signals (ECGs) and documents.
 
-**Rocket viewer** can visualize data from the web or can load information from the local file system just drag and dropping a file to the browser. 
+**Rocket viewer** allows visualizing data from the web or loading information from the local file system by simply dragging and dropping a file into the browser. 
 
 **Rocket viewer** is **© Universitat Pompeu Fabra 2017**. 
 Original Developers: *Carlos Yagüe Méndez, María del Pilar García, Daniele Pezzatini.* 
-Contributors: *Sergio Sánchez Martínez, Oscar Cámara, Bart Bijnents.*
+Contributors: *Sergio Sánchez Martínez, Oscar Cámara, Bart Bijnens.*
 
 ### Compatible formats
 
-* Medical images:
-DICOM: One frame (2D visualization), multi frame (2D visualization + t)
-* Biological images: Tiff images
+* Medical images:DICOM (one frame = 2D visualization, multi-frame = 2D visualization + t)
+* Biological images: TIFF
 * Signals: PDF
 * Surfaces: VTK (3D Visualization), PLY (3D Visualization)
 * Surfaces + Medical images: NRRD (3D Visualization)
-* Electronical signals (CSV files)
+* Electric signals: CSV files
 
 ### Try the viewer [here](http://rkt-viewer.surge.sh/)
 
