@@ -47,7 +47,7 @@ npm run production
 
 ### Sample data
 
-![alt text](https://github.com/bcnmedtech/rocket_viewer/blob/master/assets/folder_black.png"Logo Title Text 1")
+![alt text](https://github.com/bcnmedtech/rocket_viewer/blob/master/assets/folder_black.png "Logo Title Text 1")
 
 * [Microscope image (Tif)](https://github.com/bcnmedtech/rocket_viewer/blob/master/sample_data/microscopy_image.tif)
 * [Electronic Signals (txt)](https://github.com/bcnmedtech/rocket_viewer/blob/master/sample_data/signals.txt)
