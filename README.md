@@ -47,6 +47,8 @@ npm run production
 
 ### Sample data
 
+![alt text](https://github.com/bcnmedtech/rocket_viewer/blob/master/assets/folder.png "Logo Title Text 1")
+
 * [Microscope image (Tif)](https://github.com/bcnmedtech/rocket_viewer/blob/master/sample_data/microscopy_image.tif)
 * [Electronic Signals (txt)](https://github.com/bcnmedtech/rocket_viewer/blob/master/sample_data/signals.txt)
 * [Head volume 3D (nrrd)](https://github.com/bcnmedtech/rocket_viewer/blob/master/sample_data/volume_3D_nrrd_head.nrrd)
