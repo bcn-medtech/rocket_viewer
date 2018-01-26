@@ -21,6 +21,9 @@ Contributors: *Sergio Sánchez Martínez, Oscar Cámara, Bart Bijnens.*
 
 ### Try the viewer [here](http://rkt-viewer.surge.sh/)
 
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/EGo5Roh2fcA/0.jpg)](http://www.youtube.com/watch?v=EGo5Roh2fcA "Video Title")
+
+
 ### Quick start
 
 ```
@@ -58,7 +61,7 @@ npm run production
 
 ### Videos
 
-:(   Available soon ......
+* [Demo](https://www.youtube.com/watch?v=EGo5Roh2fcA&feature=youtu.be)
 
 ### Tutorials
 
