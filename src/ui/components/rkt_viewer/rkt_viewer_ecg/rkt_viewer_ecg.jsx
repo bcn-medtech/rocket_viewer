@@ -30,8 +30,6 @@ import {readSignalsFromBlob,readSignalsFromURL} from './rkt_viewer_ecg_actions';
 //modules
 import {isObjectEmpty} from './../../../../modules/rkt_module_object';
 
-
-
 export default class RktViewerECG extends Component {
 
     constructor() {
@@ -40,6 +38,7 @@ export default class RktViewerECG extends Component {
         this.state = {
             signals:false
         };
+
     }
 
     loadSignalsFromLocalhost(files){
@@ -112,8 +111,8 @@ export default class RktViewerECG extends Component {
     render() {
 
         return (
-            <div className="grid-block">
-                {this.renderCharts()}
+            <div className="grid-block" id="ecg-viewer">
+                <div className="grid-block">{this.renderCharts()}</div>
             </div>
         );
     }
