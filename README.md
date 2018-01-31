@@ -1,6 +1,7 @@
 ![alt text](https://github.com/bcnmedtech/rocket_viewer/blob/master/assets/logo.png "Logo Title Text 1")
 
 # Rocket Viewer
+[![DOI](https://zenodo.org/badge/118635567.svg)](https://zenodo.org/badge/latestdoi/118635567)
 
 This simple and generic viewer allows you to visualize different kinds of data such as medical and biological images, 3D surfaces, electric signals (ECGs) and documents.
 
