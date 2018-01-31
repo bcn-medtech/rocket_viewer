@@ -6,9 +6,12 @@ This simple and generic viewer allows you to visualize different kinds of data s
 
 **Rocket viewer** allows visualizing data from the web or loading information from the local file system by simply dragging and dropping a file into the browser. 
 
+
 **Rocket viewer** is **© Universitat Pompeu Fabra 2017**. 
 Original Developers: *Carlos Yagüe Méndez, María del Pilar García, Daniele Pezzatini.* 
 Contributors: *Sergio Sánchez Martínez, Oscar Cámara, Bart Bijnens.*
+
+*This work is partly funded by the Spanish Ministry of Economy and Competitiveness under the María de Maeztu Units of Excellence Program (MDM-2015-0502).*
 
 ### Compatible formats
 
