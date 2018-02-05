@@ -45,6 +45,7 @@ import RktViewerPLY from './rkt_viewer_ply/rkt_viewer_ply';
 import RktViewerTiff from './rkt_viewer_tiff/rkt_viewer_tiff';
 import RktViewerVTK from './rkt_viewer_vtk/rkt_viewer_vtk';
 import RktViewerECG from './rkt_viewer_ecg/rkt_viewer_ecg';
+import RktViewerJPGPNG from './rkt_viewer_jpg_png/rkt_viewer_jpg_png';
 
 //config
 import config from './../../../config/config.json';
@@ -235,7 +236,12 @@ export default class RktViewer extends Component {
             }else if (viewerType === "ecg"){
 
                 return (<RktViewerECG files={files} url={url}/>);
-            } 
+
+            }else if(viewerType === "jpg") {
+
+                return (<RktViewerJPGPNG files={files} url={url}/>);
+                
+            }
             else {
 
                 return (<RktViewerEmpty seturl={this.setURL.bind(this)} config={config} />);

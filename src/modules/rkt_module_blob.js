@@ -43,6 +43,7 @@ export function blob_getResourceType(blob) {
         if (files.length === 1) {
 
             var fileType = getFileType(files[0]);
+
             var viewer;
             var i;
             var j;
