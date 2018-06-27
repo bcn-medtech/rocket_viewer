@@ -1,7 +1,7 @@
 **Affero General Public License. This licensing file applies to the Rocket viewer software library.**
 
 Rocket viewer is **© Universitat Pompeu Fabra 2017**. 
-Original Developers: *Carlos Yagüe Méndez, María del Pilar García, Daniele Pezzatini.* 
+Original Developers: *[Carlos Yagüe Méndez](https://www.linkedin.com/in/carlos-yag%C3%BCe-m%C3%A9ndez-521859119/), María del Pilar García, Daniele Pezzatini.* 
 Contributors: *Sergio Sánchez Martínez*
 
 **Rocket viewer** is free software: you can redistribute it and/or modify
